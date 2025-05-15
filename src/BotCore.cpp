@@ -33,12 +33,15 @@ BotCore::BotCore(std::string& token) : bot(token)
     //});    
 };
 
-void BotCore::StartDataBase(std::string filePath)
+void BotCore::StartDataBase(std::string v_filePath, std::string m_filePath)
 {
-    DataBase db(filePath);
-    ModsVote::Initialize(bot, db);
+    v_db = new DataBase(v_filePath);
+    m_db = new DataBase(m_filePath);
+
+    ModsVote::Initialize(bot, v_db, m_db);
     std::cout << "Vote Init" << std::endl
-              << "filePath: " << filePath << std::endl;
+              << "v_filePath: " << v_filePath << std::endl
+              << "m_filePath: " << m_filePath << std::endl;
 }
 
 void BotCore::SetupEvent()

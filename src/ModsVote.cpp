@@ -8,19 +8,18 @@
 
 std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 
-void ModsVote::Initialize(dpp::cluster& bot, DataBase& db) 
+void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db) 
 {
-    voteDatabase = &db;
-    std::cout << "db: " << db.GetFilePath() << std::endl;
+    voteDatabase = v_db;
+    std::cout << "db: " << v_db->GetFilePath() << std::endl;
     std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
-    std::cout << "db: " << db.p_GetFilePath() << std::endl;
+    std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
     std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
     LoadActiveVotes(); 
 
     bot.on_button_click([](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
         {
-            SaveActiveVotes();
             auto it = activeVotes.find(event.command.message_id);
             if (it == activeVotes.end()) 
             {
@@ -62,13 +61,14 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase& db)
                     else
                     {
                         msg.set_content(fmt::format("**Голосование:**\n✅ За: {}\n❌ Против: {}", vote.voteAccept, vote.voteReject));
-                        std::cout << "Vote result" << vote.voteAccept << vote.voteReject << std::endl;                        
+                        std::cout << "Vote result: " << vote.voteAccept << " | " << vote.voteReject << std::endl;                        
                     }
                		
                 	event.from()->creator->message_edit(msg);
            		});
             //}
             event.reply();
+            SaveActiveVotes();
         }
     });
 }
@@ -122,15 +122,12 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             );
         modsMsg.add_component(actionRow);
 
-        modsMsg.add_embed(dpp::embed().set_color(dpp::colors::green).set_title("zelenyi"));
-        modsMsg.add_embed(dpp::embed().set_color(dpp::colors::red).set_title("krasnyi"));
-
-
         bot.message_create(modsMsg, [user, nickname, age, about](const dpp::confirmation_callback_t& callback) 
         {
             if (callback.is_error()) return;
             auto msg = callback.get<dpp::message>();
             activeVotes[msg.id] = VoteData();
+            activeVotes[msg.id].targedUserId = user.id;
             activeVotes[msg.id].user = {
                 {"game_nick", nickname},
                 {"age", age},

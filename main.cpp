@@ -1,5 +1,6 @@
 #include <dpp/dpp.h>
 #include <cstdlib>
+#include <dpp/guild.h>
 #include <dpp/nlohmann/json_fwd.hpp>
 #include <fstream>
 #include <string>
@@ -34,11 +35,13 @@ int main()
 	auto config = load_config("config.json");
 	std::string token = config.at("token").get<std::string>();
 
-    std::string filePath = config.value("FilePath", "active_votes.json");
+    std::string voteFilePath = config.value("VoteFilePath", "active_votes.json");
+    std::string membersFilePath = config,value("MembersFilePath", "members_data.json");
+
 	BotCore bot(token);
 
-    std::cout << "FilePath before bot.StartDataBase(filePath): " << filePath << std::endl;
-    bot.StartDataBase(filePath);
+    std::cout << "FilePath before bot.StartDataBase(filePath): " << voteFilePath << std::endl;
+    bot.StartDataBase(voteFilePath, membersFilePath);
     
     bot.Start();
 }
