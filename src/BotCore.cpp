@@ -1,0 +1,103 @@
+#include <cctype>
+#include <dpp/appcommand.h>
+#include <dpp/cache.h>
+#include <dpp/dispatcher.h>
+#include <dpp/guild.h>
+#include <dpp/message.h>
+#include <dpp/once.h>
+#include <dpp/snowflake.h>
+#include <iterator>
+#include <string>
+
+#include "../include/BotCore.h"
+#include "../include/ClanApplication.h"
+#include "../include/ConstAgr.h"
+#include "../include/ModsVote.h"
+
+BotCore::BotCore(std::string& token) : bot(token) 
+{
+	 bot.intents = dpp::i_default_intents 
+                | dpp::i_message_content 
+                | dpp::i_guild_members
+                | dpp::i_guild_message_reactions;
+
+	SetupEvent();
+	RegisterButton();
+	RegisterSlashCommands();
+
+    std::cout << "DPP version: " << dpp::utility::version() << std::endl;
+
+    //bot.on_log([](const dpp::log_t& event) 
+    //{
+    //std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
+    //});    
+};
+
+void BotCore::StartDataBase(std::string filePath)
+{
+    DataBase db(filePath);
+    ModsVote::Initialize(bot, db);
+    std::cout << "Vote Init" << std::endl
+              << "filePath: " << filePath << std::endl;
+}
+
+void BotCore::SetupEvent()
+{
+   bot.on_ready([this](const dpp::ready_t& event) 
+   {
+       	std::cout << "Бот запущен как: " << bot.me.username << "\n";
+    });  
+
+    bot.on_form_submit([&](const dpp::form_submit_t& event) 
+    {
+        if (event.custom_id == "clan_apply") 
+            ModsVote::RegisterVote(bot, event);
+    });
+
+    bot.on_guild_member_add([this](const dpp::guild_member_add_t& event)
+    {
+        dpp::snowflake guild_id = event.added.guild_id;
+        bot.guild_member_add_role(guild_id, event.added.user_id, DEFAULT_ROLE_ID);
+    });
+}
+
+void BotCore::RegisterSlashCommands()
+{
+	bot.on_slashcommand([&](const dpp::slashcommand_t& event) 
+	{
+   		if (event.command.get_command_name() == "apply") 
+        {
+            dpp::message msg(event.command.channel_id, "Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
+            
+            msg.add_component(
+                dpp::component().add_component(
+                    dpp::component()
+                        .set_label("Подать заявку")
+                        .set_type(dpp::cot_button)
+                        .set_style(dpp::cos_primary)
+                        .set_id("apply_button")
+        	    )
+     	    );
+        
+    	    event.reply(msg);
+
+            
+        }
+    });
+}
+
+void BotCore::RegisterButton()
+{
+	bot.on_button_click([&](const dpp::button_click_t& event) 
+	{
+  		if (event.custom_id == "apply_button") 
+  		{
+   			ClanApplication::ShowApplicationModal(event);
+  		}
+	});
+}
+
+void BotCore::Start()
+{
+	bot.start();
+}
