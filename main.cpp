@@ -3,6 +3,7 @@
 #include <dpp/guild.h>
 #include <dpp/nlohmann/json_fwd.hpp>
 #include <fstream>
+#include <random>
 #include <string>
 
 #include "include/BotCore.h"
@@ -35,13 +36,14 @@ int main()
 	auto config = load_config("config.json");
 	std::string token = config.at("token").get<std::string>();
 
-    std::string voteFilePath = config.value("VoteFilePath", "active_votes.json");
-    std::string membersFilePath = config,value("MembersFilePath", "members_data.json");
+        std::string v_filepath = config.value("VoteFilePath", "active_votes.json");
+        std::string m_filepath = config.value("MembersFilePath", "members_data.json");
+        std::string AplicationAceptedMessage = config.value("AplicationAceptedMessage", "");
+        std::string AplicationRejectedMessage = config.value("AplicationRejectedMessage", "");
 
 	BotCore bot(token);
 
-    std::cout << "FilePath before bot.StartDataBase(filePath): " << voteFilePath << std::endl;
-    bot.StartDataBase(voteFilePath, membersFilePath);
+    bot.StartDataBase(v_filepath, m_filepath, AplicationAceptedMessage, AplicationRejectedMessage);
     
     bot.Start();
 }

@@ -18,6 +18,7 @@ private:
 	void RegisterButton();
 public:
 	BotCore(std::string& token);
-	void StartDataBase(std::string v_filePath, std::string m_filePath);
+	void StartDataBase(std::string v_filepath, std::string m_filepath, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage);
 	void Start();
+
 };

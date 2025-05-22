@@ -22,7 +22,8 @@ struct VoteData
 			{"voteAccept", voteAccept},
 			{"voteReject", voteReject},
 			{"votedUsers", votedUsers},
-			{"targedUserId", targedUserId}
+			{"targedUserId", targedUserId},
+			{"user", user}
 		};
 	}
 
@@ -32,6 +33,12 @@ struct VoteData
 		v.voteAccept = j.value("voteAccept", 0);
 		v.voteReject = j.value("voteReject", 0);
 		v.targedUserId = j.value("targedUserId", "");
+		
+		if (j.contains("user"))
+			v.user = j["user"];
+		else
+			v.user = nlohmann::json();
+
 		if (j.contains("votedUsers"))
 		{
 			for (const auto& id : j["votedUsers"])
@@ -47,7 +54,7 @@ struct VoteData
 class ModsVote
 {
 public:
-	static void Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db);
+	static void Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage);
 	static void RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event);
 	static void LoadActiveVotes();
 	static void SaveActiveVotes();

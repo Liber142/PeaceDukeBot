@@ -8,7 +8,7 @@
 
 std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 
-void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db) 
+void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage) 
 {
     voteDatabase = v_db;
     std::cout << "db: " << v_db->GetFilePath() << std::endl;
@@ -17,7 +17,7 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db)
     std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
     LoadActiveVotes(); 
 
-    bot.on_button_click([](const dpp::button_click_t& event) {
+    bot.on_button_click([m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
         {
             auto it = activeVotes.find(event.command.message_id);
@@ -32,14 +32,14 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db)
             dpp::snowflake userId = user.id;
             std::cout << "Click from: " << user.username << std::endl;
 
-            //if (!vote.votedUsers.count(userId)) 
-            //{
+            if (!vote.votedUsers.count(userId)) 
+            {
                 std::cout << "Vote accept for this user" << std::endl;
                 (event.custom_id == "accept") ? vote.voteAccept++ : vote.voteReject++;
            		vote.votedUsers.insert(userId);
 
         		event.from()->creator->message_get(event.command.message_id, event.command.channel_id, 
-            	[event, &vote, userId](const dpp::confirmation_callback_t& callback) 
+            	[event, &vote, userId, m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::confirmation_callback_t& callback) 
             	{
                     bool voteResult = (vote.voteAccept > vote.voteReject);
                		if (callback.is_error()) return;
@@ -51,12 +51,33 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db)
 
                         dpp::embed tmpEmbed = msg.embeds[0];
                         tmpEmbed.set_color((voteResult) ? dpp::colors::green : dpp::colors::red);
+                        activeVotes[msg.id].user["clan"] = voteResult ? "Peace Duke" : nullptr;
                         msg.embeds.clear();
                         msg.add_embed(tmpEmbed);
 
                         msg.components.clear();
-                        activeVotes.erase(msg.id);
 
+                        nlohmann::json newClanMember = activeVotes[msg.id].user;
+                        std::cout << "activeVotes[msg.id].user = " << to_string(activeVotes[msg.id].user) << std::endl
+                                  << "\tactiveVotes[msg.id].user[\"game_nick\"] = " << to_string(activeVotes[msg.id].user["game_nick"]) << std::endl
+                                  << "\tactiveVotes[msg.id].user[\"age\"] = " << to_string(activeVotes[msg.id].user["age"]) << std::endl
+                                  << "\tactiveVotes[msg.id].user[\"about\"] = " << to_string(activeVotes[msg.id].user["about"]) << std::endl;
+
+                        m_db->SetUser(activeVotes[msg.id].targedUserId, newClanMember);
+                        m_db->Save();
+
+                        dpp::message directMsg;
+                        directMsg.set_content(voteResult ? AplicationAceptedMessage : AplicationRejectedMessage);
+                        try
+                        {
+                            bot.direct_message_create(activeVotes[msg.id].targedUserId, directMsg);   
+                        }
+                        catch (const std::exception& e)
+                        {
+                            std::cout << "ERROR in send DM" << e.what() << std::endl;
+                        }
+                        std::cout << "activeVotes[msg.id].targedUserId: " << activeVotes[msg.id].targedUserId << std::endl;
+                        activeVotes.erase(msg.id);
                     }
                     else
                     {
@@ -66,7 +87,7 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db)
                		
                 	event.from()->creator->message_edit(msg);
            		});
-            //}
+            }
             event.reply();
             SaveActiveVotes();
         }
@@ -131,8 +152,10 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             activeVotes[msg.id].user = {
                 {"game_nick", nickname},
                 {"age", age},
-                {"about", about}
+                {"about", about},
+                {"social_rating", 1000}
             };
+            std::cout << "activeVotes[msg.id].user =" << nickname << "|" << age << "|" << about << std::endl;
             activeVotes[msg.id].to_json();
             SaveActiveVotes();
         });
@@ -158,6 +181,7 @@ void ModsVote::LoadActiveVotes()
         {
             dpp::snowflake msgId = std::stoull(key);
             activeVotes[msgId] = VoteData::from_json(value);
+            std::cout << "Loaded vote data for " << key << ": " << value.dump(2) << std::endl;
         }
     }
 }
