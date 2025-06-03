@@ -1,8 +1,10 @@
-#include "../include/ModsVote.h"
-#include "../include/ConstAgr.h"
+#include "ModsVote.h"
+#include "ConstAgr.h"
+
 #include <dpp/colors.h>
 #include <dpp/message.h>
-#include <dpp/nlohmann/json_fwd.hpp>
+
+#include <nlohmann/json.hpp>
 #include <fmt/format.h>
 #include <string>
 

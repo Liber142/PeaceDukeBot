@@ -1,4 +1,4 @@
-#include "../include/ClanApplication.h"
+#include "ClanApplication.h"
 #include <dpp/dpp.h>
 #include <dpp/message.h>
 #include <dpp/dispatcher.h>

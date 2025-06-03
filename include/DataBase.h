@@ -1,6 +1,5 @@
 #pragma once
 #include <nlohmann/json.hpp>
-#include <mutex>
 #include <string>
 #include <fstream>
 #include <dpp/snowflake.h>
