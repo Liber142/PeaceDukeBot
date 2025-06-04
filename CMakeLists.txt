@@ -15,7 +15,7 @@ find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
 
 
 set(SOURCES
-    stc/Parsing.cpp
+    src/Parsing.cpp
     src/BotCore.cpp
     src/ClanApplication.cpp
     src/CommandHandler.cpp 
