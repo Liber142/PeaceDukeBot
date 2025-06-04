@@ -7,7 +7,13 @@ include_directories(/home/mrwiskis/libraries/nlohmann-json-3.11.2/include)
 find_package(dpp 10.1.2 REQUIRED)
 find_package(fmt REQUIRED)
 find_package(nlohmann_json 3.11.2 REQUIRED)
-find_package(curl REQUIRED)
+
+find_library(CURL_LIB NAMES curl)
+find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
+
+target_link_libraries(PeaceDukeBote PRIVATE ${CURL_LIB})
+target_include_directories(PeaceDukeBote PRIVATE ${CURL_INCLUDE_DIR})
+
 
 set(SOURCES
     stc/Parsing.cpp
