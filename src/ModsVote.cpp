@@ -1,6 +1,8 @@
-#include "ModsVote.h"
-#include "ConstAgr.h"
+#include "../include/ModsVote.h"
+#include "../include/ConstAgr.h"
+#include "../include/Parsing.h"
 
+#include <cstdint>
 #include <dpp/colors.h>
 #include <dpp/message.h>
 
@@ -118,6 +120,8 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             return;
         }
 
+        int points = Parsing::GetPoints(Parsing::GetUrl(nickname));
+
         dpp::embed embed = dpp::embed()
             .set_author(user.username, "", user.get_avatar_url())
             .set_color(dpp::colors::red)
@@ -125,7 +129,9 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             .set_title("Новая заявка")
             .add_field("Ник: ", nickname)
             .add_field("Возраст: ", age)
+            .add_field("Поинты: ", points)
             .add_field("О себе", about);
+
 
         dpp::message modsMsg(CHANNEL_MODERATION_ID, embed);
         dpp::component actionRow;
