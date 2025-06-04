@@ -120,7 +120,7 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             return;
         }
 
-        int points = Parsing::GetPoints(Parsing::GetUrl(nickname));
+        std::string points = std::to_string(Parsing::GetPoints(Parsing::GetUrl(nickname)));
 
         dpp::embed embed = dpp::embed()
             .set_author(user.username, "", user.get_avatar_url())
