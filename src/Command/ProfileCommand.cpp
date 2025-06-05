@@ -6,7 +6,7 @@ ProfileCommand::ProfileCommand(dpp::cluster& bot_instance) : bot(bot_instance) {
 
 void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 {
-    
+    event.reply("hui");
 }
 
 dpp::slashcommand ProfileCommand::Register()

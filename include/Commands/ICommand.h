@@ -1,3 +1,4 @@
+#pragma once
 #include <dpp/appcommand.h>
 #include <dpp/dpp.h>
 
