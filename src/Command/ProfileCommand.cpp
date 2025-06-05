@@ -55,7 +55,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     std::string clan = j_user.value("clan", "");
     std::cout << "clan: " << clan << std::endl;
 
-    int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
+    //int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
 
     dpp::embed embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
@@ -64,7 +64,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         .add_field("Возраст: ", age)
         .add_field("Клан", clan)
         .add_field("Социальный рейтинг: ", social_rating)
-        .add_field("Поинт: ", std::to_string(points))
+        //.add_field("Поинт: ", std::to_string(points))
         .add_field("О себе: ", about);
 
     std::cout << "hui" << std::endl;
