@@ -12,6 +12,7 @@
 
 #include "../../include/Commands/ProfileCommand.h"
 #include "../../include/DataBase.h"
+#include "../../include/Parsing.h"
 
 ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase* db_instance) : bot(bot_instance), db(db_instance) {};
 
@@ -41,7 +42,10 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         "clan": "Peace Duke",
         "game_nick": "sladorc",
         "social_rating": 1000
+
 */
+    int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
+
     dpp::embed embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
         .set_color(dpp::colors::aqua)
@@ -50,8 +54,10 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     embed.add_field("Возраст: ", j_user.value("age", ""))
          .add_field("Клан", j_user.value("clan", ""))
          .add_field("Социальный рейтинг: ", j_user.value("social_rating", ""))
+         .add_field("Поинт: ", std::to_string(points))
          .add_field("О себе: ", j_user.value("about", ""));
 
+    std::cout << "hui" << std::endl;
     event.reply(embed);
 }
 
