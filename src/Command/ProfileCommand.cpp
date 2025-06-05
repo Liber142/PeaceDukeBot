@@ -73,6 +73,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         .add_field("Поинты: ", strPoints)
         .add_field("О себе: ", about);
 
+    event.thinking(false);
     event.reply(embed);
 }
 
