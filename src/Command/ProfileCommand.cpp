@@ -60,6 +60,8 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     event.thinking();
 
     int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
+    std::string strPoints = std::to_string(points);
+    std::cout << "Ponits: " << strPoints << std::endl;
 
     dpp::embed embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
@@ -68,7 +70,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         .add_field("Возраст: ", age)
         .add_field("Клан", clan)
         .add_field("Социальный рейтинг: ", social_rating)
-        .add_field("Поинты: ", std::to_string(points))
+        .add_field("Поинты: ", strPoints)
         .add_field("О себе: ", about);
 
     event.reply(embed);
