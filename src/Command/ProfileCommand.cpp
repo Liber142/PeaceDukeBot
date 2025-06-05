@@ -56,13 +56,6 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     std::cout << "clan: " << clan << std::endl;
 
 
-
-    event.thinking();
-
-    int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
-    std::string strPoints = std::to_string(points);
-    std::cout << "Ponits: " << strPoints << std::endl;
-
     dpp::embed embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
         .set_color(dpp::colors::aqua)
@@ -70,11 +63,28 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         .add_field("Возраст: ", age)
         .add_field("Клан", clan)
         .add_field("Социальный рейтинг: ", social_rating)
-        .add_field("Поинты: ", strPoints)
+        .add_field("Поинты: ", "---")
         .add_field("О себе: ", about);
 
-    event.thinking(false);
-    event.reply(embed);
+    dpp::message msg = dpp::message().add_embed(embed);
+
+    event.reply(msg);
+
+    int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
+
+    embed = dpp::embed()
+        .set_author(target_user.username, "", target_user.get_avatar_url())
+        .set_color(dpp::colors::aqua)
+        .set_title("Профиль: " + nick)
+        .add_field("Возраст: ", age)
+        .add_field("Клан", clan)
+        .add_field("Социальный рейтинг: ", social_rating)
+        .add_field("Поинты: ", std::to_string(points))
+        .add_field("О себе: ", about);
+
+    msg.embeds.clear();
+    msg.add_embed(embed);
+    event.edit_response(msg);
 }
 
 dpp::slashcommand ProfileCommand::Register()
