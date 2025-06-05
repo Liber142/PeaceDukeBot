@@ -44,7 +44,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 
 dpp::slashcommand ProfileCommand::Register()
 {
-	  dpp::slashcommand cmd("Profile", "Покажет профиль участника", bot.me.id);
+	  dpp::slashcommand cmd("profile", "Покажет профиль участника", bot.me.id);
 
       cmd.add_option(dpp::command_option(dpp::co_user, "user", "Чей профиль показать?", false));
     return cmd;

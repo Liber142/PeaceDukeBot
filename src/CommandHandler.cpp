@@ -5,11 +5,12 @@
 #include <dpp/cluster.h>
 #include <dpp/stringops.h>
 #include <memory>
+#include <string>
 
 CommandHandler::CommandHandler(dpp::cluster& bot, DataBase& db) : bot(bot), db(db)
 {
 	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
-	commands["Profile"] = std::make_unique<ProfileCommand>(bot, db);
+	commands["profile"] = std::make_unique<ProfileCommand>(bot, db);
 }
 
 CommandHandler::~CommandHandler() = default;
@@ -19,18 +20,15 @@ void CommandHandler::RegisterCommands()
 	for (auto& [name, cmd] : commands)
 	{
 		bot.global_command_create(cmd->Register());
-		bot.global_command_delete(1349635915563143171);
-		bot.global_command_delete(1345112324758966413);
-		bot.global_command_delete(1345112324758966414);
-		bot.global_command_delete(1345109229375328382);
-		bot.global_command_delete(1345109229375328382);
-		bot.global_command_delete(1345109229375328381);
 	}
 }
 
 bool CommandHandler::HandleCommands(const dpp::slashcommand_t& event)
 {
+	std::cout << "CommandHandler::HandleCommands(const dpp::slashcommand_t& event)" << std::endl;
+
 	auto it = commands.find(event.command.get_command_name());
+	std::cout << "event.command.get_command_name()" << event.command.get_command_name() << std::endl;
 
 	if (it != commands.end())
 	{
@@ -39,17 +37,3 @@ bool CommandHandler::HandleCommands(const dpp::slashcommand_t& event)
 	}
 	return true;
 }
-
-
-/*bot.on_ready([&bot](const dpp::ready_t & event) {
-                if (dpp::run_once<struct register_bot_commands>()) {
-                    dpp::slashcommand profile("profile", "Send a user profile.", bot.me.id);
-                    profile.add_option(
-                        
-                        dpp::command_option(dpp::co_sub_command, "user", "Send a user profile.")
-                            .add_option(dpp::command_option(dpp::co_user, "user", "User to turn into a dog.", false))
-                    );
-                    bot.global_command_create(profile);
-                }
-            });
-*/
