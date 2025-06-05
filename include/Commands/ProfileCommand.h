@@ -11,11 +11,11 @@ class ProfileCommand : public ICommand
 {
 private:
 	dpp::cluster& bot;
-	DataBase& db;
+	DataBase* db;
 
 	dpp::user GetTargetUser(const dpp::slashcommand_t& event);
 public:
-	explicit ProfileCommand(dpp::cluster& bot_instance, DataBase& db_instance);
+	explicit ProfileCommand(dpp::cluster& bot_instance, DataBase* db_instance);
 	void Execute(const dpp::slashcommand_t& event) override;
 	dpp::slashcommand Register() override;
 };

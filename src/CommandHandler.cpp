@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 
-CommandHandler::CommandHandler(dpp::cluster& bot, DataBase& db) : bot(bot), db(db)
+CommandHandler::CommandHandler(dpp::cluster& bot, DataBase* db) : bot(bot), db(db)
 {
 	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
 	commands["profile"] = std::make_unique<ProfileCommand>(bot, db);

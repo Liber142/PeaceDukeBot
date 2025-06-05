@@ -13,7 +13,7 @@
 #include "../../include/Commands/ProfileCommand.h"
 #include "../../include/DataBase.h"
 
-ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase& db_instance) : bot(bot_instance), db(db_instance) {};
+ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase* db_instance) : bot(bot_instance), db(db_instance) {};
 
 void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 {
@@ -26,7 +26,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     std::cout << "target_user: " << target_user.username << "using /Profile" << std::endl;
 
 
-    nlohmann::json j_user = db.GetUser(target_user.id);
+    nlohmann::json j_user = db->GetUser(target_user.id);
     if (j_user.is_null() || j_user.empty()) 
     {
         std::cerr << "User data is null or empty." << std::endl;
