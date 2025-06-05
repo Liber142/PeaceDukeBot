@@ -15,6 +15,7 @@ private:
     DataBase* m_db;
 
 	dpp::cluster bot;
+
 	void SetupEvent();
 	void RegisterSlashCommands();
 	void RegisterButton();

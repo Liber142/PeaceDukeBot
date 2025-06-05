@@ -12,7 +12,9 @@ class ICommand;
 class CommandHandler
 {
 public:
-	CommandHandler(dpp::cluster& bot, DataBase* db);
+	CommandHandler(dpp::cluster& bot);
+
+	void Hui(DataBase* db);
 	~CommandHandler();
 	void RegisterCommands();
 	bool HandleCommands(const dpp::slashcommand_t& event);

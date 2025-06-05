@@ -5,10 +5,13 @@
 #include <dpp/cluster.h>
 #include <dpp/stringops.h>
 #include <memory>
-#include <string>
 
-CommandHandler::CommandHandler(dpp::cluster& bot, DataBase* db) : bot(bot), db(db)
+CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot) {}
+
+void CommandHandler::Hui(DataBase* db)
 {
+	this->db = db;
+
 	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
 	commands["profile"] = std::make_unique<ProfileCommand>(bot, db);
 }
