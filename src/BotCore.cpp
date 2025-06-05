@@ -17,7 +17,7 @@
 #include "../include/ConstAgr.h"
 #include "../include/ModsVote.h"
 
-BotCore::BotCore(std::string& token) : bot(token) 
+BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot) 
 {
 	 bot.intents = dpp::i_default_intents 
                 | dpp::i_message_content 
@@ -71,24 +71,14 @@ void BotCore::SetupEvent()
 
 void BotCore::RegisterSlashCommands()
 {
-	bot.on_slashcommand([&](const dpp::slashcommand_t& event) 
-	{
-   		if (event.command.get_command_name() == "apply") 
-        {
-            dpp::message msg(event.command.channel_id, "Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
-            
-            msg.add_component(
-                dpp::component().add_component(
-                    dpp::component()
-                        .set_label("Подать заявку")
-                        .set_type(dpp::cot_button)
-                        .set_style(dpp::cos_primary)
-                        .set_id("apply_button")
-        	    )
-     	    );
-        
-    	    event.reply(msg);    
-        }
+	bot.on_ready([this](const dpp::ready_t& event)
+    {
+        cmdHandler.RegisterCommands();
+    });
+
+    bot.on_slashcommand([this](const dpp::slashcommand_t& event)
+    {
+        cmdHandler.HandleCommands(event);
     });
 }
 

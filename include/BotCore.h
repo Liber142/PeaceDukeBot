@@ -4,7 +4,9 @@
 #include <dpp/dpp.h>
 #include <dpp/message.h>
 #include <string>
+
 #include "DataBase.h"
+#include "CommandHandler.h"
 
 class BotCore
 {
@@ -16,6 +18,8 @@ private:
 	void SetupEvent();
 	void RegisterSlashCommands();
 	void RegisterButton();
+
+	CommandHandler cmdHandler;
 public:
 	BotCore(std::string& token);
 	void StartDataBase(std::string v_filepath, std::string m_filepath, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage);
