@@ -44,17 +44,28 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         "social_rating": 1000
 
 */
-    int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
+    std::string nick = j_user.value("game_nick", "");
+    std::cout << "nick: " << nick << std::endl;
+    std::string age = j_user.value("age", "");
+    std::cout << "age: " << age << std::endl;
+    std::string about = j_user.value("about", "");
+    std::cout << "about: " << about << std::endl;
+    std::string social_rating = j_user.value("social_rating", "");
+    std::cout << "social_rating: " << social_rating << std::endl;
+    std::string clan = j_user.value("clan", "");
+    std::cout << "clan: " << clan << std::endl;
+
+    //int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
 
     dpp::embed embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
         .set_color(dpp::colors::aqua)
-        .set_title("Профиль: " + j_user.value("game_nick", ""))
-        .add_field("Возраст: ", j_user.value("age", ""))
-        .add_field("Клан", j_user.value("clan", ""))
-        .add_field("Социальный рейтинг: ", j_user.value("social_rating", ""))
-        .add_field("Поинт: ", std::to_string(points))
-        .add_field("О себе: ", j_user.value("about", ""));
+        .set_title("Профиль: " + nick)
+        .add_field("Возраст: ", age)
+        .add_field("Клан", clan)
+        .add_field("Социальный рейтинг: ", social_rating)
+        //.add_field("Поинт: ", std::to_string(points))
+        .add_field("О себе: ", about);
 
     std::cout << "hui" << std::endl;
     event.reply(embed);
