@@ -17,9 +17,22 @@ ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase& db_instance
 
 void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 {
-    dpp::user target_user = GetTargetUser(event);
+    dpp::user target_user = GetTargetUser(event); 
+    if (target_user.id == 0) 
+    {
+        event.reply("Invalid user.");
+        return;
+    }
     std::cout << "target_user: " << target_user.username << "using /Profile" << std::endl;
+
+
     nlohmann::json j_user = db.GetUser(target_user.id);
+    if (j_user.is_null() || j_user.empty()) 
+    {
+        std::cerr << "User data is null or empty." << std::endl;
+        event.reply("User data not found or invalid.");
+        return;
+    }
     std::cout << "j_user: " << j_user << std::endl;
     
 /*    "1133635252691161158": {
