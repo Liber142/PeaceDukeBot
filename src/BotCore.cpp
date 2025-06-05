@@ -17,7 +17,7 @@
 #include "../include/ConstAgr.h"
 #include "../include/ModsVote.h"
 
-BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot) 
+BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot, *m_db) 
 {
 	 bot.intents = dpp::i_default_intents 
                 | dpp::i_message_content 
