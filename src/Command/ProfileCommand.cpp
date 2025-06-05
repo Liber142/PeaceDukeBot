@@ -50,7 +50,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     std::cout << "age: " << age << std::endl;
     std::string about = j_user.value("about", "");
     std::cout << "about: " << about << std::endl;
-    std::string social_rating = j_user.value("social_rating", "");
+    std::string social_rating = std::to_string(j_user.value("social_rating", 0));
     std::cout << "social_rating: " << social_rating << std::endl;
     std::string clan = j_user.value("clan", "");
     std::cout << "clan: " << clan << std::endl;
