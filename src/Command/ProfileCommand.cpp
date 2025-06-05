@@ -5,6 +5,7 @@
 #include <dpp/message.h>
 #include <dpp/snowflake.h>
 #include <dpp/user.h>
+#include <iostream>
 #include <nlohmann/json.hpp>
 #include <string>
 #include <variant>
@@ -17,7 +18,9 @@ ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase& db_instance
 void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 {
     dpp::user target_user = GetTargetUser(event);
+    std::cout << "target_user: " << target_user.username << "using /Profile" << std::endl;
     nlohmann::json j_user = db.GetUser(target_user.id);
+    std::cout << "j_user: " << j_user << std::endl;
     
 /*    "1133635252691161158": {
         "about": "Играю как лох потомучто лагает",
