@@ -1,16 +1,57 @@
-#include "../../include/Commands/ProfileCommand.h"
 #include <dpp/appcommand.h>
+#include <dpp/cache.h>
+#include <dpp/colors.h>
 #include <dpp/dispatcher.h>
+#include <dpp/message.h>
+#include <dpp/snowflake.h>
+#include <dpp/user.h>
+#include <nlohmann/json.hpp>
+#include <string>
+#include <variant>
 
-ProfileCommand::ProfileCommand(dpp::cluster& bot_instance) : bot(bot_instance) {};
+#include "../../include/Commands/ProfileCommand.h"
+#include "../../include/DataBase.h"
+
+ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase& db_instance) : bot(bot_instance), db(db_instance) {};
 
 void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 {
-    event.reply("hui");
+    dpp::user target_user = GetTargetUser(event);
+    nlohmann::json j_user = db.GetUser(target_user.id);
+    
+/*    "1133635252691161158": {
+        "about": "Играю как лох потомучто лагает",
+        "age": "14",
+        "clan": "Peace Duke",
+        "game_nick": "sladorc",
+        "social_rating": 1000
+*/
+    dpp::embed embed = dpp::embed()
+        .set_author(target_user.username, "", target_user.get_avatar_url())
+        .set_color(dpp::colors::aqua)
+        .set_title("Профиль: " + j_user.value("game_nick", ""));
+
+    embed.add_field("Возраст: ", j_user.value("age", ""))
+         .add_field("Клан", j_user.value("clan", ""))
+         .add_field("Социальный рейтинг: ", j_user.value("social_rating", ""))
+         .add_field("О себе: ", j_user.value("about", ""));
+
+    event.reply(embed);
 }
 
 dpp::slashcommand ProfileCommand::Register()
 {
-	return  dpp::slashcommand("Profile", "Покажет профиль участника", bot.me.id)
-        .add_option(dpp::command_option(dpp::co_sub_command, "user", "профиль какого участника показать?"));
+	  dpp::slashcommand cmd("Profile", "Покажет профиль участника", bot.me.id);
+
+      cmd.add_option(dpp::command_option(dpp::co_user, "user", "Чей профиль показать?", false));
+    return cmd;
+}
+
+dpp::user ProfileCommand::GetTargetUser(const dpp::slashcommand_t& event) 
+{
+    if (auto param = event.get_parameter("user"); 
+        std::holds_alternative<dpp::snowflake>(param)) {
+        return *dpp::find_user(std::get<dpp::snowflake>(param));
+    }
+    return event.command.get_issuing_user();
 }

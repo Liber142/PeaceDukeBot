@@ -6,10 +6,10 @@
 #include <dpp/stringops.h>
 #include <memory>
 
-CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot)
+CommandHandler::CommandHandler(dpp::cluster& bot, DataBase& db) : bot(bot), db(db)
 {
 	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
-	commands["Profile"] = std::make_unique<ProfileCommand>(bot);
+	commands["Profile"] = std::make_unique<ProfileCommand>(bot, db);
 }
 
 CommandHandler::~CommandHandler() = default;
@@ -19,6 +19,12 @@ void CommandHandler::RegisterCommands()
 	for (auto& [name, cmd] : commands)
 	{
 		bot.global_command_create(cmd->Register());
+		bot.global_command_delete(1349635915563143171);
+		bot.global_command_delete(1345112324758966413);
+		bot.global_command_delete(1345112324758966414);
+		bot.global_command_delete(1345109229375328382);
+		bot.global_command_delete(1345109229375328382);
+		bot.global_command_delete(1345109229375328381);
 	}
 }
 
