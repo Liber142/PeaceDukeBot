@@ -38,13 +38,6 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
 
 };
 
-BotCore::~BotCore()
-{
-    m_db->Save();
-    v_db->Save();
-    std::cout << "Бот " << bot.me.username << " выключаеться." << std::endl;
-}
-
 void BotCore::StartDataBase(std::string v_filePath, std::string m_filePath, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage)
 {
     v_db = new DataBase(v_filePath);
