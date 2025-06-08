@@ -1,5 +1,6 @@
 #include "../include/CommandHandler.h"
 #include "../include/Commands/Apply.h"
+#include "../include/Commands/invite.h"
 #include "../include/Commands/ProfileCommand.h"
 #include <dpp/appcommand.h>
 #include <dpp/cluster.h>
@@ -13,6 +14,7 @@ void CommandHandler::Hui(DataBase* db)
 	this->db = db;
 
 	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
+	commands["invite"] = std::make_unique<invite>(bot);
 	commands["profile"] = std::make_unique<ProfileCommand>(bot, db);
 }
 

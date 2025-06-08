@@ -35,6 +35,7 @@ void ClanApplication::ShowApplicationModal(const dpp::button_click_t& event)
         .set_text_style(dpp::text_short)
     );
 
+
     // 3. Поле для информации о себе
     modal.add_row();
     modal.add_component(
