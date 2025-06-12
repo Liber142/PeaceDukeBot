@@ -1,13 +1,17 @@
 #include "../include/EventPanel.h"
+#include "../include/ConstAgr.h"
+
 #include <dpp/cluster.h>
 #include <dpp/dispatcher.h>
 #include <dpp/dpp.h>
 #include <dpp/message.h>
 #include <dpp/snowflake.h>
 
-EventPanel::EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId)
+dpp::snowflake panelChannelId = EVENT_PANEL_CHANNEL_ID;
+
+EventPanel::EventPanel(dpp::cluster& bot)
 {
-	bot.on_ready([&bot, panelChannelId](const dpp::ready_t& event)
+	bot.on_ready([&bot](const dpp::ready_t& event)
 	{
 		bot.messages_get(panelChannelId, 0, 0, 0, 1,[&bot](const dpp::confirmation_callback_t& event)
 		{
@@ -21,8 +25,7 @@ EventPanel::EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId)
         	}
 		});
 
-		dpp::message msg = dpp::message();
-		msg.set_content("Вот тут кнопочки чтобы ивенты настраивать.");
+		dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
 		dpp::component actionRow;
 		actionRow.add_component(
             dpp::component()
@@ -45,10 +48,7 @@ EventPanel::EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId)
                 .set_style(dpp::cos_primary)
                 .set_id("setEventChannelId")
             );
-
 		msg.add_component(actionRow);
-		
-		msg.set_channel_id(panelChannelId);
 		bot.message_create(msg);
 
 	});

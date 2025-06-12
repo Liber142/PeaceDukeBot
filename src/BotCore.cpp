@@ -18,7 +18,7 @@
 #include "../include/ModsVote.h"
 #include "../include/CommandHandler.h"
 
-BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(bot, EVENT_PANEL_CHANNEL_ID)
+BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(bot)
 {
 	 bot.intents = dpp::i_default_intents 
                 | dpp::i_message_content 
