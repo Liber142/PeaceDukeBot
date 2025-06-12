@@ -61,13 +61,15 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
     {
         dpp::message msg(panelChannelId, "Hui");
         
-        dpp::component role_menu;
-        role_menu.set_type(dpp::cot_role_selectmenu)
-                 .set_id("event_role_select")
-                 .set_placeholder("Выберите роль для ивента");
-
-        msg.add_component(role_menu);
-        msg.set_flags(dpp::m_ephemeral);
+        msg.add_component(
+            dpp::component().add_component(
+                dpp::component()
+                    .set_type(dpp::cot_role_selectmenu)
+                    .set_placeholder("Менюшка вот такая есть")
+                    .set_id("selectrole")
+            )
+        );
+        //msg.set_flags(dpp::m_ephemeral);
         event.reply(msg);
     }
 }
