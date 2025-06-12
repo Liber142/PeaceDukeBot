@@ -10,7 +10,7 @@ private:
 	dpp::snowflake channel_id;
 	std::string eventEmorion;
 public:
-	EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId);
+	EventPanel(dpp::cluster& bot);
 	void SetEventRole(dpp::snowflake& role_id);
 	void SetEventChannel(dpp::snowflake& channel_id);
 	void SetEventEmotion(std::string& emotionid);
