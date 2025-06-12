@@ -59,13 +59,13 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
 {
     if (event.custom_id == "SetRoleEvent")
     {
-        dpp::message msg(panelChannelId, "Hui");
+        dpp::message msg(panelChannelId, "");
         
         msg.add_component(
             dpp::component().add_component(
                 dpp::component()
                     .set_type(dpp::cot_role_selectmenu)
-                    .set_placeholder("Менюшка вот такая есть")
+                    .set_placeholder("Выбери роль для ивента")
                     .set_max_values(1)
                     .set_id("selectrole")
             )
@@ -73,4 +73,50 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
         //msg.set_flags(dpp::m_ephemeral);
         event.reply(msg.set_flags(dpp::m_ephemeral));
     }
+    else if (event.custom_id == "SetChannelEvent")
+    {
+        dpp::message msg(panelChannelId, "");
+        
+        msg.add_component(
+            dpp::component().add_component(
+                dpp::component()
+                    .set_type(dpp::cot_channel_selectmenu)
+                    .set_placeholder("Выбери канал для ивента")
+                    .set_max_values(1)
+                    .set_id("selectchanel")
+            )
+        );
+        //msg.set_flags(dpp::m_ephemeral);
+        event.reply(msg.set_flags(dpp::m_ephemeral));
+    }    
+    else if (event.custom_id == "SetEmoteEvent")
+    {
+        dpp::message msg(panelChannelId, "");
+        
+        msg.add_component(
+            dpp::component().add_component(
+                dpp::component()
+                    .set_type(dpp::cot_text)
+                    .set_placeholder("Уебу если не одна эмоция тут")
+                    .set_id("selectemote")
+
+            )
+        );
+        //msg.set_flags(dpp::m_ephemeral);
+        event.reply(msg.set_flags(dpp::m_ephemeral));
+    }
+}
+void EventPanel::SetEventRole(dpp::snowflake& role_id)
+{
+
+}
+
+void EventPanel::SetEventChannel(dpp::snowflake& channel_id)
+{
+
+}
+
+void EventPanel::SetEventEmotion(std::string& emotionid)
+{
+
 }

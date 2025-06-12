@@ -73,8 +73,24 @@ void BotCore::SetupEvent()
 
     bot.on_select_click([this](const dpp::select_click_t& event) 
     {
-        //if (event.custom_id == "selectrole")
-        //    eventPanel.SetEventRole(event.command.);
+        if (event.custom_id == "selectrole")
+        {
+            dpp::snowflake roleId = event.values[0];
+            eventPanel.SetEventRole(roleId);
+            std::cout << roleId.str() << std::endl;
+        } 
+        if (event.custom_id == "selectchanel")
+        {
+            dpp::snowflake channelId = event.values[0];
+            eventPanel.SetEventChannel(channelId);
+            std::cout << channelId.str() << std::endl;
+        }
+        if (event.custom_id == "selectemote")
+        {
+            std::string emoteId = event.values[0];
+            eventPanel.SetEventEmotion(emoteId);
+            std::cout << emoteId << std::endl;
+        }
     });
 }
 
