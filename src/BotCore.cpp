@@ -90,9 +90,14 @@ void BotCore::RegisterButton()
 	bot.on_button_click([&](const dpp::button_click_t& event) 
 	{
   		if (event.custom_id == "apply_button") 
-  		{
    			ClanApplication::ShowApplicationModal(event);
-  		}
+        if (event.custom_id == "SetRoleEvent" ||
+            event.custom_id == "SetChannelEvent" ||
+            event.custom_id == "SetEmoteEvent")
+        {
+            eventPanel.ButtonHandler(event);
+        }
+
 	});
 }
 

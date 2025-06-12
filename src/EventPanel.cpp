@@ -1,11 +1,13 @@
 #include "../include/EventPanel.h"
 #include "../include/ConstAgr.h"
 
+#include <cstdio>
 #include <dpp/cluster.h>
 #include <dpp/dispatcher.h>
 #include <dpp/dpp.h>
 #include <dpp/message.h>
 #include <dpp/snowflake.h>
+#include <dpp/user.h>
 
 dpp::snowflake panelChannelId = EVENT_PANEL_CHANNEL_ID;
 
@@ -52,4 +54,18 @@ EventPanel::EventPanel(dpp::cluster& bot)
 		bot.message_create(msg);
 
 	});
+}
+
+void EventPanel::ButtonHandler(const dpp::button_click_t& event)
+{
+    if (event.custom_id == "SetRoleEvent")
+    {
+        dpp::interaction_modal_response modal("clan_apply", "Заявка в клан");
+    
+        modal.add_component(
+            dpp::component()
+            .set_label("Укажите роль для участников ивента")
+            .set_type(dpp::cot_role_selectmenu)
+    );
+    }
 }
