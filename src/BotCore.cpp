@@ -73,8 +73,8 @@ void BotCore::SetupEvent()
 
     bot.on_select_click([this](const dpp::select_click_t& event) 
     {
-        if (event.custom_id == "selectrole")
-            eventPanel.SetEventRole(event.values[0]);
+        //if (event.custom_id == "selectrole")
+        //    eventPanel.SetEventRole(event.command.);
     });
 }
 
