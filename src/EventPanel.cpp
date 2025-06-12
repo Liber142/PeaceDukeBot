@@ -66,10 +66,12 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
                 dpp::component()
                     .set_type(dpp::cot_role_selectmenu)
                     .set_placeholder("Менюшка вот такая есть")
+                    .set_max_values(2)
+                    .set_default_value(dpp::snowflake{1345257818533396580}, dpp::cdt_role)
                     .set_id("selectrole")
             )
         );
         //msg.set_flags(dpp::m_ephemeral);
-        event.reply(msg);
+        event.reply(msg.set_flags(dpp::m_ephemeral));
     }
 }

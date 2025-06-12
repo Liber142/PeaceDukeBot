@@ -70,6 +70,12 @@ void BotCore::SetupEvent()
         dpp::snowflake guild_id = event.added.guild_id;
         bot.guild_member_add_role(guild_id, event.added.user_id, DEFAULT_ROLE_ID);
     });
+
+    bot.on_select_click([this](const dpp::select_click_t& event) 
+    {
+        if (event.custom_id == "selectrole")
+            eventPanel.SetEventRole(event.values[0]);
+    });
 }
 
 void BotCore::RegisterSlashCommands()
