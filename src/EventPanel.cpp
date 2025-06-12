@@ -60,14 +60,13 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
     if (event.custom_id == "SetRoleEvent")
     {
         dpp::message msg(panelChannelId, "Hui");
-    
-        msg.add_component
-        (
-            dpp::component()
-             .set_type(dpp::cot_role_selectmenu)
-             .set_id("event_role_select")
-             .set_placeholder("Выберите роль для ивента")
-        );
+        
+        dpp::component role_menu;
+        role_menu.set_type(dpp::cot_role_selectmenu)
+                 .set_id("event_role_select")
+                 .set_placeholder("Выберите роль для ивента");
+
+        msg.add_component(role_menu);
         msg.set_flags(dpp::m_ephemeral);
         event.reply(msg);
     }
