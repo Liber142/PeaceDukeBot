@@ -65,6 +65,7 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
             dpp::component()
             .set_label("Укажите роль для участников ивента")
             .set_type(dpp::cot_role_selectmenu)
-    );
+        );
+        event.dialog(modal);
     }
 }
