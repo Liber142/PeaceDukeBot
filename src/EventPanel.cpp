@@ -21,32 +21,32 @@ EventPanel::EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId)
         	}
 		});
 
-		sleep(5);
-
 		dpp::message msg = dpp::message();
 		msg.set_content("Вот тут кнопочки чтобы ивенты настраивать.");
 		dpp::component actionRow;
 		actionRow.add_component(
             dpp::component()
-                .set_label("Установить роль для ивента")
+                .set_label("роль")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_success)
+                .set_style(dpp::cos_primary)
                 .set_id("setEventRoleId")
             );
 		actionRow.add_component(
             dpp::component()
-                .set_label("Установить канал для ивента")
+                .set_label("канал")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_success)
+                .set_style(dpp::cos_primary)
                 .set_id("setEventChannelId")
             );
 		actionRow.add_component(
             dpp::component()
-                .set_label("Установить эмоцию для ивента")
+                .set_label("эмоция")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_success)
+                .set_style(dpp::cos_primary)
                 .set_id("setEventChannelId")
             );
+
+		msg.add_component(actionRow);
 		
 		msg.set_channel_id(panelChannelId);
 		bot.message_create(msg);
