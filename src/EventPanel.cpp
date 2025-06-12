@@ -1,7 +1,6 @@
 #include "../include/EventPanel.h"
 #include "../include/ConstAgr.h"
 
-#include <cstdio>
 #include <dpp/cluster.h>
 #include <dpp/dispatcher.h>
 #include <dpp/dpp.h>
