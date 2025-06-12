@@ -29,17 +29,24 @@ EventPanel::EventPanel(dpp::cluster& bot)
 		dpp::component actionRow;
         actionRow.add_component(
             dpp::component()
-                .set_label("Принять")
+                .set_label("роль")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_success)
-                .set_id("accept")
+                .set_style(dpp::cos_primary)
+                .set_id("SetRoleEvent")
             );
         actionRow.add_component(
             dpp::component()
-                .set_label("Отклонить")
+                .set_label("канал")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_danger)
-                .set_id("reject")
+                .set_style(dpp::cos_primary)
+                .set_id("SetChannelEvent")
+            );
+        actionRow.add_component(
+            dpp::component()
+                .set_label("эмоция")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_primary)
+                .set_id("SetEmoteEvent")
             );
         msg.add_component(actionRow);
 		bot.message_create(msg);
