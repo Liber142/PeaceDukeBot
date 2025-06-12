@@ -27,28 +27,21 @@ EventPanel::EventPanel(dpp::cluster& bot)
 
 		dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
 		dpp::component actionRow;
-		actionRow.add_component(
+        actionRow.add_component(
             dpp::component()
-                .set_label("роль")
+                .set_label("Принять")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_primary)
-                .set_id("setEventRoleId")
+                .set_style(dpp::cos_success)
+                .set_id("accept")
             );
-		actionRow.add_component(
+        actionRow.add_component(
             dpp::component()
-                .set_label("канал")
+                .set_label("Отклонить")
                 .set_type(dpp::cot_button)
-                .set_style(dpp::cos_primary)
-                .set_id("setEventChannelId")
+                .set_style(dpp::cos_danger)
+                .set_id("reject")
             );
-		actionRow.add_component(
-            dpp::component()
-                .set_label("эмоция")
-                .set_type(dpp::cot_button)
-                .set_style(dpp::cos_primary)
-                .set_id("setEventChannelId")
-            );
-		msg.add_component(actionRow);
+        msg.add_component(actionRow);
 		bot.message_create(msg);
 
 	});

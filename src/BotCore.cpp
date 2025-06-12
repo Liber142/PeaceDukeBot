@@ -31,10 +31,10 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(b
 
     std::cout << "DPP version: " << dpp::utility::version() << std::endl;
 
-    //bot.on_log([](const dpp::log_t& event) 
-    //{
-    //std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
-    //});    
+    bot.on_log([](const dpp::log_t& event) 
+    {
+    std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
+    });    
 
 };
 
