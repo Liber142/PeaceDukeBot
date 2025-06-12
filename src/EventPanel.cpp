@@ -61,10 +61,12 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
     {
         dpp::message msg(panelChannelId, "Hui");
     
-        msg.add_component(
+        msg.add_component
+        (
             dpp::component()
-            .set_label("Укажите роль для участников ивента")
-            .set_type(dpp::cot_role_selectmenu)
+             .set_type(dpp::cot_role_selectmenu)
+             .set_id("event_role_select")
+             .set_placeholder("Выберите роль для ивента")
         );
         msg.set_flags(dpp::m_ephemeral);
         event.reply(msg);
