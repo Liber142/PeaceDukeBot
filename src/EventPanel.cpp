@@ -9,7 +9,7 @@ EventPanel::EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId)
 {
 	bot.on_ready([&bot, panelChannelId](const dpp::ready_t& event)
 	{
-		bot.messages_get(panelChannelId, 0, 0, 0, 5,[&bot](const dpp::confirmation_callback_t& event)
+		bot.messages_get(panelChannelId, 0, 0, 0, 1,[&bot](const dpp::confirmation_callback_t& event)
 		{
 			if (!event.is_error()) 
 			{
@@ -20,6 +20,8 @@ EventPanel::EventPanel(dpp::cluster& bot, const dpp::snowflake panelChannelId)
             	}
         	}
 		});
+
+		sleep(5);
 
 		dpp::message msg = dpp::message();
 		msg.set_content("Вот тут кнопочки чтобы ивенты настраивать.");
