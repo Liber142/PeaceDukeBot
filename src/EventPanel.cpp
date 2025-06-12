@@ -26,6 +26,8 @@ EventPanel::EventPanel(dpp::cluster& bot)
         	}
 		});
 
+        sleep(3);
+
 		dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
 		dpp::component actionRow;
         actionRow.add_component(
