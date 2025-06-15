@@ -107,13 +107,8 @@ void BotCore::RegisterButton()
 	{
   		if (event.custom_id == "apply_button") 
    			ClanApplication::ShowApplicationModal(event);
-        if (event.custom_id == "SetRoleEvent" ||
-            event.custom_id == "SetChannelEvent" ||
-            event.custom_id == "SetEmoteEvent")
-        {
-            eventPanel.ButtonHandler(event);
-        }
-
+        
+        eventPanel.ButtonHandler(event);
 	});
 }
 
