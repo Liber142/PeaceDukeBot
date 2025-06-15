@@ -68,7 +68,7 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
 void EventPanel::CreatePanelMsg(bool able)
 {
 
-    bot.messages_get(panelChannelId, 0, 0, 0, 3,[&](const dpp::confirmation_callback_t& event)
+    bot.messages_get(panelChannelId, 0, 0, 0, 1,[&](const dpp::confirmation_callback_t& event)
     {
        if (!event.is_error()) 
             {
@@ -80,7 +80,7 @@ void EventPanel::CreatePanelMsg(bool able)
           }
       });
 
-    sleep(4);
+    sleep(1);
 
     dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
         dpp::component actionRow;
