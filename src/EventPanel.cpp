@@ -84,10 +84,10 @@ void EventPanel::CreatePanelMsg(bool able)
         dpp::component actionRow;
         actionRow.add_component(
             dpp::component()
-                .set_label(able ? "Включить" : "Выключить")
+                .set_label(!able ? "Включить" : "Выключить")
                 .set_type(dpp::cot_button)
-                .set_style(able ? dpp::cos_success : dpp::cos_danger)
-                .set_id(able ? "EnableEventMode" : "DisableEventMode")
+                .set_style(!able ? dpp::cos_success : dpp::cos_danger)
+                .set_id(!able ? "EnableEventMode" : "DisableEventMode")
             );
         actionRow.add_component(
             dpp::component()
