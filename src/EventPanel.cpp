@@ -14,8 +14,6 @@ EventPanel::EventPanel(dpp::cluster& bot) : bot(bot)
 {
 	bot.on_ready([&bot, this](const dpp::ready_t& event)
 	{
-        sleep(3);
-
 		CreatePanelMsg(false);
 
 	});
@@ -79,6 +77,8 @@ void EventPanel::CreatePanelMsg(bool able)
                 }
           }
       });
+
+    sleep(3);
 
     dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
         dpp::component actionRow;
