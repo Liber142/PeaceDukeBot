@@ -9,6 +9,10 @@ private:
 	dpp::snowflake eventRole_id;
 	dpp::snowflake channel_id;
 	std::string eventEmorion;
+
+	dpp::cluster& bot;
+
+	void CreatePanelMsg(bool able);
 public:
 	EventPanel(dpp::cluster& bot);
 	void ButtonHandler(const dpp::button_click_t& event);

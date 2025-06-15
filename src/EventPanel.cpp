@@ -10,49 +10,13 @@
 
 dpp::snowflake panelChannelId = EVENT_PANEL_CHANNEL_ID;
 
-EventPanel::EventPanel(dpp::cluster& bot)
+EventPanel::EventPanel(dpp::cluster& bot) : bot(bot)
 {
-	bot.on_ready([&bot](const dpp::ready_t& event)
+	bot.on_ready([&bot, this](const dpp::ready_t& event)
 	{
-		bot.messages_get(panelChannelId, 0, 0, 0, 1,[&bot](const dpp::confirmation_callback_t& event)
-		{
-			if (!event.is_error()) 
-			{
-            auto messages = std::get<dpp::message_map>(event.value);
-            	for (auto& message : messages) 
-            	{
-              		bot.message_delete(message.second.id, message.second.channel_id);
-            	}
-        	}
-		});
-
         sleep(3);
 
-		dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
-		dpp::component actionRow;
-        actionRow.add_component(
-            dpp::component()
-                .set_label("роль")
-                .set_type(dpp::cot_button)
-                .set_style(dpp::cos_primary)
-                .set_id("SetRoleEvent")
-            );
-        actionRow.add_component(
-            dpp::component()
-                .set_label("канал")
-                .set_type(dpp::cot_button)
-                .set_style(dpp::cos_primary)
-                .set_id("SetChannelEvent")
-            );
-        actionRow.add_component(
-            dpp::component()
-                .set_label("эмоция")
-                .set_type(dpp::cot_button)
-                .set_style(dpp::cos_primary)
-                .set_id("SetEmoteEvent")
-            );
-        msg.add_component(actionRow);
-		bot.message_create(msg);
+		CreatePanelMsg(false);
 
 	});
 }
@@ -90,23 +54,64 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
         );
         //msg.set_flags(dpp::m_ephemeral);
         event.reply(msg.set_flags(dpp::m_ephemeral));
-    }    
-    else if (event.custom_id == "SetEmoteEvent")
+    } 
+    else if (event.custom_id == "EnableEventMode")
     {
-        dpp::message msg(panelChannelId, "");
-        
-        msg.add_component(
-            dpp::component().add_component(
-                dpp::component()
-                    .set_type(dpp::cot_text)
-                    .set_placeholder("Уебу если не одна эмоция тут")
-                    .set_id("selectemote")
-
-            )
-        );
-        //msg.set_flags(dpp::m_ephemeral);
-        event.reply(msg.set_flags(dpp::m_ephemeral));
+        CreatePanelMsg(false);
     }
+    else if (event.custom_id == "DisableEventMode")
+    {
+        CreatePanelMsg(true);
+    }
+}
+
+void EventPanel::CreatePanelMsg(bool able)
+{
+
+    bot.messages_get(panelChannelId, 0, 0, 0, 1,[&](const dpp::confirmation_callback_t& event)
+    {
+       if (!event.is_error()) 
+            {
+           auto messages = std::get<dpp::message_map>(event.value);
+                for (auto& message : messages) 
+            {
+                   bot.message_delete(message.second.id, message.second.channel_id);
+                }
+          }
+      });
+
+    dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
+        dpp::component actionRow;
+        actionRow.add_component(
+            dpp::component()
+                .set_label(able ? "Включить" : "Выключить")
+                .set_type(dpp::cot_button)
+                .set_style(able ? dpp::cos_success : dpp::cos_danger)
+                .set_id(able ? "EnableEventMode" : "DisableEventMode")
+            );
+        actionRow.add_component(
+            dpp::component()
+                .set_label("роль")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_primary)
+                .set_id("SetRoleEvent")
+            );
+        actionRow.add_component(
+            dpp::component()
+                .set_label("канал")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_primary)
+                .set_id("SetChannelEvent")
+            );
+        actionRow.add_component(
+            dpp::component()
+                .set_label("эмоция")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_primary)
+                .set_id("SetEmoteEvent")
+            );
+        msg.add_component(actionRow);
+        bot.message_create(msg);
 }
 void EventPanel::SetEventRole(dpp::snowflake& role_id)
 {

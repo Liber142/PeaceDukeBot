@@ -85,12 +85,6 @@ void BotCore::SetupEvent()
             eventPanel.SetEventChannel(channelId);
             std::cout << channelId.str() << std::endl;
         }
-        if (event.custom_id == "selectemote")
-        {
-            std::string emoteId = event.values[0];
-            eventPanel.SetEventEmotion(emoteId);
-            std::cout << emoteId << std::endl;
-        }
     });
 }
 
