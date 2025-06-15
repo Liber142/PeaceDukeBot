@@ -55,18 +55,20 @@ void EventPanel::ButtonHandler(const dpp::button_click_t& event)
     } 
     else if (event.custom_id == "EnableEventMode")
     {
-        CreatePanelMsg(false);
+        CreatePanelMsg(true);
+        event.reply();
     }
     else if (event.custom_id == "DisableEventMode")
     {
-        CreatePanelMsg(true);
+        CreatePanelMsg(false);
+        event.reply();
     }
 }
 
 void EventPanel::CreatePanelMsg(bool able)
 {
 
-    bot.messages_get(panelChannelId, 0, 0, 0, 1,[&](const dpp::confirmation_callback_t& event)
+    bot.messages_get(panelChannelId, 0, 0, 0, 3,[&](const dpp::confirmation_callback_t& event)
     {
        if (!event.is_error()) 
             {
@@ -78,16 +80,16 @@ void EventPanel::CreatePanelMsg(bool able)
           }
       });
 
-    sleep(3);
+    sleep(4);
 
     dpp::message msg(panelChannelId, "Вот тут кнопочки есть кстати");
         dpp::component actionRow;
         actionRow.add_component(
             dpp::component()
-                .set_label(!able ? "Включить" : "Выключить")
+                .set_label(able ? "Вaключить" : "Включить")
                 .set_type(dpp::cot_button)
-                .set_style(!able ? dpp::cos_success : dpp::cos_danger)
-                .set_id(!able ? "EnableEventMode" : "DisableEventMode")
+                .set_style(able ? dpp::cos_danger : dpp::cos_success)
+                .set_id(able ? "DisableEventMode" : "EnableEventMode")
             );
         actionRow.add_component(
             dpp::component()
