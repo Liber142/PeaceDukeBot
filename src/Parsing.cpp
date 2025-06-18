@@ -66,11 +66,14 @@ int Parsing::GetPoints(std::string url)
 
     json jsonData = json::parse(strData);
 
-    if (jsonData.contains("points") && jsonData["points"].contains("points")) {
+    if (jsonData.contains("points") && jsonData["points"].contains("points")) 
+    {
         auto points = jsonData["points"]["points"];
         return points.get<int>();
-    } else {
-        std::cerr << "The JSON data does not contain the 'points' key." << std::endl;
+    }
+    else 
+    {
+        std::cout << "The JSON data does not contain the 'points' key." << std::endl;
         return 0; // or handle the error appropriately
     }
 }
