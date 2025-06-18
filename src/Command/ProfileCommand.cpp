@@ -34,7 +34,6 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         event.reply("User data not found or invalid.");
         return;
     }
-    std::cout << "j_user: " << j_user << std::endl;
     
 /*    "1133635252691161158": {
         "about": "Играю как лох потомучто лагает",
@@ -70,7 +69,9 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 
     event.reply(msg);
 
+    std::cout << "Ну вот щас начинает парсить" << std::endl;
     int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
+    std::cout << "Ну щас он получил поинты: " << points << std::endl;
 
     embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
