@@ -22,12 +22,14 @@ std::string Parsing::fetchData(const std::string& url)
     std::string readBuffer;
 
     curl = curl_easy_init();
-    if(curl) {
+    if(curl) 
+    {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
-        if(res != CURLE_OK) {
+        if(res != CURLE_OK) 
+	{
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
         }
         curl_easy_cleanup(curl);
@@ -41,9 +43,12 @@ std::string Parsing::UrlCode(const std::string &value) {
     encoded << std::hex; // Устанавливаем шестнадцатеричный формат
 
     for (char c : value) {
-        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') {
+        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~') 
+	{
             encoded << c; // Оставляем символ как есть, если он допустим в URL
-        } else {
+        }
+       	else
+       	{
             encoded << '%' << std::setw(2) << static_cast<int>(static_cast<unsigned char>(c));
         }
     }
@@ -61,6 +66,7 @@ std::string Parsing::GetUrl(std::string name)
 
 int Parsing::GetPoints(std::string url)
 {
+	std::cout << "Вход в GetPoints(std::string url)" << std::endl;
     std::string strData = fetchData(url);
     //std::cout << "Response data: " << strData << std::endl; // Debugging output
 
@@ -69,6 +75,7 @@ int Parsing::GetPoints(std::string url)
     if (jsonData.contains("points") && jsonData["points"].contains("points")) 
     {
         auto points = jsonData["points"]["points"];
+	std::cout << "GetPoints(std::string url) point: " << points << std::endl;
         return points.get<int>();
     }
     else 
