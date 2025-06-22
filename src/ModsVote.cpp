@@ -17,9 +17,8 @@ std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 void ModsVote::Initialize(dpp::cluster& bot) 
 {
     std::ifstream file(PATH_CONFIG);
-    std::string strBuf;
-    file >> strBuf;
-    nlohmann::json msgResultVote = nlohmann::json::parse(strBuf);
+    nlohmann::json msgResultVote;
+    file >> msgResultVote;
     file.close();
 
     std::string AplicationAceptedMessage = msgResultVote.value("AplicationAceptedMessage", "");
