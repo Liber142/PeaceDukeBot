@@ -14,7 +14,7 @@ CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot), db(PATH_MEMBERS_DA
 {
 	//db = DataBase(PATH_MEMBERS_DATA_BASE);
 
-	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
+	commands["apply"] = std::make_unique<ApplyCommand>(bot);
 	commands["invite"] = std::make_unique<invite>(bot);
 	commands["profile"] = std::make_unique<ProfileCommand>(bot, db);
 }
