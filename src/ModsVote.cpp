@@ -28,6 +28,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
     //std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
     //std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
     //std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
+    LoadActiveVotes();
 
     bot.on_button_click([AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
@@ -44,7 +45,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
             dpp::snowflake userId = user.id;
             std::cout << "Click from: " << user.username << std::endl;
 
-            if (!vote.votedUsers.count(userId)) 
+            if (/*!vote.votedUsers.count(userId)*/true) 
             {
                 std::cout << "Vote accept for this user" << std::endl;
                 (event.custom_id == "accept") ? vote.voteAccept++ : vote.voteReject++;
