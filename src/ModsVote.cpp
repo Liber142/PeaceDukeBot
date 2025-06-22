@@ -2,6 +2,7 @@
 #include "../include/ConstAgr.h"
 #include "../include/Parsing.h"
 
+#include <algorithm>
 #include <dpp/colors.h>
 #include <dpp/message.h>
 
@@ -15,8 +16,6 @@ std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 
 void ModsVote::Initialize(dpp::cluster& bot) 
 {
-    DataBase m_db(PATH_MEMBERS_DATA_BASE);
-
     std::ifstream file(PATH_CONFIG);
     std::string strBuf;
     file >> strBuf;
@@ -31,19 +30,27 @@ void ModsVote::Initialize(dpp::cluster& bot)
     //std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
     //std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
 
-    bot.on_button_click([&m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
+    bot.on_button_click([AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
         {
+            std::cout << "1" << std::endl;
+            std::cout << "2" << std::endl;
             auto it = activeVotes.find(event.command.message_id);
+            std::cout << "3" << std::endl;
             if (it == activeVotes.end()) 
             {
                 event.reply(dpp::message("Голосование не найдено или завершено").set_flags(dpp::m_ephemeral));
+            std::cout << "4" << std::endl;
                 return;
             }
+            std::cout << "5" << std::endl;
 
             VoteData& vote = it->second;
+            std::cout << "6" << std::endl;
             dpp::user user = event.command.get_issuing_user();
+            std::cout << "7" << std::endl;
             dpp::snowflake userId = user.id;
+            std::cout << "8" << std::endl;
             std::cout << "Click from: " << user.username << std::endl;
 
             if (!vote.votedUsers.count(userId)) 
@@ -53,7 +60,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
            		vote.votedUsers.insert(userId);
 
         		event.from()->creator->message_get(event.command.message_id, event.command.channel_id, 
-            	[event, &vote, userId, &m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot, user](const dpp::confirmation_callback_t& callback) 
+            	[event, &vote, userId, AplicationAceptedMessage, AplicationRejectedMessage, &bot, user](const dpp::confirmation_callback_t& callback) 
             	{
                     bool voteResult = (vote.voteAccept > vote.voteReject);
                		if (callback.is_error()) return;
@@ -77,8 +84,11 @@ void ModsVote::Initialize(dpp::cluster& bot)
                                   << "\tactiveVotes[msg.id].user[\"age\"] = " << to_string(activeVotes[msg.id].user["age"]) << std::endl
                                   << "\tactiveVotes[msg.id].user[\"about\"] = " << to_string(activeVotes[msg.id].user["about"]) << std::endl;
 
-                        m_db.SetUser(activeVotes[msg.id].targedUserId, newClanMember);
-                        m_db.Save();
+
+                        DataBase* m_db = new DataBase(PATH_MEMBERS_DATA_BASE);
+                        m_db->SetUser(activeVotes[msg.id].targedUserId, newClanMember);
+                        m_db->Save();
+                        delete m_db;
 
                         dpp::message directMsg;
                         directMsg.set_content(voteResult ? AplicationAceptedMessage : AplicationRejectedMessage);
@@ -217,12 +227,9 @@ void ModsVote::SaveActiveVotes()
     DataBase voteDatabase(PATH_VOTES_DATA_BASE);
     std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase.GetFilePath() << ")" << std::endl;
     nlohmann::json data = voteDatabase.GetVoteData();
-    std::cout << "2" << std::endl;
     for (auto& [msgId, vote] : activeVotes)
     {
         data[std::to_string(msgId)] = vote.to_json();
     }
-    std::cout << "3" << std::endl;
     voteDatabase.SaveVoteData(data);
-    std::cout << "4" << std::endl;
 }
