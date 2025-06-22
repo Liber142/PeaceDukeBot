@@ -58,7 +58,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
                		if (callback.is_error()) return;
 
                     auto msg = callback.get<dpp::message>();
-                    if ((vote.voteAccept + vote.voteReject) >= 3)
+                    if ((vote.voteAccept + vote.voteReject) > 5)
                     {
                         std::cout << "1" << std::endl;
                    		msg.set_content("");
