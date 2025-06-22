@@ -182,7 +182,7 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
                 {"about", about},
                 {"social_rating", 1000}
             };
-            std::cout << "activeVotes[msg.id].user =" << nickname << "|" << age << "|" << about << std::endl;
+            std::cout << "activeVotes[msg.id].user = " << nickname << "|" << age << "|" << about << std::endl;
             activeVotes[msg.id].to_json();
             SaveActiveVotes();
         });
@@ -215,11 +215,14 @@ void ModsVote::LoadActiveVotes()
 
 void ModsVote::SaveActiveVotes()
 {
-    //std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase->GetFilePath() << ")" << std::endl;
+    std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase->GetFilePath() << ")" << std::endl;
     nlohmann::json data = voteDatabase->GetVoteData();
+    std::cout << "2" << std::endl;
     for (auto& [msgId, vote] : activeVotes)
     {
         data[std::to_string(msgId)] = vote.to_json();
     }
+    std::cout << "3" << std::endl;
     voteDatabase->SaveVoteData(data);
+    std::cout << "4" << std::endl;
 }

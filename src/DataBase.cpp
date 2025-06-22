@@ -54,7 +54,7 @@ void DataBase::Save()
 
 void DataBase::SaveVoteData(const nlohmann::json& voteData) 
 {
-    std::cout << "SDataBase::SaveVoteData()" << std::endl;
+    std::cout << "DataBase::SaveVoteData()" << std::endl;
     if (!userData.is_object())
         userData = nlohmann::json::object();
     
