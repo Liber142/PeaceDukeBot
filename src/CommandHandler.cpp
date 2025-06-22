@@ -31,10 +31,10 @@ void CommandHandler::RegisterCommands()
 
 bool CommandHandler::HandleCommands(const dpp::slashcommand_t& event)
 {
-	std::cout << "CommandHandler::HandleCommands(const dpp::slashcommand_t& event)" << std::endl;
+	//std::cout << "CommandHandler::HandleCommands(const dpp::slashcommand_t& event)" << std::endl;
 
 	auto it = commands.find(event.command.get_command_name());
-	std::cout << "event.command.get_command_name()" << event.command.get_command_name() << std::endl;
+	//std::cout << "event.command.get_command_name()" << event.command.get_command_name() << std::endl;
 
 	if (it != commands.end())
 	{

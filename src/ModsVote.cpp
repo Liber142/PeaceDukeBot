@@ -15,9 +15,6 @@ std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 
 void ModsVote::Initialize(dpp::cluster& bot) 
 {
-
-
-    DataBase v_db(PATH_VOTES_DATA_BASE);
     DataBase m_db(PATH_MEMBERS_DATA_BASE);
 
     std::ifstream file(PATH_CONFIG);
@@ -29,7 +26,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
     std::string AplicationAceptedMessage = msgResultVote.value("AplicationAceptedMessage", "");
     std::string AplicationRejectedMessage = msgResultVote.value("AplicationRejectedMessage", "");
 
-    voteDatabase = &v_db;
+    voteDatabase = new DataBase(PATH_VOTES_DATA_BASE);
     //std::cout << "db: " << v_db->GetFilePath() << std::endl;
     //std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
     //std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
@@ -115,6 +112,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
             }
             event.reply();
             SaveActiveVotes();
+            delete voteDatabase;
         }
     });
 }

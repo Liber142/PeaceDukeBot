@@ -24,7 +24,7 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         event.reply("Invalid user.");
         return;
     }
-    std::cout << "target_user: " << target_user.username << "using /Profile" << std::endl;
+    std::cout << "using /Profile" << "\ntarget_user: " << target_user.username << std::endl;
 
 
     nlohmann::json j_user = db.GetUser(target_user.id);
@@ -69,9 +69,9 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 
     event.reply(msg);
 
-    std::cout << "Ну вот щас начинает парсить" << std::endl;
+    //std::cout << "Ну вот щас начинает парсить" << std::endl;
     int points = Parsing::GetPoints(Parsing::GetUrl(j_user.value("game_nick", "")));
-    std::cout << "Ну щас он получил поинты: " << points << std::endl;
+    //std::cout << "Ну щас он получил поинты: " << points << std::endl;
 
     embed = dpp::embed()
         .set_author(target_user.username, "", target_user.get_avatar_url())
