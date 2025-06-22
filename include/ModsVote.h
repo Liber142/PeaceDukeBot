@@ -60,5 +60,4 @@ public:
 	static void SaveActiveVotes();
 private:
 	static std::unordered_map<dpp::snowflake, VoteData> activeVotes;
-	static inline DataBase* voteDatabase;
 };

@@ -26,12 +26,10 @@ void ModsVote::Initialize(dpp::cluster& bot)
     std::string AplicationAceptedMessage = msgResultVote.value("AplicationAceptedMessage", "");
     std::string AplicationRejectedMessage = msgResultVote.value("AplicationRejectedMessage", "");
 
-    voteDatabase = new DataBase(PATH_VOTES_DATA_BASE);
     //std::cout << "db: " << v_db->GetFilePath() << std::endl;
     //std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
     //std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
     //std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
-    LoadActiveVotes(); 
 
     bot.on_button_click([&m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
@@ -112,7 +110,6 @@ void ModsVote::Initialize(dpp::cluster& bot)
             }
             event.reply();
             SaveActiveVotes();
-            delete voteDatabase;
         }
     });
 }
@@ -199,8 +196,11 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
 
 void ModsVote::LoadActiveVotes()
 {
+
+    DataBase voteDatabase(PATH_VOTES_DATA_BASE);
+    LoadActiveVotes(); 
     std::cout << "ModsVote::LoadActiveVotes()" << std::endl;
-    nlohmann::json data = voteDatabase->GetVoteData();
+    nlohmann::json data = voteDatabase.GetVoteData();
     if (!data.is_null())
     {
         activeVotes.clear();
@@ -215,14 +215,16 @@ void ModsVote::LoadActiveVotes()
 
 void ModsVote::SaveActiveVotes()
 {
-    std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase->GetFilePath() << ")" << std::endl;
-    nlohmann::json data = voteDatabase->GetVoteData();
+    DataBase voteDatabase(PATH_VOTES_DATA_BASE);
+    LoadActiveVotes(); 
+    std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase.GetFilePath() << ")" << std::endl;
+    nlohmann::json data = voteDatabase.GetVoteData();
     std::cout << "2" << std::endl;
     for (auto& [msgId, vote] : activeVotes)
     {
         data[std::to_string(msgId)] = vote.to_json();
     }
     std::cout << "3" << std::endl;
-    voteDatabase->SaveVoteData(data);
+    voteDatabase.SaveVoteData(data);
     std::cout << "4" << std::endl;
 }
