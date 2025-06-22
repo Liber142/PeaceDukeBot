@@ -65,7 +65,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
 
                         dpp::embed tmpEmbed = msg.embeds[0];
                         tmpEmbed.set_color((voteResult) ? dpp::colors::green : dpp::colors::red);
-                        activeVotes[msg.id].user["clan"] = voteResult ? "Peace Duke" : nullptr;
+                        //activeVotes[msg.id].user["clan"] = voteResult ? "Peace Duke" : nullptr;
                         msg.embeds.clear();
                         msg.add_embed(tmpEmbed);
 
