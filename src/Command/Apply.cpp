@@ -6,7 +6,7 @@ ApplyCommand::ApplyCommand(dpp::cluster& bot_instance) : bot(bot_instance) {};
 
 void ApplyCommand::Execute(const dpp::slashcommand_t& event)
 {
-    if (event.command.get_issuing_user().is_certified_moderator())
+    if (/*event.command.get_issuing_user().is_certified_moderator()*/true)
     {
 	    dpp::message msg(event.command.channel_id, "Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
                 
