@@ -10,13 +10,11 @@
 #include <dpp/stringops.h>
 #include <memory>
 
-CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot), db(PATH_MEMBERS_DATA_BASE)
+CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot)
 {
-	//db = DataBase(PATH_MEMBERS_DATA_BASE);
-
 	commands["apply"] = std::make_unique<ApplyCommand>(bot);
 	commands["invite"] = std::make_unique<invite>(bot);
-	commands["profile"] = std::make_unique<ProfileCommand>(bot, db);
+	commands["profile"] = std::make_unique<ProfileCommand>(bot);
 }
 
 CommandHandler::~CommandHandler() = default;

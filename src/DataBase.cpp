@@ -45,7 +45,6 @@ void DataBase::SetUser(const dpp::snowflake& userId, const nlohmann::json& newUs
 void DataBase::Save() 
 {
     //printHex(filepath);
-    std::cout << "DataBase::Save( &" << &filepath << " )" << std::endl;
     std::cout << "DataBase::Save( " << filepath << " )" << std::endl;
     std::ofstream file(filepath);
     file << userData.dump(4);
@@ -54,7 +53,7 @@ void DataBase::Save()
 
 void DataBase::SaveVoteData(const nlohmann::json& voteData) 
 {
-    std::cout << "DataBase::SaveVoteData()" << std::endl;
+    //std::cout << "DataBase::SaveVoteData()" << std::endl;
     if (!userData.is_object())
         userData = nlohmann::json::object();
     

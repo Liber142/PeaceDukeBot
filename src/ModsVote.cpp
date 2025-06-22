@@ -24,10 +24,6 @@ void ModsVote::Initialize(dpp::cluster& bot)
     std::string AplicationAceptedMessage = msgResultVote.value("AplicationAceptedMessage", "");
     std::string AplicationRejectedMessage = msgResultVote.value("AplicationRejectedMessage", "");
 
-    //std::cout << "db: " << v_db->GetFilePath() << std::endl;
-    //std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
-    //std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
-    //std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
     LoadActiveVotes();
 
     bot.on_button_click([AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
@@ -45,7 +41,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
             dpp::snowflake userId = user.id;
             std::cout << "Click from: " << user.username << std::endl;
 
-            if (/*!vote.votedUsers.count(userId)*/true) 
+            if (!vote.votedUsers.count(userId)) 
             {
                 std::cout << "Vote accept for this user" << std::endl;
                 (event.custom_id == "accept") ? vote.voteAccept++ : vote.voteReject++;
@@ -58,14 +54,14 @@ void ModsVote::Initialize(dpp::cluster& bot)
                		if (callback.is_error()) return;
 
                     auto msg = callback.get<dpp::message>();
-                    if ((vote.voteAccept + vote.voteReject) > 5)
+                    if ((vote.voteAccept + vote.voteReject) > 2)
                     {
                         std::cout << "1" << std::endl;
                    		msg.set_content("");
 
                         dpp::embed tmpEmbed = msg.embeds[0];
                         tmpEmbed.set_color((voteResult) ? dpp::colors::green : dpp::colors::red);
-                        //activeVotes[msg.id].user["clan"] = voteResult ? "Peace Duke" : nullptr;
+                        activeVotes[msg.id].user["clan"] = voteResult ? "Peace Duke" : nullptr;
                         msg.embeds.clear();
                         msg.add_embed(tmpEmbed);
 
@@ -142,6 +138,8 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             return;
         }
 
+        event.reply(dpp::message("Заявка отправлена").set_flags(dpp::m_ephemeral));
+
         std::string points = std::to_string(Parsing::GetPoints(Parsing::GetUrl(nickname)));
 
         dpp::embed embed = dpp::embed()
@@ -189,8 +187,6 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             activeVotes[msg.id].to_json();
             SaveActiveVotes();
         });
-
-        event.reply(dpp::message("Заявка отправлена").set_flags(dpp::m_ephemeral));
     } 
     catch (const std::exception& e) 
     {
@@ -220,12 +216,13 @@ void ModsVote::LoadActiveVotes()
 
 void ModsVote::SaveActiveVotes()
 {
-    DataBase voteDatabase(PATH_VOTES_DATA_BASE);
-    std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase.GetFilePath() << ")" << std::endl;
+    DataBase* voteDatabase = new DataBase(PATH_VOTES_DATA_BASE);
+    std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase->GetFilePath() << ")" << std::endl;
     nlohmann::json data;// = voteDatabase.GetVoteData();
     for (auto& [msgId, vote] : activeVotes)
     {
         data[std::to_string(msgId)] = vote.to_json();
     }
-    voteDatabase.SaveVoteData(data);
+    voteDatabase->SaveVoteData(data);
+    delete voteDatabase;
 }

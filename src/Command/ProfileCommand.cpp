@@ -13,8 +13,9 @@
 #include "../../include/Commands/ProfileCommand.h"
 #include "../../include/DataBase.h"
 #include "../../include/Parsing.h"
+#include "../../include/ConstAgr.h"
 
-ProfileCommand::ProfileCommand(dpp::cluster& bot_instance, DataBase db_instance) : bot(bot_instance), db(db_instance) {};
+ProfileCommand::ProfileCommand(dpp::cluster& bot_instance) : bot(bot_instance) {};
 
 void ProfileCommand::Execute(const dpp::slashcommand_t& event)
 {
@@ -26,8 +27,9 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
     }
     std::cout << "using /Profile" << "\ntarget_user: " << target_user.username << std::endl;
 
-
-    nlohmann::json j_user = db.GetUser(target_user.id);
+    DataBase* db = new DataBase(PATH_MEMBERS_DATA_BASE);
+    nlohmann::json j_user = db->GetUser(target_user.id);
+    delete db;
     if (j_user.is_null() || j_user.empty()) 
     {
         std::cerr << "User data is null or empty." << std::endl;

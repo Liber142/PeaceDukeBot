@@ -6,19 +6,22 @@ ApplyCommand::ApplyCommand(dpp::cluster& bot_instance) : bot(bot_instance) {};
 
 void ApplyCommand::Execute(const dpp::slashcommand_t& event)
 {
-	dpp::message msg(event.command.channel_id, "Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
+    if (event.command.get_issuing_user().is_certified_moderator())
+    {
+	    dpp::message msg(event.command.channel_id, "Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
+                
+                msg.add_component(
+                    dpp::component().add_component(
+                        dpp::component()
+                            .set_label("Подать заявку")
+                            .set_type(dpp::cot_button)
+                            .set_style(dpp::cos_primary)
+                            .set_id("apply_button")
+            	    )
+         	    );
             
-            msg.add_component(
-                dpp::component().add_component(
-                    dpp::component()
-                        .set_label("Подать заявку")
-                        .set_type(dpp::cot_button)
-                        .set_style(dpp::cos_primary)
-                        .set_id("apply_button")
-        	    )
-     	    );
-        
-    event.reply(msg);    
+        event.reply(msg);    
+    }
 }
 
 dpp::slashcommand ApplyCommand::Register()
