@@ -217,7 +217,7 @@ void ModsVote::SaveActiveVotes()
 {
     DataBase voteDatabase(PATH_VOTES_DATA_BASE);
     std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase.GetFilePath() << ")" << std::endl;
-    nlohmann::json data = voteDatabase.GetVoteData();
+    nlohmann::json data;// = voteDatabase.GetVoteData();
     for (auto& [msgId, vote] : activeVotes)
     {
         data[std::to_string(msgId)] = vote.to_json();
