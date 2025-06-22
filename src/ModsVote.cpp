@@ -60,6 +60,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
                     auto msg = callback.get<dpp::message>();
                     if ((vote.voteAccept + vote.voteReject) >= 3)
                     {
+                        std::cout << "1" << std::endl;
                    		msg.set_content("");
 
                         dpp::embed tmpEmbed = msg.embeds[0];
@@ -69,6 +70,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
                         msg.add_embed(tmpEmbed);
 
                         msg.components.clear();
+                        std::cout << "2" << std::endl;
 
                         nlohmann::json newClanMember = activeVotes[msg.id].user;
                         std::cout << "activeVotes[msg.id].user = " << to_string(activeVotes[msg.id].user) << std::endl
@@ -81,6 +83,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
                         m_db->SetUser(activeVotes[msg.id].targedUserId, newClanMember);
                         m_db->Save();
                         delete m_db;
+                        std::cout << "3" << std::endl;
 
                         dpp::message directMsg;
                         directMsg.set_content(voteResult ? AplicationAceptedMessage : AplicationRejectedMessage);
@@ -100,6 +103,7 @@ void ModsVote::Initialize(dpp::cluster& bot)
                         bot.guild_member_add_role(event.command.guild_id, user.id, CLAN_ROLE_ID);
 
                         activeVotes.erase(msg.id);
+                        std::cout << "4" << std::endl;
                     }
                     else
                     {
