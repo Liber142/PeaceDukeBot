@@ -198,7 +198,6 @@ void ModsVote::LoadActiveVotes()
 {
 
     DataBase voteDatabase(PATH_VOTES_DATA_BASE);
-    LoadActiveVotes(); 
     std::cout << "ModsVote::LoadActiveVotes()" << std::endl;
     nlohmann::json data = voteDatabase.GetVoteData();
     if (!data.is_null())
@@ -216,7 +215,6 @@ void ModsVote::LoadActiveVotes()
 void ModsVote::SaveActiveVotes()
 {
     DataBase voteDatabase(PATH_VOTES_DATA_BASE);
-    LoadActiveVotes(); 
     std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase.GetFilePath() << ")" << std::endl;
     nlohmann::json data = voteDatabase.GetVoteData();
     std::cout << "2" << std::endl;
