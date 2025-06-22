@@ -29,6 +29,8 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(b
 	RegisterButton();
 	RegisterSlashCommands();
 
+    ModsVote::Initialize(bot);
+
     std::cout << "DPP version: " << dpp::utility::version() << std::endl;
 
     //bot.on_log([](const dpp::log_t& event) 

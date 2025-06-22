@@ -33,24 +33,16 @@ void ModsVote::Initialize(dpp::cluster& bot)
     bot.on_button_click([AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
         {
-            std::cout << "1" << std::endl;
-            std::cout << "2" << std::endl;
             auto it = activeVotes.find(event.command.message_id);
-            std::cout << "3" << std::endl;
             if (it == activeVotes.end()) 
             {
                 event.reply(dpp::message("Голосование не найдено или завершено").set_flags(dpp::m_ephemeral));
-            std::cout << "4" << std::endl;
                 return;
             }
-            std::cout << "5" << std::endl;
 
             VoteData& vote = it->second;
-            std::cout << "6" << std::endl;
             dpp::user user = event.command.get_issuing_user();
-            std::cout << "7" << std::endl;
             dpp::snowflake userId = user.id;
-            std::cout << "8" << std::endl;
             std::cout << "Click from: " << user.username << std::endl;
 
             if (!vote.votedUsers.count(userId)) 
