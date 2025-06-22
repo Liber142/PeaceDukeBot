@@ -19,7 +19,7 @@ public:
 	void RegisterCommands();
 	bool HandleCommands(const dpp::slashcommand_t& event);
 private:
-	DataBase* db;
+	DataBase db;
 	dpp::cluster& bot;
 	std::unordered_map<std::string, std::unique_ptr<ICommand>> commands;
 };

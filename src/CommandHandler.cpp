@@ -2,16 +2,17 @@
 #include "../include/Commands/Apply.h"
 #include "../include/Commands/invite.h"
 #include "../include/Commands/ProfileCommand.h"
+#include "../include/ConstAgr.h"
+
+
 #include <dpp/appcommand.h>
 #include <dpp/cluster.h>
 #include <dpp/stringops.h>
 #include <memory>
 
-CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot) {}
-
-void CommandHandler::Hui(DataBase* db)
+CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot), db(PATH_MEMBERS_DATA_BASE)
 {
-	this->db = db;
+	//db = DataBase(PATH_MEMBERS_DATA_BASE);
 
 	commands["Apply"] = std::make_unique<ApplyCommand>(bot);
 	commands["invite"] = std::make_unique<invite>(bot);

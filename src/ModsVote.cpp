@@ -2,26 +2,41 @@
 #include "../include/ConstAgr.h"
 #include "../include/Parsing.h"
 
-#include <cstdint>
 #include <dpp/colors.h>
 #include <dpp/message.h>
 
+#include <dpp/snowflake.h>
+#include <fstream>
 #include <nlohmann/json.hpp>
 #include <fmt/format.h>
 #include <string>
 
 std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 
-void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage) 
+void ModsVote::Initialize(dpp::cluster& bot) 
 {
-    voteDatabase = v_db;
-    std::cout << "db: " << v_db->GetFilePath() << std::endl;
-    std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
-    std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
-    std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
+
+
+    DataBase v_db(PATH_VOTES_DATA_BASE);
+    DataBase m_db(PATH_MEMBERS_DATA_BASE);
+
+    std::ifstream file(PATH_CONFIG);
+    std::string strBuf;
+    file >> strBuf;
+    nlohmann::json msgResultVote = nlohmann::json::parse(strBuf);
+    file.close();
+
+    std::string AplicationAceptedMessage = msgResultVote.value("AplicationAceptedMessage", "");
+    std::string AplicationRejectedMessage = msgResultVote.value("AplicationRejectedMessage", "");
+
+    voteDatabase = &v_db;
+    //std::cout << "db: " << v_db->GetFilePath() << std::endl;
+    //std::cout << "voteDatabase: " << voteDatabase->GetFilePath() << std::endl;
+    //std::cout << "db: " << v_db->p_GetFilePath() << std::endl;
+    //std::cout << "voteDatabase: " << voteDatabase->p_GetFilePath() << std::endl;
     LoadActiveVotes(); 
 
-    bot.on_button_click([m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
+    bot.on_button_click([&m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
         {
             auto it = activeVotes.find(event.command.message_id);
@@ -43,7 +58,7 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std
            		vote.votedUsers.insert(userId);
 
         		event.from()->creator->message_get(event.command.message_id, event.command.channel_id, 
-            	[event, &vote, userId, m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::confirmation_callback_t& callback) 
+            	[event, &vote, userId, &m_db, AplicationAceptedMessage, AplicationRejectedMessage, &bot, user](const dpp::confirmation_callback_t& callback) 
             	{
                     bool voteResult = (vote.voteAccept > vote.voteReject);
                		if (callback.is_error()) return;
@@ -67,8 +82,8 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std
                                   << "\tactiveVotes[msg.id].user[\"age\"] = " << to_string(activeVotes[msg.id].user["age"]) << std::endl
                                   << "\tactiveVotes[msg.id].user[\"about\"] = " << to_string(activeVotes[msg.id].user["about"]) << std::endl;
 
-                        m_db->SetUser(activeVotes[msg.id].targedUserId, newClanMember);
-                        m_db->Save();
+                        m_db.SetUser(activeVotes[msg.id].targedUserId, newClanMember);
+                        m_db.Save();
 
                         dpp::message directMsg;
                         directMsg.set_content(voteResult ? AplicationAceptedMessage : AplicationRejectedMessage);
@@ -81,6 +96,12 @@ void ModsVote::Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std
                             std::cout << "ERROR in send DM" << e.what() << std::endl;
                         }
                         std::cout << "activeVotes[msg.id].targedUserId: " << activeVotes[msg.id].targedUserId << std::endl;
+
+
+
+                        bot.guild_member_remove_role(event.command.guild_id, user.id, DEFAULT_ROLE_ID);
+                        bot.guild_member_add_role(event.command.guild_id, user.id, CLAN_ROLE_ID);
+
                         activeVotes.erase(msg.id);
                     }
                     else

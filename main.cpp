@@ -8,6 +8,7 @@
 
 #include "include/DataBase.h"
 #include "include/BotCore.h"
+#include "include/ConstAgr.h"
 
 nlohmann::json load_config(const std::string& path) 
 {
@@ -33,17 +34,10 @@ nlohmann::json load_config(const std::string& path)
 
 int main() 
 {
-	auto config = load_config("config.json");
+	auto config = load_config(PATH_CONFIG);
 	std::string token = config.at("token").get<std::string>();
 
-        std::string v_filepath = config.value("VoteFilePath", "active_votes.json");
-        std::string m_filepath = config.value("MembersFilePath", "members_data.json");
-        std::string AplicationAceptedMessage = config.value("AplicationAceptedMessage", "");
-        std::string AplicationRejectedMessage = config.value("AplicationRejectedMessage", "");
-
 	BotCore bot(token);
-
-    bot.StartDataBase(v_filepath, m_filepath, AplicationAceptedMessage, AplicationRejectedMessage);
     
     bot.Start();
 }

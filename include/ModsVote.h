@@ -54,7 +54,7 @@ struct VoteData
 class ModsVote
 {
 public:
-	static void Initialize(dpp::cluster& bot, DataBase* v_db, DataBase* m_db, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage);
+	static void Initialize(dpp::cluster& bot);
 	static void RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event);
 	static void LoadActiveVotes();
 	static void SaveActiveVotes();

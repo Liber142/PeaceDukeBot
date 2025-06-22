@@ -66,7 +66,6 @@ std::string Parsing::GetUrl(std::string name)
 
 int Parsing::GetPoints(std::string url)
 {
-	std::cout << "Вход в GetPoints(std::string url)" << std::endl;
     std::string strData = fetchData(url);
     //std::cout << "Response data: " << strData << std::endl; // Debugging output
 

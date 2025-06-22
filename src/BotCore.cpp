@@ -31,25 +31,16 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(b
 
     std::cout << "DPP version: " << dpp::utility::version() << std::endl;
 
-    bot.on_log([](const dpp::log_t& event) 
-    {
-    std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
-    });    
+    //bot.on_log([](const dpp::log_t& event) 
+    //{
+    //std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
+    //});    
 
 };
 
-void BotCore::StartDataBase(std::string v_filePath, std::string m_filePath, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage)
-{
-    v_db = new DataBase(v_filePath);
-    m_db = new DataBase(m_filePath);
+    //cmdHandler.Hui(m_db);
 
-    cmdHandler.Hui(m_db);
-
-    ModsVote::Initialize(bot, v_db, m_db, AplicationAceptedMessage, AplicationRejectedMessage);
-    std::cout << "Vote Init" << std::endl
-              << "v_filePath: " << v_filePath << std::endl
-              << "m_filePath: " << m_filePath << std::endl;
-}
+    //ModsVote::Initialize(bot, v_db, m_db, AplicationAceptedMessage, AplicationRejectedMessage);
 
 void BotCore::SetupEvent()
 {
