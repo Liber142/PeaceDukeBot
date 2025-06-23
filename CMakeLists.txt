@@ -19,7 +19,6 @@ set(SOURCES
     src/Command/ProfileCommand.cpp
     src/Command/Apply.cpp
     src/Command/invite.cpp
-    src/EventPanel.cpp
     src/Parsing.cpp
     src/BotCore.cpp
     src/ClanApplication.cpp
