@@ -26,5 +26,5 @@ void EventCommand::Execute(const dpp::slashcommand_t& event)
 
 dpp::slashcommand EventCommand::Register()
 {
-    return  dpp::slashcommand("apply", "Создаст сообщение с кнопкой для подачи заявки", bot.me.id);
+    return  dpp::slashcommand("event", "Создаст сообщение с кнопкой для подачи заявки", bot.me.id);
 }

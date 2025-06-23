@@ -1,4 +1,5 @@
 #include "../include/CommandHandler.h"
+#include "../include/Commands/EventCommand.h"
 #include "../include/Commands/Apply.h"
 #include "../include/Commands/invite.h"
 #include "../include/Commands/ProfileCommand.h"
@@ -12,6 +13,7 @@
 
 CommandHandler::CommandHandler(dpp::cluster& bot) : bot(bot)
 {
+	commands["event"] = std::make_unique<EventCommand>(bot);
 	commands["apply"] = std::make_unique<ApplyCommand>(bot);
 	commands["invite"] = std::make_unique<invite>(bot);
 	commands["profile"] = std::make_unique<ProfileCommand>(bot);
