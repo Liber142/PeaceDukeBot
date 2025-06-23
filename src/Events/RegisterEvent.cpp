@@ -1,6 +1,7 @@
 
-#include "../include/Events/RegisterEvent.h"
-#include "../include/ConstAgr.h"
+#include "../../include/Events/RegisterEvent.h"
+
+#include "../../include/ConstAgr.h"
 
 #include <dpp/cache.h>
 #include <dpp/dispatcher.h>
@@ -9,7 +10,7 @@
 #include <dpp/permissions.h>
 #include <filesystem>
 
-RegisterEvent::Register(dpp::cluster& bot)
+void RegisterEvent::Register(dpp::cluster& bot)
 {
 	// Обработчик кнопки start_event
 bot.on_button_click([&bot](const dpp::button_click_t& event) {
