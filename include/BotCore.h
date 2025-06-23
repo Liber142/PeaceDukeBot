@@ -8,7 +8,6 @@
 
 #include "DataBase.h"
 #include "CommandHandler.h"
-#include "EventPanel.h"
 
 class BotCore
 {
@@ -23,7 +22,6 @@ private:
 	void RegisterButton();
 
 	CommandHandler cmdHandler;
-	EventPanel eventPanel;
 public:
 	BotCore(std::string& token);
 	void StartDataBase(std::string v_filepath, std::string m_filepath, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage);

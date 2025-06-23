@@ -3,6 +3,7 @@
 
 #include "../../include/ConstAgr.h"
 
+#include <dpp/appcommand.h>
 #include <dpp/cache.h>
 #include <dpp/dispatcher.h>
 #include <dpp/dpp.h>
@@ -47,7 +48,7 @@ bot.on_select_click([&bot](const dpp::select_click_t& event) {
     }
     else if (event.custom_id == "select_criteria_role") {
         // Третий шаг - модальное окно с описанием и временем
-        dpp::interaction_modal modal("event_modal", "Детали ивента");
+        dpp::interaction_modal_response modal("event_modal", "Детали ивента");
         
         // Поле для времени
         modal.add_component(

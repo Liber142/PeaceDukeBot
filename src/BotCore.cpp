@@ -19,7 +19,7 @@
 #include "../include/CommandHandler.h"
 #include "../include/Events/RegisterEvent.h"
 
-BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(bot)
+BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
 {
 	 bot.intents = dpp::i_default_intents 
                 | dpp::i_message_content 
@@ -65,22 +65,6 @@ void BotCore::SetupEvent()
         dpp::snowflake guild_id = event.added.guild_id;
         bot.guild_member_add_role(guild_id, event.added.user_id, DEFAULT_ROLE_ID);
     });
-
-    bot.on_select_click([this](const dpp::select_click_t& event) 
-    {
-        if (event.custom_id == "selectrole")
-        {
-            dpp::snowflake roleId = event.values[0];
-            eventPanel.SetEventRole(roleId);
-            std::cout << roleId.str() << std::endl;
-        } 
-        if (event.custom_id == "selectchanel")
-        {
-            dpp::snowflake channelId = event.values[0];
-            eventPanel.SetEventChannel(channelId);
-            std::cout << channelId.str() << std::endl;
-        }
-    });
 }
 
 void BotCore::RegisterSlashCommands()
@@ -102,8 +86,6 @@ void BotCore::RegisterButton()
 	{
   		if (event.custom_id == "apply_button") 
    			ClanApplication::ShowApplicationModal(event);
-        
-        eventPanel.ButtonHandler(event);
 	});
 }
 
