@@ -17,6 +17,7 @@
 #include "../include/ConstAgr.h"
 #include "../include/ModsVote.h"
 #include "../include/CommandHandler.h"
+#include "../include/Events/RegisterEvent.h"
 
 BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(bot)
 {
@@ -30,6 +31,7 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), eventPanel(b
 	RegisterSlashCommands();
 
     ModsVote::Initialize(bot);
+    RegisterEvent::Register(bot);
 
     std::cout << "DPP version: " << dpp::utility::version() << std::endl;
 
