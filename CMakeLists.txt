@@ -15,6 +15,7 @@ find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
 
 
 set(SOURCES
+    src/Command/EventCommand.cpp
     src/Command/ProfileCommand.cpp
     src/Command/Apply.cpp
     src/Command/invite.cpp
