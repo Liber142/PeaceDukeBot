@@ -27,13 +27,16 @@ bot.on_button_click([&bot](const dpp::button_click_t& event) {
                 .set_id("select_event_role")
             )
         );
+        msg.set_flags(dpp::m_ephemeral);
         event.reply(dpp::ir_channel_message_with_source, msg);
     }
 });
 
 // Обработчик выбора ивентовой роли
-bot.on_select_click([&bot](const dpp::select_click_t& event) {
-    if (event.custom_id == "select_event_role") {
+bot.on_select_click([&bot](const dpp::select_click_t& event) 
+{
+    if (event.custom_id == "select_event_role") 
+    {
         // Второй шаг - выбор роли-критерия
         dpp::message msg;
         msg.set_content("Выберите роль-критерий для участников:");
@@ -44,9 +47,11 @@ bot.on_select_click([&bot](const dpp::select_click_t& event) {
                 .set_id("select_criteria_role")
             )
         );
+        msg.set_flags(dpp::m_ephemeral);
         event.reply(dpp::ir_channel_message_with_source, msg);
     }
-    else if (event.custom_id == "select_criteria_role") {
+    else if (event.custom_id == "select_criteria_role") 
+    {
         // Третий шаг - модальное окно с описанием и временем
         dpp::interaction_modal_response modal("event_modal", "Детали ивента");
         
