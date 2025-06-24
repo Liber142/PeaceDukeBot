@@ -66,6 +66,7 @@ bot.on_select_click([&bot](const dpp::select_click_t& event)
             .set_max_length(50)
             .set_text_style(dpp::text_short)
         );
+        modal.add_row();
         
         // Поле для описания
         modal.add_component(
