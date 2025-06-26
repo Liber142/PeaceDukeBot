@@ -15,26 +15,31 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 	{
 		dpp::message msg;
 		data = Parsing::GetOnlineClanMembers("https://master1.ddnet.org/ddnet/15/servers.json");
-		if (data != lastData)
+		if (!(data.empty() && data.contains("addresses")))
 		{
-			ParsData(data);
-			msg = CreateMsg();
-			msg.set_channel_id(CHANNEL_MODERATION_ID);
-
-			if(last_message_id != 0) 
+			if (data != lastData)
 			{
-                bot.message_delete(last_message_id, CHANNEL_MODERATION_ID);
-            }
+				ParsData(data);
+				msg = CreateMsg();
+				msg.set_channel_id(CHANNEL_MODERATION_ID);
 
-            bot.message_create(
-                dpp::message(msg),
-                [&last_message_id](const dpp::confirmation_callback_t& callback) {
-                    if(!callback.is_error()) {
-                        auto msg = callback.get<dpp::message>();
-                        last_message_id = msg.id;
-                    }
-                }
-            );
+				if(last_message_id != 0) 
+				{
+                	bot.message_delete(last_message_id, CHANNEL_MODERATION_ID);
+            	}
+
+            	bot.message_create(
+                	dpp::message(msg),
+                	[&last_message_id](const dpp::confirmation_callback_t& callback) 
+                	{
+                    	if(!callback.is_error()) 
+                    	{
+                        	auto msg = callback.get<dpp::message>();
+                        	last_message_id = msg.id;
+                    	}
+                	}
+            	);
+			}
 		}
 
 		lastData = data;
