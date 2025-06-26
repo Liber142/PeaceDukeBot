@@ -93,7 +93,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 dpp::message C_OnlineClanMember::CreateMsg()
 {
 	dpp::message msg;
-	msg.set_flags(dpp::m_using_components_v2)
+	msg.set_flags(dpp::m_using_components_v2);
 	std::string strMsg;
 	for (size_t i = 0; i < Servers.size(); ++i)
 	{
