@@ -120,6 +120,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 				);*/
 	}
 	msg->set_content(strMsg);
+	strMsg = "";
 	dpp::message resultMsg = *msg;
 	delete msg;
 	return resultMsg;
