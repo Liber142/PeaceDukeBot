@@ -102,15 +102,15 @@ dpp::message C_OnlineClanMember::CreateMsg()
 							+ ")\n";
 		for (size_t j = 0; j < Servers[i].clientName.size(); j++)
 		{
-			players = "\t\t\t" + Servers[i].clientName[j] + "\n";
+			players += "\t\t\t" + Servers[i].clientName[j] + "\n";
 		}
 		strMsg += title += players;
-		//msg.add_component(
-		//	dpp::component()
-		///		.set_type(dpp::cot_separator)
-		//		.set_spacing(dpp::sep_small)
-		//		.set_divider(true)
-		//		);
+		msg.add_component(
+			dpp::component()
+				.set_type(dpp::cot_separator)
+				.set_spacing(dpp::sep_small)
+				.set_divider(true)
+				);
 	}
 	msg.set_content(strMsg);
 	return msg;
