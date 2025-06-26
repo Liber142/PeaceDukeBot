@@ -56,7 +56,7 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 void C_OnlineClanMember::ParsData(nlohmann::json data)
 {
 	size_t i = 0;
-	do 
+	for (const auto& server : data)
 	{
 		MsgData newServer;
 		std::cout << data.dump(2) << std::endl;
@@ -72,9 +72,9 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
             }
         }
 		std::cout << "6" << std::endl;
-		//newServer.serverName = data["info"].value("name", "");
+		newServer.serverName = data["info"].value("name", "");
 		std::cout << "7" << std::endl;
-		//newServer.mapName = data["info"]["map"].value("name", "");
+		newServer.mapName = data["info"]["map"].value("name", "");
 		std::cout << "8" << std::endl;
 
 		for (auto& client : data["info"]["clients"]) 
@@ -92,8 +92,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
          	}
     	}
     	Servers.push_back(newServer);
-    	++i;
-    } while ((i < Servers.size()));
+    }
 }
 
 dpp::message C_OnlineClanMember::CreateMsg()
