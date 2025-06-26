@@ -111,7 +111,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 		std::string mapName = "\t**Map:**" + Servers[i].mapName + "\n";
 
 		strMsg += title + mapName + players;
-		if (i == Servers.size() - 1)
+		if (!(i == Servers.size() - 1))
 			strMsg += "===================================\n";
 		/*
 		msg.add_component_v2(
