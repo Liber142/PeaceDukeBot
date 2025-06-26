@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cstddef>
 #include <dpp/dispatcher.h>
 #include <dpp/dpp.h>
 #include <dpp/message.h>
@@ -86,7 +87,16 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
             	}
          	}
     	}
-    	Servers.push_back(newServer);
+    	
+    	bool repeat;
+    	for (size_t i = 0; i < Servers.size();i++ )
+    	{
+    		if (Servers[i].ip == newServer.ip)
+    			repeat = true;
+    	}
+    	if (repeat)
+    		Servers.push_back(newServer);
+    	repeat = false;
     }
 }
 
