@@ -83,3 +83,49 @@ int Parsing::GetPoints(std::string url)
         return 0; // or handle the error appropriately
     }
 }
+
+nlohmann::json Parsing::GetOnlineClanMembers(std::string url) 
+{
+    json result = json::array(); // Возвращаем массив серверов с подходящими игроками
+    const std::string clanTags[3] = {"Peace Duke", "‽eaceDuke", "⚜‽Ð⚜"};
+    
+    try 
+    {
+        json servers = nlohmann::json::parse(fetchData(url));
+        
+        if (servers.contains("servers")) 
+        {
+            for (auto& server : servers["servers"]) 
+            {
+                if (server.contains("info") && server["info"].contains("clients")) 
+                {
+                    bool clanMemberFound = false;
+                    
+                    for (auto& client : server["info"]["clients"]) 
+                    {
+                        if (client.contains("clan")) 
+                        {
+                            for (const auto& clanTag : clanTags) 
+                            {
+                                if (client["clan"] == clanTag) 
+                                {
+                                    result.push_back(server); 
+                                    clanMemberFound = true;
+                                    break; 
+                                }
+                            }
+                            if (clanMemberFound) break;
+                        }
+                    }
+                }
+            }
+        }
+    } 
+    catch (const std::exception& e) 
+    {
+        std::cerr << "JSON parsing error: " << e.what() << std::endl;
+        return json::array(); // Возвращаем пустой JSON в случае ошибки
+    }
+    
+    return result;
+}

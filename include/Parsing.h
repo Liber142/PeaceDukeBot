@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <nlohmann/json.hpp>
 
 class Parsing
 {
@@ -10,4 +11,5 @@ private:
 public:
 	static std::string GetUrl(std::string name);
 	static int GetPoints(std::string url);
+	static nlohmann::json GetOnlineClanMembers(std::string url);
 };

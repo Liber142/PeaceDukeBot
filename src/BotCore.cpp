@@ -30,15 +30,19 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
 	RegisterButton();
 	RegisterSlashCommands();
 
+    OnlineClanMember.Init(bot);
+
     ModsVote::Initialize(bot);
     RegisterEvent::Register(bot);
 
+
     std::cout << "DPP version: " << dpp::utility::version() << std::endl;
 
-    //bot.on_log([](const dpp::log_t& event) 
-    //{
-    //std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
-    //});    
+
+    bot.on_log([](const dpp::log_t& event) 
+    {
+    std::cout << dpp::utility::loglevel(event.severity) << ": " << event.message << "\n";
+    });    
 
 };
 

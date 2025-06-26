@@ -61,7 +61,7 @@ bot.on_select_click([&bot](const dpp::select_click_t& event)
             .set_label("Время проведения")
             .set_id("event_time")
             .set_type(dpp::cot_text)
-            .set_placeholder("Например: 25 декабря в 20:00")
+            .set_placeholder("Формат DD.MM.YYYY HH:MM")
             .set_min_length(5)
             .set_max_length(50)
             .set_text_style(dpp::text_short)
@@ -83,4 +83,34 @@ bot.on_select_click([&bot](const dpp::select_click_t& event)
         event.dialog(modal);
     }
 });
+}
+
+time_t RegisterEvent::parseMoscowTime(const std::string& timeStr) 
+{
+    std::tm tm = {};
+    std::istringstream ss(timeStr);
+    
+    // Парсим строку в формате "DD.MM.YYYY HH:MM"
+    ss >> std::get_time(&tm, "%d.%m.%Y %H:%M");
+    if (ss.fail()) 
+    {
+        throw std::runtime_error("Неверный формат времени. Используйте DD.MM.YYYY HH:MM");
+    }
+
+    // Устанавливаем московский часовой пояс (UTC+3)
+    tm.tm_hour -= 3; // Конвертируем в UTC
+    
+    // Преобразуем в UNIX timestamp
+    time_t timestamp = std::mktime(&tm);
+    if (timestamp == -1) 
+    {
+        throw std::runtime_error("Ошибка преобразования времени");
+    }
+    
+    return timestamp;
+}
+
+std::string RegisterEvent::formatDiscordTime(time_t timestamp) 
+{
+    return "<t:" + std::to_string(timestamp) + ":f>";
 }

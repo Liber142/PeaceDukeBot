@@ -26,6 +26,7 @@ set(SOURCES
     src/CommandHandler.cpp 
     src/DataBase.cpp 
     src/ModsVote.cpp
+    src/Online.cpp
     main.cpp
 )
 
