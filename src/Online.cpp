@@ -106,8 +106,9 @@ dpp::message C_OnlineClanMember::CreateMsg()
 			players += "\t\t\t" + Servers[i].clientName[j] + "\n";
 		}
 
-		std::string mapName = "\t" + Servers[i].mapName + "\n";
+		std::string mapName = "\t**Map:**" + Servers[i].mapName + "\n";
 
+		strMsg += "\n**Players:**\n";
 		strMsg += title + mapName + players;
 		strMsg += "===================================\n";
 		/*
