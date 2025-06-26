@@ -10,16 +10,19 @@
 
 void C_OnlineClanMember::Init(dpp::cluster& bot) 
 {
+
+	std::cout << "Init(dpp::cluster& bot)" << std::endl;
 	dpp::snowflake last_message_id = 0;
 	while (true)
 	{
 		dpp::message msg;
+		std::cout << "0" << std::endl;
 		data = Parsing::GetOnlineClanMembers("https://master1.ddnet.org/ddnet/15/servers.json");
+		std::cout << "1" << std::endl;
 		if (!(data.empty() && data.contains("addresses")))
 		{
 			if (data != lastData)
 			{
-				std::cout << "1" << std::endl;
 				ParsData(data);
 				std::cout << "2" << std::endl;
 				msg = CreateMsg();
