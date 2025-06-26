@@ -55,16 +55,18 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 
 void C_OnlineClanMember::ParsData(nlohmann::json data)
 {
-	for (size_t i = 0; i < Servers.size(); ++i)
+	size_t i = 0;
+	do 
 	{
+		MsgData newServer;
 		std::cout << "4" << std::endl;
-		Servers[i].ip = data["addresses"][0].get<std::string>(); //62.122.215.19:8326
+		newServer.ip = data["addresses"][0].get<std::string>(); //62.122.215.19:8326
 		std::cout << "5" << std::endl;
-		Servers[i].connectUrl = "https://ddnet.org/connect-to/?addr=" + Servers[i].ip.substr(13);
+		newServer.connectUrl = "https://ddnet.org/connect-to/?addr=" + newServer.ip.substr(13);
 		std::cout << "6" << std::endl;
-		Servers[i].serverName = data["info"]["name"].get<std::string>();
+		newServer.serverName = data["info"]["name"].get<std::string>();
 		std::cout << "7" << std::endl;
-		Servers[i].mapName = data["info"]["map"]["name"].get<std::string>();
+		newServer.mapName = data["info"]["map"]["name"].get<std::string>();
 		std::cout << "8" << std::endl;
 
 		for (auto& client : data["info"]["clients"]) 
@@ -75,13 +77,15 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
             	{
                 	if (client["clan"] == clanTag) 
                 	{
-                		Servers[i].clientName.push_back(client["name"].get<std::string>());
+                		newServer.clientName.push_back(client["name"].get<std::string>());
                 	    break; 
                 	}
             	}
          	}
     	}
-    }
+    	Servers.push_back(newServer);
+    	++i;
+    } while ((i < Servers.size()));
 }
 
 dpp::message C_OnlineClanMember::CreateMsg()
