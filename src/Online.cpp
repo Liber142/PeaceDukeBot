@@ -27,11 +27,11 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 				std::cout << "2" << std::endl;
 				msg = CreateMsg();
 				std::cout << "3" << std::endl;
-				msg.set_channel_id(CHANNEL_MODERATION_ID);
+				msg.set_channel_id(CHANNEL_ONLINE_MEMBERS_ID);
 
 				if(last_message_id != 0) 
 				{
-                	bot.message_delete(last_message_id, CHANNEL_MODERATION_ID);
+                	bot.message_delete(last_message_id, CHANNEL_ONLINE_MEMBERS_ID);
             	}
 
             	bot.message_create(
@@ -71,9 +71,9 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
             }
         }
 		std::cout << "6" << std::endl;
-		newServer.serverName = data["info"]["name"].get<std::string>();
+		newServer.serverName = data["info"].value("name", "");
 		std::cout << "7" << std::endl;
-		newServer.mapName = data["info"]["map"]["name"].get<std::string>();
+		newServer.mapName = data["info"]["map"].value("name", "");
 		std::cout << "8" << std::endl;
 
 		for (auto& client : data["info"]["clients"]) 
