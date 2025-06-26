@@ -19,8 +19,11 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 		{
 			if (data != lastData)
 			{
+				std::cout << "1" << std::endl;
 				ParsData(data);
+				std::cout << "2" << std::endl;
 				msg = CreateMsg();
+				std::cout << "3" << std::endl;
 				msg.set_channel_id(CHANNEL_MODERATION_ID);
 
 				if(last_message_id != 0) 
@@ -51,10 +54,15 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 {
 	for (size_t i = 0; i < Servers.size(); ++i)
 	{
+		std::cout << "4" << std::endl;
 		Servers[i].ip = data["addresses"][0].get<std::string>(); //62.122.215.19:8326
+		std::cout << "5" << std::endl;
 		Servers[i].connectUrl = "https://ddnet.org/connect-to/?addr=" + Servers[i].ip.substr(13);
+		std::cout << "6" << std::endl;
 		Servers[i].serverName = data["info"]["name"].get<std::string>();
+		std::cout << "7" << std::endl;
 		Servers[i].mapName = data["info"]["map"]["name"].get<std::string>();
+		std::cout << "8" << std::endl;
 
 		for (auto& client : data["info"]["clients"]) 
     	{

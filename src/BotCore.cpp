@@ -30,7 +30,6 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
 	RegisterButton();
 	RegisterSlashCommands();
 
-    OnlineClanMember.Init(bot);
 
     ModsVote::Initialize(bot);
     RegisterEvent::Register(bot);
@@ -55,7 +54,9 @@ void BotCore::SetupEvent()
    bot.on_ready([this](const dpp::ready_t& event) 
    {
        	std::cout << "Бот запущен как: " << bot.me.username << "\n";
+        OnlineClanMember.Init(bot);
     });  
+
 
     bot.on_form_submit([&](const dpp::form_submit_t& event) 
     {
