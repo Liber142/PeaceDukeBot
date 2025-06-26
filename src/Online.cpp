@@ -101,6 +101,8 @@ dpp::message C_OnlineClanMember::CreateMsg()
 		std::string title = "# [" + Servers[i].serverName 
 							+ "](" + Servers[i].connectUrl 
 							+ ")\n";
+
+		players += "\n**Players:**\n";
 		for (size_t j = 0; j < Servers[i].clientName.size(); j++)
 		{
 			players += "\t\t\t" + Servers[i].clientName[j] + "\n";
@@ -108,9 +110,9 @@ dpp::message C_OnlineClanMember::CreateMsg()
 
 		std::string mapName = "\t**Map:**" + Servers[i].mapName + "\n";
 
-		strMsg += "\n**Players:**\n";
 		strMsg += title + mapName + players;
-		strMsg += "===================================\n";
+		if (i == Servers.size() - 1)
+			strMsg += "===================================\n";
 		/*
 		msg.add_component_v2(
 			dpp::component()
