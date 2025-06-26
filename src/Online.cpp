@@ -60,9 +60,15 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 	{
 		MsgData newServer;
 		std::cout << "4" << std::endl;
-		newServer.ip = data["addresses"][0].get<std::string>(); //62.122.215.19:8326
-		std::cout << "5" << std::endl;
-		newServer.connectUrl = "https://ddnet.org/connect-to/?addr=" + newServer.ip.substr(13);
+		if (data.contains("addresses") && data["addresses"].is_array()) 
+		{
+        	if (!data["addresses"].empty()) 
+        	{
+            	newServer.ip = data["addresses"][0].get<std::string>();
+				std::cout << "5" << std::endl;
+				newServer.connectUrl = "https://ddnet.org/connect-to/?addr=" + newServer.ip.substr(13);
+            }
+        }
 		std::cout << "6" << std::endl;
 		newServer.serverName = data["info"]["name"].get<std::string>();
 		std::cout << "7" << std::endl;
