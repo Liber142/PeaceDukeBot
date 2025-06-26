@@ -92,7 +92,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 
 dpp::message C_OnlineClanMember::CreateMsg()
 {
-	dpp::message msg;
+	dpp::message* msg = new dpp::message();
 	//msg.set_flags(dpp::m_using_components_v2);
 	std::string strMsg;
 	for (size_t i = 0; i < Servers.size(); ++i)
@@ -105,8 +105,11 @@ dpp::message C_OnlineClanMember::CreateMsg()
 		{
 			players += "\t\t\t" + Servers[i].clientName[j] + "\n";
 		}
-		strMsg += title += players;
-		strMsg += "\t\t\t\t\t=====================\n";
+
+		std::string mapName = "\t" + Servers[i].mapName + "\n";
+
+		strMsg += title + mapName + players;
+		strMsg += "===================================\n";
 		/*
 		msg.add_component_v2(
 			dpp::component()
@@ -115,6 +118,8 @@ dpp::message C_OnlineClanMember::CreateMsg()
 				.set_divider(true)
 				);*/
 	}
-	msg.set_content(strMsg);
-	return msg;
+	msg->set_content(strMsg);
+	dpp::message resultMsg = *msg;
+	delete msg;
+	return resultMsg;
 }
