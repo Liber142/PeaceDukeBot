@@ -59,6 +59,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 	do 
 	{
 		MsgData newServer;
+		std::cout << data.dump(2) << std::endl;
 		std::cout << "4" << std::endl;
 		if (data.contains("addresses") && data["addresses"].is_array()) 
 		{
@@ -73,7 +74,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 		std::cout << "6" << std::endl;
 		//newServer.serverName = data["info"].value("name", "");
 		std::cout << "7" << std::endl;
-		newServer.mapName = data["info"]["map"].value("name", "");
+		//newServer.mapName = data["info"]["map"].value("name", "");
 		std::cout << "8" << std::endl;
 
 		for (auto& client : data["info"]["clients"]) 
