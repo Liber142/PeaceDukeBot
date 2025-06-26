@@ -1,3 +1,4 @@
+#include <chrono>
 #include <dpp/dispatcher.h>
 #include <dpp/dpp.h>
 #include <dpp/message.h>
@@ -49,7 +50,7 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 		}
 
 		lastData = data;
-		 std::this_thread::sleep_for(std::chrono::minutes(1));
+		 std::this_thread::sleep_for(std::chrono::seconds(10));
 	}
 }
 
@@ -100,7 +101,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 							+ ")\n";
 		for (size_t j = 0; j < Servers[i].clientName.size(); j++)
 		{
-			players = "\t" + Servers[i].clientName[j] + "\n\t";
+			players = "\t\t\t" + Servers[i].clientName[j] + "\n";
 		}
 		msg.set_content(title + players);
 		//msg.add_component(
