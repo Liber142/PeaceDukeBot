@@ -59,25 +59,25 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 	for (const auto& server : data)
 	{
 		MsgData newServer;
-		std::cout << data.dump(2) << std::endl;
+		std::cout << server.dump(2) << std::endl;
 		std::cout << "4" << std::endl;
-		if (data.contains("addresses") && data["addresses"].is_array()) 
+		if (server.contains("addresses") && server["addresses"].is_array()) 
 		{
-        	if (!data["addresses"].empty()) 
+        	if (!server["addresses"].empty()) 
         	{
-        		std::cout << "addresses content: " << data["addresses"].dump(2) << std::endl;
-            	newServer.ip = data["addresses"][0].get<std::string>();
+        		std::cout << "addresses content: " << server["addresses"].dump(2) << std::endl;
+            	newServer.ip = server["addresses"][0].get<std::string>();
 				std::cout << "5" << std::endl;
 				newServer.connectUrl = "https://ddnet.org/connect-to/?addr=" + newServer.ip.substr(13);
             }
         }
 		std::cout << "6" << std::endl;
-		newServer.serverName = data["info"].value("name", "");
+		newServer.serverName = server["info"].value("name", "");
 		std::cout << "7" << std::endl;
-		newServer.mapName = data["info"]["map"].value("name", "");
+		newServer.mapName = server["info"]["map"].value("name", "");
 		std::cout << "8" << std::endl;
 
-		for (auto& client : data["info"]["clients"]) 
+		for (auto& client : server["info"]["clients"]) 
     	{
      	   if (client.contains("clan")) 
      	   {
