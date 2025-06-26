@@ -105,7 +105,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 			players += "\t\t\t" + Servers[i].clientName[j] + "\n";
 		}
 		strMsg += title += players;
-		msg.add_component(
+		msg.add_component_v2(
 			dpp::component()
 				.set_type(dpp::cot_separator)
 				.set_spacing(dpp::sep_small)
