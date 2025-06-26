@@ -59,23 +59,17 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
 	for (const auto& server : data)
 	{
 		MsgData newServer;
-		std::cout << server.dump(2) << std::endl;
-		std::cout << "4" << std::endl;
 		if (server.contains("addresses") && server["addresses"].is_array()) 
 		{
         	if (!server["addresses"].empty()) 
         	{
-        		std::cout << "addresses content: " << server["addresses"].dump(2) << std::endl;
             	newServer.ip = server["addresses"][0].get<std::string>();
 				std::cout << "5" << std::endl;
 				newServer.connectUrl = "https://ddnet.org/connect-to/?addr=" + newServer.ip.substr(13);
             }
         }
-		std::cout << "6" << std::endl;
 		newServer.serverName = server["info"].value("name", "");
-		std::cout << "7" << std::endl;
 		newServer.mapName = server["info"]["map"].value("name", "");
-		std::cout << "8" << std::endl;
 
 		for (auto& client : server["info"]["clients"]) 
     	{
@@ -109,12 +103,12 @@ dpp::message C_OnlineClanMember::CreateMsg()
 			players = "\t" + Servers[i].clientName[j] + "\n\t";
 		}
 		msg.set_content(title + players);
-		msg.add_component_v2(
-			dpp::component()
-				.set_type(dpp::cot_separator)
-				.set_spacing(dpp::sep_small)
-				.set_divider(true)
-				);
+		//msg.add_component(
+		//	dpp::component()
+		///		.set_type(dpp::cot_separator)
+		//		.set_spacing(dpp::sep_small)
+		//		.set_divider(true)
+		//		);
 	}
 	return msg;
 }
