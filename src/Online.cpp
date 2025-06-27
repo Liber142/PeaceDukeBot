@@ -5,6 +5,7 @@
 #include <dpp/message.h>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <vector>
 
 #include "../include/Parsing.h"
 #include "../include/Online.h"
@@ -53,6 +54,7 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 
 void C_OnlineClanMember::ParsData(nlohmann::json data)
 {
+	std::vector<MsgData>* newServers = new std::vector<MsgData>;
 	size_t i = 0;
 	for (const auto& server : data)
 	{
@@ -82,17 +84,10 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
             	}
          	}
     	}
-
-    	bool repeat;
-    	for (size_t i = 0; i < Servers.size();i++ )
-    	{
-    		if (Servers[i].clientName == newServer.clientName)
-    			repeat = true;
-    	}
-    	if (!repeat)
-    		Servers.push_back(newServer);
-    	repeat = false;
+    	newServers->push_back(newServer);
     }
+    Servers.swap(*newServers);
+    delete newServers;
 }
 
 dpp::message C_OnlineClanMember::CreateMsg()
