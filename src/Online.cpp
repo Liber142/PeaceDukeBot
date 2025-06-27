@@ -86,7 +86,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
     	bool repeat;
     	for (size_t i = 0; i < Servers.size();i++ )
     	{
-    		if (Servers[i].ip == newServer.ip)
+    		if (Servers[i].clientName == newServer.clientName)
     			repeat = true;
     	}
     	if (!repeat)
