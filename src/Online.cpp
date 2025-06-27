@@ -105,7 +105,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 		std::string players;
 		std::string title = "# [" + Servers[i].serverName 
 							+ "](" + Servers[i].connectUrl 
-							+ ")\n -# **ip:** " + Servers[i].ip;
+							+ ")\n -# ip: \n" + Servers[i].ip;
 
 		players += "\n**Players:**\n";
 		for (size_t j = 0; j < Servers[i].clientName.size(); j++)
