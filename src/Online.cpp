@@ -18,17 +18,13 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 	while (true)
 	{
 		dpp::message msg;
-		std::cout << "0" << std::endl;
 		data = Parsing::GetOnlineClanMembers("https://master1.ddnet.org/ddnet/15/servers.json");
-		std::cout << "1" << std::endl;
 		if (!(data.empty() && data.contains("addresses")))
 		{
 			if (data != lastData)
 			{
 				ParsData(data);
-				std::cout << "2" << std::endl;
 				msg = CreateMsg();
-				std::cout << "3" << std::endl;
 				msg.set_channel_id(CHANNEL_ONLINE_MEMBERS_ID);
 
 				if(last_message_id != 0) 
@@ -66,7 +62,6 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
         	if (!server["addresses"].empty()) 
         	{
             	newServer.ip = server["addresses"][0].get<std::string>();
-				std::cout << "5" << std::endl;
 				newServer.connectUrl = "https://ddnet.org/connect-to/?addr=" + newServer.ip.substr(13);
             }
         }
@@ -94,7 +89,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
     		if (Servers[i].ip == newServer.ip)
     			repeat = true;
     	}
-    	if (repeat)
+    	if (!repeat)
     		Servers.push_back(newServer);
     	repeat = false;
     }
@@ -131,6 +126,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 				.set_divider(true)
 				);*/
 	}
+	std::cout << strMsg << std::endl;
 	msg->set_content(strMsg);
 	strMsg = "";
 	dpp::message resultMsg = *msg;
