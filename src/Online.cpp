@@ -87,7 +87,7 @@ void C_OnlineClanMember::ParsData(nlohmann::json data)
             	}
          	}
     	}
-    	
+
     	bool repeat;
     	for (size_t i = 0; i < Servers.size();i++ )
     	{
@@ -110,7 +110,7 @@ dpp::message C_OnlineClanMember::CreateMsg()
 		std::string players;
 		std::string title = "# [" + Servers[i].serverName 
 							+ "](" + Servers[i].connectUrl 
-							+ ")\n";
+							+ ")\n -# **ip:** " + Servers[i].ip;
 
 		players += "\n**Players:**\n";
 		for (size_t j = 0; j < Servers[i].clientName.size(); j++)
