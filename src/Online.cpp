@@ -13,6 +13,22 @@
 
 void C_OnlineClanMember::Init(dpp::cluster& bot) 
 {
+	 bot.messages_get(CHANNEL_ONLINE_MEMBERS_ID, 0, 0, 0, 5, [&bot](const dpp::confirmation_callback_t& cc) 
+	 {
+        if (cc.is_error()) 
+        {
+            bot.log(dpp::ll_error, "Failed to get messages: " + cc.get_error().message);
+            return;
+        }
+
+        auto messages = std::get<dpp::message_map>(cc.value);
+        for (const auto& [id, msg] : messages) {
+            if (msg.author.id == bot.me.id) {
+                bot.message_delete(id, CHANNEL_ONLINE_MEMBERS_ID);
+            }
+        }
+    });
+	 sleep(5);
 
 	std::cout << "Init(dpp::cluster& bot)" << std::endl;
 	dpp::snowflake last_message_id = 0;
