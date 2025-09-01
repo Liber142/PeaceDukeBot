@@ -17,13 +17,13 @@ include_directories(${CMAKE_SOURCE_DIR}/src/Events)
 include_directories(${CMAKE_SOURCE_DIR}/src/Votes)
 
 
-set(SOURCES
-    src/Command/*
-    src/Events/*
-    std/Votes/*
-    src/*
-    main.cpp
-)
+file(GLOB SOURCES
+       "src/Command/*.cpp"
+       "src/Events/*.cpp"
+       "src/Votes/*.cpp"
+       "src/*.cpp"
+       "main.cpp"
+   )
 
 add_executable(PeaceDukeBote ${SOURCES})
 
