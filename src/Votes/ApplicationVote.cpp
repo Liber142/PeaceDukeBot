@@ -376,7 +376,7 @@ void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const d
         SaveState(); });
 }
 
-void CApplicationVoteSystem::FinalizeVote(dpp::cluster& bot, const dpp::message& msg, SApplicationVoteData& vote, bool voteResult)
+void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, SApplicationVoteData& vote, bool voteResult)
 {
     dpp::embed tmpEmbed = msg.embeds[0];
     tmpEmbed.set_color(voteResult ? dpp::colors::green : dpp::colors::red);
@@ -437,11 +437,6 @@ void CApplicationVoteSystem::LoadState()
         }
     }
 }
-dpp::snowflake m_targetUserId;
-    dpp::snowflake m_processedBy; // ID модератора, обработавшего заявку
-    nlohmann::json m_userData;
-    std::string m_status; // "pending", "accepted", "rejected"
-    std::string m_rejectionReason; // Причина отказ
 
 nlohmann::json SApplicationVoteData::ToJson() const
 {
@@ -451,6 +446,7 @@ nlohmann::json SApplicationVoteData::ToJson() const
         {"userData", m_userData},
         {"status", m_status},
         {"rejectionReason", m_rejectionReason}
+    };
 }
 
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
