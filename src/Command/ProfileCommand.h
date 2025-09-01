@@ -1,5 +1,5 @@
 #pragma once
-#include "../ICommand.h"
+#include "ICommand.h"
 #include "../DataBase.h"
 
 #include <dpp/appcommand.h>
