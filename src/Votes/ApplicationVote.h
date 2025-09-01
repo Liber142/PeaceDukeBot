@@ -7,10 +7,10 @@
 struct SApplicationVoteData
 {
     dpp::snowflake m_targetUserId;
-    dpp::snowflake m_processedBy; // ID модератора, обработавшего заявку
+    dpp::snowflake m_processedBy;
     nlohmann::json m_userData;
-    std::string m_status; // "pending", "accepted", "rejected"
-    std::string m_rejectionReason; // Причина отказа
+    std::string m_status;
+    std::string m_rejectionReason;
     
     nlohmann::json ToJson() const;
     static SApplicationVoteData FromJson(const nlohmann::json& j);
@@ -36,10 +36,15 @@ private:
     void ProcessAcceptance(dpp::cluster& bot, const dpp::button_click_t& event, 
                           SApplicationVoteData& application);
     void ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, 
-                         SApplicationVoteData& application);
+                         SApplicationVoteData& application, const std::string& reason);
+    void ProcessRejection(dpp::cluster& bot, const dpp::form_submit_t& event, 
+                         SApplicationVoteData& application, const std::string& reason);
     void ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, 
                              SApplicationVoteData& application);
     void FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, 
                             SApplicationVoteData& application, bool accepted, 
                             const std::string& reason = "");
+    void DoRejection(dpp::cluster& bot, dpp::snowflake message_id, dpp::snowflake channel_id, 
+                    SApplicationVoteData& application, const std::string& reason, 
+                    dpp::snowflake moderator_id);
 };

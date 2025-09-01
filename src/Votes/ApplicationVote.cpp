@@ -13,7 +13,6 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             ProcessButtonClick(event);
         } else if (event.custom_id == "confirm_accept" || event.custom_id == "confirm_reject" ||
                    event.custom_id == "edit_dm" || event.custom_id == "custom_reason") {
-            // Обработка дополнительных опций модератора
             auto it = m_activeApplications.find(event.command.message_id);
             if (it == m_activeApplications.end()) {
                 event.reply(dpp::message("Заявка не найдена").set_flags(dpp::m_ephemeral));
@@ -25,9 +24,8 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             if (event.custom_id == "confirm_accept") {
                 ProcessAcceptance(bot, event, application);
             } else if (event.custom_id == "confirm_reject") {
-                ProcessRejection(bot, event, application);
+                ShowRejectionReasons(bot, event, application);
             } else if (event.custom_id == "edit_dm") {
-                // Показать модальное окно для редактирования сообщения
                 dpp::interaction_modal_response modal("edit_dm_msg", "Редактирование сообщения");
                 modal.add_component(
                     dpp::component()
@@ -39,7 +37,6 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
                 
                 event.dialog(modal);
             } else if (event.custom_id == "custom_reason") {
-                // Показать модальное окно для ввода причины отказа
                 dpp::interaction_modal_response modal("custom_reason", "Причина отказа");
                 modal.add_component(
                     dpp::component()
@@ -52,7 +49,6 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
                 event.dialog(modal);
             }
         } else if (event.custom_id.find("reason_") == 0) {
-            // Обработка предустановленных причин отказа
             auto it = m_activeApplications.find(event.command.message_id);
             if (it == m_activeApplications.end()) {
                 event.reply(dpp::message("Заявка не найдена").set_flags(dpp::m_ephemeral));
@@ -60,13 +56,11 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             }
             
             SApplicationVoteData& application = it->second;
-            std::string reason = event.custom_id.substr(7); // Извлекаем причину из ID кнопки
-            
+            std::string reason = event.custom_id.substr(7);
             ProcessRejection(bot, event, application, reason);
         }
     });
 
-    // Обработка модальных окон
     bot.on_form_submit([this, &bot](const dpp::form_submit_t& event) {
         if (event.custom_id == "custom_reason") {
             std::string reason = std::get<std::string>(event.components[0].components[0].value);
@@ -80,7 +74,6 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             
             auto it = m_activeApplications.find(event.command.message_id);
             if (it != m_activeApplications.end()) {
-                // Здесь можно сохранить кастомное сообщение и использовать его при отправке
                 event.reply(dpp::message("Сообщение сохранено").set_flags(dpp::m_ephemeral));
             }
         }
@@ -97,13 +90,11 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
 
     SApplicationVoteData& application = it->second;
     
-    // Проверяем, не обработана ли уже заявка
     if (application.m_status != "pending") {
         event.reply(dpp::message("Эта заявка уже обработана").set_flags(dpp::m_ephemeral));
         return;
     }
 
-    // Показываем опции модератору
     ShowModeratorOptions(*event.from()->creator, event, application);
 }
 
@@ -201,13 +192,14 @@ void CApplicationVoteSystem::ProcessAcceptance(dpp::cluster& bot, const dpp::but
     application.m_status = "accepted";
     application.m_processedBy = event.command.get_issuing_user().id;
     
-    // Получаем оригинальное сообщение заявки
+    SApplicationVoteData appCopy = application;
+    
     bot.message_get(event.command.message_id, event.command.channel_id, 
-        [this, &bot, application](const dpp::confirmation_callback_t& callback) {
+        [this, &bot, appCopy](const dpp::confirmation_callback_t& callback) mutable {
             if (callback.is_error()) return;
             
             auto msg = callback.get<dpp::message>();
-            FinalizeApplication(bot, msg, application, true);
+            FinalizeApplication(bot, msg, appCopy, true);
         });
     
     event.reply(dpp::message("Заявка принята").set_flags(dpp::m_ephemeral));
@@ -217,20 +209,37 @@ void CApplicationVoteSystem::ProcessAcceptance(dpp::cluster& bot, const dpp::but
 void CApplicationVoteSystem::ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, 
                                              SApplicationVoteData& application, const std::string& reason)
 {
+    DoRejection(bot, event.command.message_id, event.command.channel_id, application, 
+               reason, event.command.get_issuing_user().id);
+    event.reply(dpp::message("Заявка отклонена").set_flags(dpp::m_ephemeral));
+}
+
+void CApplicationVoteSystem::ProcessRejection(dpp::cluster& bot, const dpp::form_submit_t& event, 
+                                             SApplicationVoteData& application, const std::string& reason)
+{
+    DoRejection(bot, event.command.message_id, event.command.channel_id, application, 
+               reason, event.command.get_issuing_user().id);
+    event.reply(dpp::message("Заявка отклонена").set_flags(dpp::m_ephemeral));
+}
+
+void CApplicationVoteSystem::DoRejection(dpp::cluster& bot, dpp::snowflake message_id, dpp::snowflake channel_id, 
+                                        SApplicationVoteData& application, const std::string& reason, 
+                                        dpp::snowflake moderator_id)
+{
     application.m_status = "rejected";
-    application.m_processedBy = event.command.get_issuing_user().id;
+    application.m_processedBy = moderator_id;
     application.m_rejectionReason = reason;
     
-    // Получаем оригинальное сообщение заявки
-    bot.message_get(event.command.message_id, event.command.channel_id, 
-        [this, &bot, application, reason](const dpp::confirmation_callback_t& callback) {
+    SApplicationVoteData appCopy = application;
+    
+    bot.message_get(message_id, channel_id, 
+        [this, &bot, appCopy, reason](const dpp::confirmation_callback_t& callback) mutable {
             if (callback.is_error()) return;
             
             auto msg = callback.get<dpp::message>();
-            FinalizeApplication(bot, msg, application, false, reason);
+            FinalizeApplication(bot, msg, appCopy, false, reason);
         });
     
-    event.reply(dpp::message("Заявка отклонена").set_flags(dpp::m_ephemeral));
     SaveState();
 }
 
@@ -238,11 +247,9 @@ void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::m
                                                 SApplicationVoteData& application, bool accepted, 
                                                 const std::string& reason)
 {
-    // Обновляем сообщение заявки
     dpp::embed tmpEmbed = msg.embeds[0];
     tmpEmbed.set_color(accepted ? dpp::colors::green : dpp::colors::red);
     
-    // Добавляем информацию о модераторе
     std::string moderatorInfo = fmt::format("Обработано: <@{}>", application.m_processedBy);
     if (!accepted && !reason.empty()) {
         moderatorInfo += fmt::format("\nПричина: {}", reason);
@@ -260,12 +267,10 @@ void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::m
     bot.message_edit(newMsg);
     
     if (accepted) {
-        // Добавляем пользователя в базу данных
         DataBase db(PATH_MEMBERS_DATA_BASE);
         db.SetUser(application.m_targetUserId, application.m_userData);
         db.Save();
         
-        // Отправляем сообщение пользователю
         try {
             dpp::message directMsg;
             directMsg.set_content("Ваша заявка в клан была одобрена! Добро пожаловать!");
@@ -274,11 +279,9 @@ void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::m
             std::cout << "Ошибка отправки DM: " << e.what() << std::endl;
         }
         
-        // Обновляем роли
         bot.guild_member_remove_role(msg.guild_id, application.m_targetUserId, DEFAULT_ROLE_ID);
         bot.guild_member_add_role(msg.guild_id, application.m_targetUserId, CLAN_ROLE_ID);
     } else {
-        // Отправляем сообщение об отказе
         try {
             dpp::message directMsg;
             std::string rejectionMessage = fmt::format("Ваша заявка в клан была отклонена.\n{}", 
@@ -290,7 +293,6 @@ void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::m
         }
     }
     
-    // Удаляем заявку из активных
     m_activeApplications.erase(msg.id);
 }
 
@@ -444,11 +446,11 @@ dpp::snowflake m_targetUserId;
 nlohmann::json SApplicationVoteData::ToJson() const
 {
     return {
-        {"processedBy", m_processedBy},
-        {"status", m_status},
-        {"rejectionReason", m_rejectionReason},
         {"targetUserId", m_targetUserId},
-        {"userData", m_userData}};
+        {"processedBy", m_processedBy},
+        {"userData", m_userData},
+        {"status", m_status},
+        {"rejectionReason", m_rejectionReason}
 }
 
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
@@ -456,13 +458,13 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
     SApplicationVoteData v;
     v.m_targetUserId = j.value("targetUserId", "");
     v.m_processedBy = j.value("processedBy", "");
-    v.m_status = j.value("status", "");
-    v.m_rejectionReason = j.value("rejectionReason", "")
-
+    v.m_status = j.value("status", "pending");
+    v.m_rejectionReason = j.value("rejectionReason", "");
+    
     if (j.contains("userData"))
     {
         v.m_userData = j["userData"];
     }
-
+    
     return v;
 }
