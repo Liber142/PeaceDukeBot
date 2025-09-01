@@ -365,6 +365,8 @@ void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const d
         auto msg = callback.get<dpp::message>();
         SApplicationVoteData voteData;
         voteData.m_targetUserId = user.id;
+        voteData.m_status = "pending";
+        
         voteData.m_userData = {
             {"game_nick", nickname},
             {"age", age},
