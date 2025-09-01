@@ -2,7 +2,7 @@
 #include <dpp/dpp.h>
 #include <nlohmann/json.hpp>
 
-class IVoteSystem 
+class IVoteSystem
 {
 public:
     virtual ~IVoteSystem() = default;

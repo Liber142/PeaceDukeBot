@@ -1,17 +1,18 @@
 #pragma once
+#include <dpp/snowflake.h>
+#include <fstream>
 #include <nlohmann/json.hpp>
 #include <string>
-#include <fstream>
-#include <dpp/snowflake.h>
 
-class DataBase {
+class DataBase
+{
 private:
     const std::string filepath;
     nlohmann::json userData;
 
 public:
     explicit DataBase(const std::string& filepath);
-    
+
     nlohmann::json GetUser(const dpp::snowflake& userId);
     void SetUser(const dpp::snowflake& userId, const nlohmann::json& userData);
     void Save();

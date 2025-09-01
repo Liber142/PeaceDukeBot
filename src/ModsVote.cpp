@@ -1,20 +1,20 @@
-#include "ModsVote.h"
 #include "ConstAgr.h"
+#include "ModsVote.h"
 #include "Parsing.h"
 
-#include <algorithm>
 #include <dpp/colors.h>
 #include <dpp/message.h>
+#include <algorithm>
 
 #include <dpp/snowflake.h>
+#include <fmt/format.h>
 #include <fstream>
 #include <nlohmann/json.hpp>
-#include <fmt/format.h>
 #include <string>
 
 std::unordered_map<dpp::snowflake, VoteData> ModsVote::activeVotes;
 
-void ModsVote::Initialize(dpp::cluster& bot) 
+void ModsVote::Initialize(dpp::cluster& bot)
 {
     std::ifstream file(PATH_CONFIG);
     nlohmann::json msgResultVote;
@@ -26,7 +26,8 @@ void ModsVote::Initialize(dpp::cluster& bot)
 
     LoadActiveVotes();
 
-    bot.on_button_click([AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event) {
+    bot.on_button_click([AplicationAceptedMessage, AplicationRejectedMessage, &bot](const dpp::button_click_t& event)
+                        {
         if (event.custom_id == "accept" || event.custom_id == "reject") 
         {
             auto it = activeVotes.find(event.command.message_id);
@@ -112,12 +113,12 @@ void ModsVote::Initialize(dpp::cluster& bot)
             }
             event.reply();
             SaveActiveVotes();
-        }
-    });
+        } });
 }
 
-void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) {
-    try 
+void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event)
+{
+    try
     {
         dpp::user user = event.command.get_issuing_user();
         std::string nickname = std::get<std::string>(event.components[0].components[0].value);
@@ -125,14 +126,14 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
         std::string about = std::get<std::string>(event.components[2].components[0].value);
 
         // Проверка возраста
-        if (!std::all_of(age.begin(), age.end(), ::isdigit)) 
+        if (!std::all_of(age.begin(), age.end(), ::isdigit))
         {
             event.reply(dpp::message("Еблан возраст цифрами пиши").set_flags(dpp::m_ephemeral));
             return;
         }
 
         int i_age = std::stoi(age);
-        if (i_age < 1) 
+        if (i_age < 1)
         {
             event.reply(dpp::message("Совсем конченый? Что с возрастом?").set_flags(dpp::m_ephemeral));
             return;
@@ -143,15 +144,14 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
         std::string points = std::to_string(Parsing::GetPoints(Parsing::GetUrl(nickname)));
 
         dpp::embed embed = dpp::embed()
-            .set_author(user.username, "", user.get_avatar_url())
-            .set_color(dpp::colors::red)
-            .set_color(dpp::colors::sti_blue)
-            .set_title("Новая заявка")
-            .add_field("Ник: ", nickname)
-            .add_field("Возраст: ", age)
-            .add_field("Поинты: ", points)
-            .add_field("О себе", about);
-
+                               .set_author(user.username, "", user.get_avatar_url())
+                               .set_color(dpp::colors::red)
+                               .set_color(dpp::colors::sti_blue)
+                               .set_title("Новая заявка")
+                               .add_field("Ник: ", nickname)
+                               .add_field("Возраст: ", age)
+                               .add_field("Поинты: ", points)
+                               .add_field("О себе", about);
 
         dpp::message modsMsg(CHANNEL_MODERATION_ID, embed);
         dpp::component actionRow;
@@ -160,19 +160,17 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
                 .set_label("Принять")
                 .set_type(dpp::cot_button)
                 .set_style(dpp::cos_success)
-                .set_id("accept")
-            );
+                .set_id("accept"));
         actionRow.add_component(
             dpp::component()
                 .set_label("Отклонить")
                 .set_type(dpp::cot_button)
                 .set_style(dpp::cos_danger)
-                .set_id("reject")
-            );
+                .set_id("reject"));
         modsMsg.add_component(actionRow);
 
-        bot.message_create(modsMsg, [user, nickname, age, about](const dpp::confirmation_callback_t& callback) 
-        {
+        bot.message_create(modsMsg, [user, nickname, age, about](const dpp::confirmation_callback_t& callback)
+                           {
             if (callback.is_error()) return;
             auto msg = callback.get<dpp::message>();
             activeVotes[msg.id] = VoteData();
@@ -185,16 +183,14 @@ void ModsVote::RegisterVote(dpp::cluster& bot, const dpp::form_submit_t& event) 
             };
             std::cout << "activeVotes[msg.id].user = " << nickname << "|" << age << "|" << about << std::endl;
             activeVotes[msg.id].to_json();
-            SaveActiveVotes();
-        });
-    } 
-    catch (const std::exception& e) 
+            SaveActiveVotes(); });
+    }
+    catch (const std::exception& e)
     {
         std::cerr << "Ошибка в RegisterVote: " << e.what() << std::endl;
         event.reply("Произошла ошибка при обработке заявки");
     }
 }
-
 
 void ModsVote::LoadActiveVotes()
 {
@@ -218,7 +214,7 @@ void ModsVote::SaveActiveVotes()
 {
     DataBase* voteDatabase = new DataBase(PATH_VOTES_DATA_BASE);
     std::cout << "ModsVote::SaveActiveVotes(" << voteDatabase->GetFilePath() << ")" << std::endl;
-    nlohmann::json data;// = voteDatabase.GetVoteData();
+    nlohmann::json data; // = voteDatabase.GetVoteData();
     for (auto& [msgId, vote] : activeVotes)
     {
         data[std::to_string(msgId)] = vote.to_json();

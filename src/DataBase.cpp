@@ -1,21 +1,22 @@
 #include "DataBase.h"
 
-#include <nlohmann/json.hpp>
 #include <dpp/snowflake.h>
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
 #include <string>
 
-void printHex(const std::string& s) 
+void printHex(const std::string& s)
 {
-    for (unsigned char c : s) 
+    for (unsigned char c : s)
     {
         std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)c << " ";
     }
     std::cout << "\n";
 }
 
-DataBase::DataBase(const std::string& filepath) : filepath(filepath) 
+DataBase::DataBase(const std::string& filepath)
+    : filepath(filepath)
 {
     std::ifstream file(filepath);
     if (!file.is_open())
@@ -26,48 +27,48 @@ DataBase::DataBase(const std::string& filepath) : filepath(filepath)
     }
     else
         file >> userData;
-    
+
     std::cout << "File: " << filepath << std::endl;
     file.close();
     Save();
 }
 
-nlohmann::json DataBase::GetUser(const dpp::snowflake& userId) 
+nlohmann::json DataBase::GetUser(const dpp::snowflake& userId)
 {
     return userData[std::to_string(userId)];
 }
 
-void DataBase::SetUser(const dpp::snowflake& userId, const nlohmann::json& newUserData) 
+void DataBase::SetUser(const dpp::snowflake& userId, const nlohmann::json& newUserData)
 {
     this->userData[std::to_string(userId)] = newUserData;
 }
 
-void DataBase::Save() 
+void DataBase::Save()
 {
-    //printHex(filepath);
+    // printHex(filepath);
     std::cout << "DataBase::Save( " << filepath << " )" << std::endl;
     std::ofstream file(filepath);
     file << userData.dump(4);
     file.close();
 }
 
-void DataBase::SaveVoteData(const nlohmann::json& voteData) 
+void DataBase::SaveVoteData(const nlohmann::json& voteData)
 {
-    //std::cout << "DataBase::SaveVoteData()" << std::endl;
+    // std::cout << "DataBase::SaveVoteData()" << std::endl;
     if (!userData.is_object())
         userData = nlohmann::json::object();
-    
+
     userData["active_votes"] = voteData;
     Save();
 }
 
-nlohmann::json DataBase::GetVoteData() 
+nlohmann::json DataBase::GetVoteData()
 {
     std::cout << "DataBase::GetVoteData" << std::endl;
-    if (!userData.is_object()) 
+    if (!userData.is_object())
         return nlohmann::json::object();
 
-    if (userData.contains("active_votes")) 
+    if (userData.contains("active_votes"))
         return userData["active_votes"];
 
     return nlohmann::json::object();
