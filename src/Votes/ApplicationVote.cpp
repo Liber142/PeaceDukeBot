@@ -319,7 +319,7 @@ void CApplicationVoteSystem::ProcessFormSubmit(const dpp::form_submit_t& event)
         event.reply(dpp::message("Заявка отправлена").set_flags(dpp::m_ephemeral));
         std::string points = std::to_string(Parsing::GetPoints(Parsing::GetUrl(nickname)));
 
-        CreateVoteMessage(*event.from()->creator, user, nickname, age, about, points);
+        CreateApplicationMessage(*event.from()->creator, user, nickname, age, about, points);
     }
     catch (const std::exception& e)
     {
@@ -412,7 +412,7 @@ void CApplicationVoteSystem::SaveState()
     DataBase db(PATH_VOTES_DATA_BASE);
     nlohmann::json data;
 
-    for (auto& [msgId, vote] : m_activeVotes)
+    for (auto& [msgId, vote] : m_activeApplications)
     {
         data[std::to_string(msgId)] = vote.ToJson();
     }
@@ -427,21 +427,26 @@ void CApplicationVoteSystem::LoadState()
 
     if (!data.is_null())
     {
-        m_activeVotes.clear();
+        m_activeApplications.clear();
         for (auto& [key, value] : data.items())
         {
             dpp::snowflake msgId = std::stoull(key);
-            m_activeVotes[msgId] = SApplicationVoteData::FromJson(value);
+            m_activeApplications[msgId] = SApplicationVoteData::FromJson(value);
         }
     }
 }
+dpp::snowflake m_targetUserId;
+    dpp::snowflake m_processedBy; // ID модератора, обработавшего заявку
+    nlohmann::json m_userData;
+    std::string m_status; // "pending", "accepted", "rejected"
+    std::string m_rejectionReason; // Причина отказ
 
 nlohmann::json SApplicationVoteData::ToJson() const
 {
     return {
-        {"voteAccept", m_voteAccept},
-        {"voteReject", m_voteReject},
-        {"votedUsers", m_votedUsers},
+        {"processedBy", m_processedBy},
+        {"status", m_status},
+        {"rejectionReason", m_rejectionReason},
         {"targetUserId", m_targetUserId},
         {"userData", m_userData}};
 }
@@ -449,21 +454,14 @@ nlohmann::json SApplicationVoteData::ToJson() const
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
 {
     SApplicationVoteData v;
-    v.m_voteAccept = j.value("voteAccept", 0);
-    v.m_voteReject = j.value("voteReject", 0);
     v.m_targetUserId = j.value("targetUserId", "");
+    v.m_processedBy = j.value("processedBy", "");
+    v.m_status = j.value("status", "");
+    v.m_rejectionReason = j.value("rejectionReason", "")
 
     if (j.contains("userData"))
     {
         v.m_userData = j["userData"];
-    }
-
-    if (j.contains("votedUsers"))
-    {
-        for (const auto& id : j["votedUsers"])
-        {
-            v.m_votedUsers.insert(id.get<dpp::snowflake>());
-        }
     }
 
     return v;
