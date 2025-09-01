@@ -15,7 +15,6 @@
 #include "BotCore.h"
 #include "ClanApplication.h"
 #include "ConstAgr.h"
-#include "ModsVote.h"
 #include "CommandHandler.h"
 #include "CApplicationVoteSystem.h"
 #include "RegisterEvent.h"
