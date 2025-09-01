@@ -186,6 +186,17 @@
   },
   "active": "9ddfc4a027c9c402",
   "lastOpenFiles": [
+    "src/VoteSystemFactory.h",
+    "src/IVoteSystem.h",
+    "src/ClanApplication.h",
+    "src/ClanApplication.cpp",
+    "src/ApplicationVote.h",
+    "src/ApplicationVote.cpp",
+    "src/ModsVote.h",
+    "src/ModsVote.cpp",
+    "src/VoteS",
+    "src/Votes/VoteSystemFactory.h",
+    "src/Votes/ModsVote.h",
     "DataBase.md",
     "modsvotes.md",
     "README.md"
