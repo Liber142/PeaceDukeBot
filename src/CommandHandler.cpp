@@ -1,9 +1,9 @@
-#include "../include/CommandHandler.h"
-#include "../include/Commands/EventCommand.h"
-#include "../include/Commands/Apply.h"
-#include "../include/Commands/invite.h"
-#include "../include/Commands/ProfileCommand.h"
-#include "../include/ConstAgr.h"
+#include "CommandHandler.h"
+#include "EventCommand.h"
+#include "Apply.h"
+#include "invite.h"
+#include "ProfileCommand.h"
+#include "ConstAgr.h"
 
 
 #include <dpp/appcommand.h>
