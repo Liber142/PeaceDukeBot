@@ -36,15 +36,6 @@ void ProfileCommand::Execute(const dpp::slashcommand_t& event)
         event.reply("User data not found or invalid.");
         return;
     }
-    
-/*    "1133635252691161158": {
-        "about": "Играю как лох потомучто лагает",
-        "age": "14",
-        "clan": "Peace Duke",
-        "game_nick": "sladorc",
-        "social_rating": 1000
-
-*/
     std::string nick = j_user.value("game_nick", "");
     std::cout << "nick: " << nick << std::endl;
     std::string age = j_user.value("age", "");

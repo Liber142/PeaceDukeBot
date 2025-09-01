@@ -1,0 +1,17 @@
+{
+	"nodes":[
+		{"id":"68f8b87ef08e37e4","type":"text","text":" Main Module\n\n- Инициализация\n- Конфигурация","x":-260,"y":-180,"width":220,"height":140},
+		{"id":"ccbf9c7bd2b05d0d","type":"text","text":"Command Handler\n\n- Регистрация команд\n- Маршрутизация","x":40,"y":-180,"width":260,"height":140},
+		{"id":"2574d750995ffb51","type":"text","text":"Data Acces Layer\n\n- JSON Database\n- Кеширование","x":-260,"y":20,"width":220,"height":140},
+		{"id":"f4129d656970e50a","type":"text","text":"API Client\n\n- DDNet API\n- Discord API","x":40,"y":20,"width":260,"height":140},
+		{"id":"da705ef672306543","type":"text","text":"Moderation System\n\n- Голосования\n- Заявки","x":380,"y":20,"width":250,"height":140},
+		{"id":"e793871a5e9509ab","type":"text","text":"Event System\n\n- Обработка событий DPP","x":380,"y":-180,"width":250,"height":140}
+	],
+	"edges":[
+		{"id":"c5f554ca3a2e5ba6","fromNode":"68f8b87ef08e37e4","fromSide":"right","toNode":"ccbf9c7bd2b05d0d","toSide":"left","fromEnd":"arrow"},
+		{"id":"1656c3912f422f7a","fromNode":"ccbf9c7bd2b05d0d","fromSide":"right","toNode":"e793871a5e9509ab","toSide":"left","fromEnd":"arrow"},
+		{"id":"093068618e8bb188","fromNode":"68f8b87ef08e37e4","fromSide":"bottom","toNode":"2574d750995ffb51","toSide":"top"},
+		{"id":"b78ae834036663d0","fromNode":"ccbf9c7bd2b05d0d","fromSide":"bottom","toNode":"f4129d656970e50a","toSide":"top"},
+		{"id":"6b8bc2842cf7349a","fromNode":"e793871a5e9509ab","fromSide":"bottom","toNode":"da705ef672306543","toSide":"top"}
+	]
+}

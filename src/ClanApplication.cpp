@@ -1,15 +1,10 @@
 #include "ClanApplication.h"
-#include <dpp/dpp.h>
-#include <dpp/message.h>
 #include <dpp/dispatcher.h>
-
-using namespace dpp;
 
 void ClanApplication::ShowApplicationModal(const dpp::button_click_t& event)
 {
     dpp::interaction_modal_response modal("clan_apply", "Заявка в клан");
     
-    // 1. Поле для ника
     modal.add_component(
         dpp::component()
         .set_label("Ваш игровой ник")
@@ -21,7 +16,6 @@ void ClanApplication::ShowApplicationModal(const dpp::button_click_t& event)
         .set_text_style(dpp::text_short)
     );
 
-    // 2. Поле для возраста
     modal.add_row();
     modal.add_component(
         dpp::component()
@@ -35,8 +29,6 @@ void ClanApplication::ShowApplicationModal(const dpp::button_click_t& event)
         .set_text_style(dpp::text_short)
     );
 
-
-    // 3. Поле для информации о себе
     modal.add_row();
     modal.add_component(
         dpp::component()
