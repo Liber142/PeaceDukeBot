@@ -244,8 +244,8 @@ void CApplicationVoteSystem::DoRejection(dpp::cluster& bot, dpp::snowflake messa
 }
 
 void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, 
-                            SApplicationVoteData& application, bool accepted, 
-                            const std::string& reason = "");
+                                                SApplicationVoteData& application, bool accepted, 
+                                                const std::string& reason)
 {
     dpp::embed tmpEmbed = msg.embeds[0];
     tmpEmbed.set_color(accepted ? dpp::colors::green : dpp::colors::red);
