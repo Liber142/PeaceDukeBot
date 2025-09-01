@@ -9,7 +9,7 @@
 #include "DataBase.h"
 #include "CommandHandler.h"
 #include "Online.h"
-#include "CApplicationVoteSystem.h"
+#include "ApplicationVote.h"
 
 class BotCore
 {
