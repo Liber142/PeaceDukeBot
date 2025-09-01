@@ -6,9 +6,9 @@
 #include <nlohmann/json_fwd.hpp>
 #include <string>
 
-#include "include/DataBase.h"
-#include "include/BotCore.h"
-#include "include/ConstAgr.h"
+#include "DataBase.h"
+#include "BotCore.h"
+#include "ConstAgr.h"
 
 nlohmann::json load_config(const std::string& path) 
 {
