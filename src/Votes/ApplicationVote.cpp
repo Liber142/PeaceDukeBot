@@ -376,39 +376,6 @@ void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const d
         SaveState(); });
 }
 
-void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, SApplicationVoteData& vote, bool voteResult)
-{
-    dpp::embed tmpEmbed = msg.embeds[0];
-    tmpEmbed.set_color(voteResult ? dpp::colors::green : dpp::colors::red);
-
-    dpp::message newMsg = msg;
-    newMsg.set_content("");
-    newMsg.embeds.clear();
-    newMsg.add_embed(tmpEmbed);
-    newMsg.components.clear();
-
-    if (voteResult)
-    {
-        DataBase db(PATH_MEMBERS_DATA_BASE);
-        db.SetUser(vote.m_targetUserId, vote.m_userData);
-        db.Save();
-
-        try
-        {
-            dpp::message directMsg;
-            directMsg.set_content("Ваша заявка была одобрена!");
-            bot.direct_message_create(vote.m_targetUserId, directMsg);
-        }
-        catch (const std::exception& e)
-        {
-            std::cout << "Ошибка отправки DM: " << e.what() << std::endl;
-        }
-
-        bot.guild_member_remove_role(msg.guild_id, vote.m_targetUserId, DEFAULT_ROLE_ID);
-        bot.guild_member_add_role(msg.guild_id, vote.m_targetUserId, CLAN_ROLE_ID);
-    }
-}
-
 void CApplicationVoteSystem::SaveState()
 {
     DataBase db(PATH_VOTES_DATA_BASE);
