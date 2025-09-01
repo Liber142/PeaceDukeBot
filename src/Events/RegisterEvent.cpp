@@ -1,7 +1,7 @@
 
-#include "../../include/Events/RegisterEvent.h"
+#include "RegisterEvent.h"
 
-#include "../../include/ConstAgr.h"
+#include "ConstAgr.h"
 
 #include <dpp/appcommand.h>
 #include <dpp/cache.h>

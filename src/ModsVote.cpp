@@ -1,6 +1,6 @@
-#include "../include/ModsVote.h"
-#include "../include/ConstAgr.h"
-#include "../include/Parsing.h"
+#include "ModsVote.h"
+#include "ConstAgr.h"
+#include "Parsing.h"
 
 #include <algorithm>
 #include <dpp/colors.h>

@@ -10,10 +10,10 @@
 #include <string>
 #include <variant>
 
-#include "../../include/Commands/ProfileCommand.h"
-#include "../../include/DataBase.h"
-#include "../../include/Parsing.h"
-#include "../../include/ConstAgr.h"
+#include "ProfileCommand.h"
+#include "DataBase.h"
+#include "Parsing.h"
+#include "ConstAgr.h"
 
 ProfileCommand::ProfileCommand(dpp::cluster& bot_instance) : bot(bot_instance) {};
 

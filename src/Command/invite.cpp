@@ -1,4 +1,4 @@
-#include "../../include/Commands/invite.h"
+#include "invite.h"
 #include <dpp/appcommand.h>
 #include <dpp/dispatcher.h>
 

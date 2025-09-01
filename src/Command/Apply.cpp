@@ -1,4 +1,4 @@
-#include "../../include/Commands/Apply.h"
+#include "Apply.h"
 #include <dpp/appcommand.h>
 #include <dpp/dispatcher.h>
 

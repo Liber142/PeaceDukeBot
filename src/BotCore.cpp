@@ -12,12 +12,12 @@
 #include <string>
 #include <vector>
 
-#include "../include/BotCore.h"
-#include "../include/ClanApplication.h"
-#include "../include/ConstAgr.h"
-#include "../include/ModsVote.h"
-#include "../include/CommandHandler.h"
-#include "../include/Events/RegisterEvent.h"
+#include "BotCore.h"
+#include "ClanApplication.h"
+#include "ConstAgr.h"
+#include "ModsVote.h"
+#include "CommandHandler.h"
+#include "RegisterEvent.h"
 
 BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
 {

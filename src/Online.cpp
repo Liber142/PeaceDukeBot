@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
-#include "../include/Parsing.h"
-#include "../include/Online.h"
-#include "../include/ConstAgr.h"
+#include "Parsing.h"
+#include "Online.h"
+#include "ConstAgr.h"
 
 void C_OnlineClanMember::Init(dpp::cluster& bot) 
 {

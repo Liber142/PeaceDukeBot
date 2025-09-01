@@ -1,4 +1,4 @@
-#include "../../include/Commands/EventCommand.h"
+#include "EventCommand.h"
 #include <dpp/appcommand.h>
 #include <dpp/dispatcher.h>
 
