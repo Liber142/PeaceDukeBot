@@ -24,6 +24,7 @@ private:
 
 	CommandHandler cmdHandler;
 	C_OnlineClanMember OnlineClanMember;
+	std::unique_ptr<CApplicationVoteSystem> applicationVoteSystem;
 public:
 	BotCore(std::string& token);
 	void StartDataBase(std::string v_filepath, std::string m_filepath, std::string AplicationAceptedMessage, std::string AplicationRejectedMessage);

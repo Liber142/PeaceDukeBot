@@ -6,12 +6,12 @@
 
 struct SApplicationVoteData
 {
-    int m_voteAccept = 0;
-    int m_voteReject = 0;
-    nlohmann::json m_userData;
-    std::unordered_set<dpp::snowflake> m_votedUsers;
     dpp::snowflake m_targetUserId;
-
+    dpp::snowflake m_processedBy; // ID модератора, обработавшего заявку
+    nlohmann::json m_userData;
+    std::string m_status; // "pending", "accepted", "rejected"
+    std::string m_rejectionReason; // Причина отказа
+    
     nlohmann::json ToJson() const;
     static SApplicationVoteData FromJson(const nlohmann::json& j);
 };
@@ -26,8 +26,20 @@ public:
     void LoadState() override;
 
 private:
-    std::unordered_map<dpp::snowflake, SApplicationVoteData> m_activeVotes;
-
-    void CreateVoteMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points);
-    void FinalizeVote(dpp::cluster& bot, const dpp::message& msg, SApplicationVoteData& vote, bool voteResult);
+    std::unordered_map<dpp::snowflake, SApplicationVoteData> m_activeApplications;
+    
+    void CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, 
+                                 const std::string& nickname, const std::string& age, 
+                                 const std::string& about, const std::string& points);
+    void ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, 
+                             SApplicationVoteData& application);
+    void ProcessAcceptance(dpp::cluster& bot, const dpp::button_click_t& event, 
+                          SApplicationVoteData& application);
+    void ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, 
+                         SApplicationVoteData& application);
+    void ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, 
+                             SApplicationVoteData& application);
+    void FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, 
+                            SApplicationVoteData& application, bool accepted, 
+                            const std::string& reason = "");
 };

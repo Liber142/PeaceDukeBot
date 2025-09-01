@@ -17,9 +17,10 @@
 #include "ConstAgr.h"
 #include "ModsVote.h"
 #include "CommandHandler.h"
+#include "CApplicationVoteSystem.h"
 #include "RegisterEvent.h"
 
-BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
+BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), applicationVoteSystem(std::make_unique<CApplicationVoteSystem>())
 {
 	 bot.intents = dpp::i_default_intents 
                 | dpp::i_message_content 
@@ -31,7 +32,7 @@ BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot)
 	RegisterSlashCommands();
 
 
-    ModsVote::Initialize(bot);
+    applicationVoteSystem->Initialize(bot);
     RegisterEvent::Register(bot);
 
 
@@ -61,10 +62,9 @@ void BotCore::SetupEvent()
     bot.on_form_submit([&](const dpp::form_submit_t& event) 
     {
         if (event.custom_id == "clan_apply") 
-            ModsVote::RegisterVote(bot, event);
+            applicationVoteSystem->ProcessFormSubmit(event);
     });
 
-//Give degault role for newbee
     bot.on_guild_member_add([this](const dpp::guild_member_add_t& event)
     {
         dpp::snowflake guild_id = event.added.guild_id;
