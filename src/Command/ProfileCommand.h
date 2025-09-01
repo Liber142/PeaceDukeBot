@@ -1,6 +1,6 @@
 #pragma once
-#include "ICommand.h"
-#include "DataBase.h"
+#include "../ICommand.h"
+#include "../DataBase.h"
 
 #include <dpp/appcommand.h>
 #include <dpp/cluster.h>
