@@ -16,7 +16,7 @@
 #include "ClanApplication.h"
 #include "ConstAgr.h"
 #include "CommandHandler.h"
-#include "CApplicationVoteSystem.h"
+#include "ApplicationVote.h"
 #include "RegisterEvent.h"
 
 BotCore::BotCore(std::string& token) : bot(token), cmdHandler(bot), applicationVoteSystem(std::make_unique<CApplicationVoteSystem>())
