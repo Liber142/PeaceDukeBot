@@ -14,21 +14,14 @@ find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/src/Command)
 include_directories(${CMAKE_SOURCE_DIR}/src/Events)
+include_directories(${CMAKE_SOURCE_DIR}/src/Votes)
 
 
 set(SOURCES
-    src/Command/EventCommand.cpp
-    src/Command/ProfileCommand.cpp
-    src/Command/Apply.cpp
-    src/Command/invite.cpp
-    src/Events/RegisterEvent.cpp
-    src/Parsing.cpp
-    src/BotCore.cpp
-    src/ClanApplication.cpp
-    src/CommandHandler.cpp 
-    src/DataBase.cpp 
-    src/ModsVote.cpp
-    src/Online.cpp
+    src/Command/*
+    src/Events/*
+    std/Votes/*
+    src/*
     main.cpp
 )
 
