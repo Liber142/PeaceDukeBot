@@ -151,17 +151,15 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
         msg.add_component(actionRow);
     }
 
-event.reply(msg, [&event, this](const dpp::confirmation_callback_t& callback) {
+event.reply(msg, [&](const dpp::confirmation_callback_t& callback) {
         if (callback.is_error()) {
             std::cout << "Ошибка отправки: " << callback.get_error().message << std::endl;
             return;
         }
         
-        // Получаем отправленное сообщение
         auto sent_message = std::get<dpp::message>(callback.value);
         dpp::snowflake message_id = sent_message.id;
         
-        // Сохраняем ID куда нужно
         m_activeMessangePair[message_id] = event.command.message_id;
         std::cout << m_activeMessangePair[message_id] << " | " << message_id << std::endl;
     });
