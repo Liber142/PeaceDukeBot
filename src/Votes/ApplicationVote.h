@@ -1,4 +1,5 @@
 #pragma once
+#include <dpp/snowflake.h>
 #include <unordered_map>
 #include <unordered_set>
 #include "DataBase.h"
@@ -11,7 +12,7 @@ struct SApplicationVoteData
     nlohmann::json m_userData;
     std::string m_status;
     std::string m_rejectionReason;
-    
+
     nlohmann::json ToJson() const;
     static SApplicationVoteData FromJson(const nlohmann::json& j);
 };
@@ -27,24 +28,14 @@ public:
 
 private:
     std::unordered_map<dpp::snowflake, SApplicationVoteData> m_activeApplications;
-    
-    void CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, 
-                                 const std::string& nickname, const std::string& age, 
-                                 const std::string& about, const std::string& points);
-    void ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, 
-                             SApplicationVoteData& application);
-    void ProcessAcceptance(dpp::cluster& bot, const dpp::button_click_t& event, 
-                          SApplicationVoteData& application);
-    void ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, 
-                         SApplicationVoteData& application, const std::string& reason);
-    void ProcessRejection(dpp::cluster& bot, const dpp::form_submit_t& event, 
-                         SApplicationVoteData& application, const std::string& reason);
-    void ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, 
-                             SApplicationVoteData& application);
-    void FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, 
-                            SApplicationVoteData& application, bool accepted, 
-                            const std::string& reason = "");
-    void DoRejection(dpp::cluster& bot, dpp::snowflake message_id, dpp::snowflake channel_id, 
-                    SApplicationVoteData& application, const std::string& reason, 
-                    dpp::snowflake moderator_id);
+    std::unordered_map<dpp::snowflake, dpp::snowflake> m_activeMessangePair;
+
+    void CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points);
+    void ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application);
+    void ProcessAcceptance(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application);
+    void ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application, const std::string& reason);
+    void ProcessRejection(dpp::cluster& bot, const dpp::form_submit_t& event, SApplicationVoteData& application, const std::string& reason);
+    void ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application);
+    void FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, SApplicationVoteData& application, bool accepted, const std::string& reason = "");
+    void DoRejection(dpp::cluster& bot, dpp::snowflake message_id, dpp::snowflake channel_id, SApplicationVoteData& application, const std::string& reason, dpp::snowflake moderator_id);
 };

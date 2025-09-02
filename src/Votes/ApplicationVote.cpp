@@ -8,12 +8,13 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
 {
     LoadState();
 
-    bot.on_button_click([this, &bot](const dpp::button_click_t& event) {
+    bot.on_button_click([this, &bot](const dpp::button_click_t& event)
+                        {
         if (event.custom_id == "accept" || event.custom_id == "reject") {
             ProcessButtonClick(event);
         } else if (event.custom_id == "confirm_accept" || event.custom_id == "confirm_reject" ||
                    event.custom_id == "edit_dm" || event.custom_id == "custom_reason") {
-            auto it = m_activeApplications.find(event.command.message_id);
+            auto it = m_activeApplications.find(m_activeMessangePair[event.command.message_id]);
             if (it == m_activeApplications.end()) {
                 event.reply(dpp::message("Заявка не найдена").set_flags(dpp::m_ephemeral));
                 return;
@@ -58,10 +59,10 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             SApplicationVoteData& application = it->second;
             std::string reason = event.custom_id.substr(7);
             ProcessRejection(bot, event, application, reason);
-        }
-    });
+        } });
 
-    bot.on_form_submit([this, &bot](const dpp::form_submit_t& event) {
+    bot.on_form_submit([this, &bot](const dpp::form_submit_t& event)
+                       {
         if (event.custom_id == "custom_reason") {
             std::string reason = std::get<std::string>(event.components[0].components[0].value);
             
@@ -76,21 +77,22 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             if (it != m_activeApplications.end()) {
                 event.reply(dpp::message("Сообщение сохранено").set_flags(dpp::m_ephemeral));
             }
-        }
-    });
+        } });
 }
 
 void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event)
 {
     auto it = m_activeApplications.find(event.command.message_id);
-    if (it == m_activeApplications.end()) {
+    if (it == m_activeApplications.end())
+    {
         event.reply(dpp::message("Заявка не найдена или уже обработана").set_flags(dpp::m_ephemeral));
         return;
     }
 
     SApplicationVoteData& application = it->second;
-    
-    if (application.m_status != "pending") {
+
+    if (application.m_status != "pending")
+    {
         event.reply(dpp::message("Эта заявка уже обработана").set_flags(dpp::m_ephemeral));
         return;
     }
@@ -98,15 +100,15 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     ShowModeratorOptions(*event.from()->creator, event, application);
 }
 
-void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, 
-                                                 SApplicationVoteData& application)
+void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application)
 {
     dpp::message msg("");
     msg.set_flags(dpp::m_ephemeral);
-    
-    if (event.custom_id == "accept") {
+
+    if (event.custom_id == "accept")
+    {
         msg.set_content("Выберите действие для принятия заявки:");
-        
+
         dpp::component actionRow;
         actionRow.add_component(
             dpp::component()
@@ -120,11 +122,13 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
                 .set_type(dpp::cot_button)
                 .set_style(dpp::cos_primary)
                 .set_id("edit_dm"));
-        
+
         msg.add_component(actionRow);
-    } else if (event.custom_id == "reject") {
+    }
+    else if (event.custom_id == "reject")
+    {
         msg.set_content("Выберите действие для отклонения заявки:");
-        
+
         dpp::component actionRow;
         actionRow.add_component(
             dpp::component()
@@ -138,20 +142,20 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
                 .set_type(dpp::cot_button)
                 .set_style(dpp::cos_secondary)
                 .set_id("custom_reason"));
-        
+
         msg.add_component(actionRow);
     }
-    
+
+    m_activeMessangePair[msg.id] = event.command.message_id;
     event.reply(msg);
 }
 
-void CApplicationVoteSystem::ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, 
-                                                 SApplicationVoteData& application)
+void CApplicationVoteSystem::ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application)
 {
     dpp::message msg("");
     msg.set_flags(dpp::m_ephemeral);
     msg.set_content("Выберите причину отказа:");
-    
+
     dpp::component actionRow1;
     actionRow1.add_component(
         dpp::component()
@@ -165,7 +169,7 @@ void CApplicationVoteSystem::ShowRejectionReasons(dpp::cluster& bot, const dpp::
             .set_type(dpp::cot_button)
             .set_style(dpp::cos_danger)
             .set_id("reason_Не подходит по возрасту"));
-    
+
     dpp::component actionRow2;
     actionRow2.add_component(
         dpp::component()
@@ -179,120 +183,119 @@ void CApplicationVoteSystem::ShowRejectionReasons(dpp::cluster& bot, const dpp::
             .set_type(dpp::cot_button)
             .set_style(dpp::cos_secondary)
             .set_id("custom_reason"));
-    
+
     msg.add_component(actionRow1);
     msg.add_component(actionRow2);
-    
+
     event.reply(msg);
 }
 
-void CApplicationVoteSystem::ProcessAcceptance(dpp::cluster& bot, const dpp::button_click_t& event, 
-                                              SApplicationVoteData& application)
+void CApplicationVoteSystem::ProcessAcceptance(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application)
 {
     application.m_status = "accepted";
     application.m_processedBy = event.command.get_issuing_user().id;
-    
+
     SApplicationVoteData appCopy = application;
-    
-    bot.message_get(event.command.message_id, event.command.channel_id, 
-        [this, &bot, appCopy](const dpp::confirmation_callback_t& callback) mutable {
+
+    bot.message_get(event.command.message_id, event.command.channel_id, [this, &bot, appCopy](const dpp::confirmation_callback_t& callback) mutable
+                    {
             if (callback.is_error()) return;
             
             auto msg = callback.get<dpp::message>();
-            FinalizeApplication(bot, msg, appCopy, true);
-        });
-    
+            FinalizeApplication(bot, msg, appCopy, true); });
+
     event.reply(dpp::message("Заявка принята").set_flags(dpp::m_ephemeral));
     SaveState();
 }
 
-void CApplicationVoteSystem::ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, 
-                                             SApplicationVoteData& application, const std::string& reason)
+void CApplicationVoteSystem::ProcessRejection(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application, const std::string& reason)
 {
-    DoRejection(bot, event.command.message_id, event.command.channel_id, application, 
-               reason, event.command.get_issuing_user().id);
+    DoRejection(bot, event.command.message_id, event.command.channel_id, application, reason, event.command.get_issuing_user().id);
     event.reply(dpp::message("Заявка отклонена").set_flags(dpp::m_ephemeral));
 }
 
-void CApplicationVoteSystem::ProcessRejection(dpp::cluster& bot, const dpp::form_submit_t& event, 
-                                             SApplicationVoteData& application, const std::string& reason)
+void CApplicationVoteSystem::ProcessRejection(dpp::cluster& bot, const dpp::form_submit_t& event, SApplicationVoteData& application, const std::string& reason)
 {
-    DoRejection(bot, event.command.message_id, event.command.channel_id, application, 
-               reason, event.command.get_issuing_user().id);
+    DoRejection(bot, event.command.message_id, event.command.channel_id, application, reason, event.command.get_issuing_user().id);
     event.reply(dpp::message("Заявка отклонена").set_flags(dpp::m_ephemeral));
 }
 
-void CApplicationVoteSystem::DoRejection(dpp::cluster& bot, dpp::snowflake message_id, dpp::snowflake channel_id, 
-                                        SApplicationVoteData& application, const std::string& reason, 
-                                        dpp::snowflake moderator_id)
+void CApplicationVoteSystem::DoRejection(dpp::cluster& bot, dpp::snowflake message_id, dpp::snowflake channel_id, SApplicationVoteData& application, const std::string& reason, dpp::snowflake moderator_id)
 {
     application.m_status = "rejected";
     application.m_processedBy = moderator_id;
     application.m_rejectionReason = reason;
-    
+
     SApplicationVoteData appCopy = application;
-    
-    bot.message_get(message_id, channel_id, 
-        [this, &bot, appCopy, reason](const dpp::confirmation_callback_t& callback) mutable {
+
+    bot.message_get(message_id, channel_id, [this, &bot, appCopy, reason](const dpp::confirmation_callback_t& callback) mutable
+                    {
             if (callback.is_error()) return;
             
             auto msg = callback.get<dpp::message>();
-            FinalizeApplication(bot, msg, appCopy, false, reason);
-        });
-    
+            FinalizeApplication(bot, msg, appCopy, false, reason); });
+
     SaveState();
 }
 
-void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, 
-                                                SApplicationVoteData& application, bool accepted, 
-                                                const std::string& reason)
+void CApplicationVoteSystem::FinalizeApplication(dpp::cluster& bot, const dpp::message& msg, SApplicationVoteData& application, bool accepted, const std::string& reason)
 {
     dpp::embed tmpEmbed = msg.embeds[0];
     tmpEmbed.set_color(accepted ? dpp::colors::green : dpp::colors::red);
-    
+
     std::string moderatorInfo = fmt::format("Обработано: <@{}>", application.m_processedBy);
-    if (!accepted && !reason.empty()) {
+    if (!accepted && !reason.empty())
+    {
         moderatorInfo += fmt::format("\nПричина: {}", reason);
     }
-    
+
     tmpEmbed.add_field("Статус", accepted ? "✅ Одобрена" : "❌ Отклонена", true);
     tmpEmbed.add_field("Модератор", moderatorInfo, false);
-    
+
     dpp::message newMsg = msg;
     newMsg.set_content("");
     newMsg.embeds.clear();
     newMsg.add_embed(tmpEmbed);
     newMsg.components.clear();
-    
+
     bot.message_edit(newMsg);
-    
-    if (accepted) {
+
+    if (accepted)
+    {
         DataBase db(PATH_MEMBERS_DATA_BASE);
         db.SetUser(application.m_targetUserId, application.m_userData);
         db.Save();
-        
-        try {
+
+        try
+        {
             dpp::message directMsg;
             directMsg.set_content("Ваша заявка в клан была одобрена! Добро пожаловать!");
             bot.direct_message_create(application.m_targetUserId, directMsg);
-        } catch (const std::exception& e) {
+        }
+        catch (const std::exception& e)
+        {
             std::cout << "Ошибка отправки DM: " << e.what() << std::endl;
         }
-        
+
         bot.guild_member_remove_role(msg.guild_id, application.m_targetUserId, DEFAULT_ROLE_ID);
         bot.guild_member_add_role(msg.guild_id, application.m_targetUserId, CLAN_ROLE_ID);
-    } else {
-        try {
+    }
+    else
+    {
+        try
+        {
             dpp::message directMsg;
-            std::string rejectionMessage = fmt::format("Ваша заявка в клан была отклонена.\n{}", 
-                                                     reason.empty() ? "" : "Причина: " + reason);
+            std::string rejectionMessage = fmt::format("Ваша заявка в клан была отклонена.\n{}",
+                                                       reason.empty() ? "" : "Причина: " + reason);
             directMsg.set_content(rejectionMessage);
             bot.direct_message_create(application.m_targetUserId, directMsg);
-        } catch (const std::exception& e) {
+        }
+        catch (const std::exception& e)
+        {
             std::cout << "Ошибка отправки DM: " << e.what() << std::endl;
         }
     }
-    
+
     m_activeApplications.erase(msg.id);
 }
 
@@ -414,8 +417,7 @@ nlohmann::json SApplicationVoteData::ToJson() const
         {"processedBy", m_processedBy},
         {"userData", m_userData},
         {"status", m_status},
-        {"rejectionReason", m_rejectionReason}
-    };
+        {"rejectionReason", m_rejectionReason}};
 }
 
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
@@ -425,11 +427,11 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
     v.m_processedBy = j.value("processedBy", "");
     v.m_status = j.value("status", "pending");
     v.m_rejectionReason = j.value("rejectionReason", "");
-    
+
     if (j.contains("userData"))
     {
         v.m_userData = j["userData"];
     }
-    
+
     return v;
 }
