@@ -14,6 +14,8 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
             ProcessButtonClick(event);
         } else if (event.custom_id == "confirm_accept" || event.custom_id == "confirm_reject" ||
                    event.custom_id == "edit_dm" || event.custom_id == "custom_reason") {
+            
+            std::cout << m_activeMessangePair[event.command.message_id] << event.command.message_id << std::endl;
             auto it = m_activeApplications.find(m_activeMessangePair[event.command.message_id]);
             if (it == m_activeApplications.end()) {
                 event.reply(dpp::message("Заявка не найдена").set_flags(dpp::m_ephemeral));
@@ -147,6 +149,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     }
 
     m_activeMessangePair[msg.id] = event.command.message_id;
+    std::cout << m_activeMessangePair[msg.id] << event.command.message_id << std::endl;
     event.reply(msg);
 }
 
