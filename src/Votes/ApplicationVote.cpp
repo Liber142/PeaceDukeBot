@@ -152,8 +152,9 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     }
 
     event.reply(msg);
-    std::cout << m_activeMessangePair[msg.id] << " | " << msg.id << std::endl;
+
     m_activeMessangePair[msg.id] = event.command.message_id;
+    std::cout << m_activeMessangePair[msg.id] << " | " << msg.id << std::endl;
 }
 
 void CApplicationVoteSystem::ShowRejectionReasons(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application)
