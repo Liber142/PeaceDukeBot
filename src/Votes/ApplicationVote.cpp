@@ -104,7 +104,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
                     return;
 
                 auto msg = callback.get<dpp::message>();
-                m_pairKey[msg.id] = event.command.message_id;
+                m_pairKeys[msg.id] = event.command.message_id;
             });
 }
 
