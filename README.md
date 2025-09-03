@@ -9,7 +9,7 @@ PeaceDukeBot - это многофункциональный Discord-бот дл
 1. [[BotCore]]
 2. [[CommandHandler]]
 3. [[DataBase]]
-   
+4. [[modsvotes]]
 ## Установка и запуск
 
 ### Требования

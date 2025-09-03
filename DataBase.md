@@ -1,6 +1,6 @@
 Класс для работы с JSON-базой данных.
 
-```C++
+```cpp
 
 class DataBase {
 private:
