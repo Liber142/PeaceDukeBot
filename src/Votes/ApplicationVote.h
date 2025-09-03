@@ -35,7 +35,7 @@ private:
     std::string defaultAcceptedDirectMessage;
     std::string defaultRejectedDirectMessage;
     std::unordered_map<dpp::snowflake, SApplicationVoteData> m_activeApplications;
-    std::pair<dpp::snowflake, dpp::snowflake> m_pairKeys;
+    std::unordered_map<dpp::snowflake, dpp::snowflake> m_pairKeys;
     void CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points);
     void ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application);
 };
