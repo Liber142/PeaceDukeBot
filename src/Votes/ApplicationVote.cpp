@@ -43,7 +43,11 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     SApplicationVoteData& application = it->second;
     application.m_direckMessage = event.custom_id == "accept" ? defaultAcceptedDirectMessage : defaultRejectedDirectMessage;
 
-    if (application.m_status == "pending")
+    if (event.custom_id == "edit")
+    {
+        ShowEditModal(event, application);
+    }
+    if (application.m_status == "pending" && (event.custom_id == "accept" || event.custom_id == "reject"))
     {
         ShowModeratorOptions(*event.from()->creator, event, application);
     }
@@ -103,6 +107,21 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
 
                 auto msg = callback.get<dpp::message>();
                 m_pairKeys[msg.id] = event.command.message_id; });
+}
+
+void CApplicationVoteSystem::ShowEditModal(const dpp::button_click_t& event, SApplicationVoteData application)
+{
+    dpp::interaction_modal_response modal("editor_modal", "Изменение ответа на заявку");
+
+    modal.add_component(
+            dpp::component()
+                .set_label("Сообщение в ЛС")
+                .set_id("dm")
+                .set_type(dpp::cot_text)
+                .set_default_value(application.m_direckMessage)
+                .set_text_style(dpp::text_paragraph)
+            );
+    event.dialog(modal);
 }
 
 void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points)

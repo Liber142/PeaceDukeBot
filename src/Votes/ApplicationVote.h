@@ -1,4 +1,5 @@
 #pragma once
+#include <dpp/dispatcher.h>
 #include <dpp/snowflake.h>
 #include <string>
 #include <unordered_map>
@@ -38,4 +39,5 @@ private:
     std::unordered_map<dpp::snowflake, dpp::snowflake> m_pairKeys;
     void CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points);
     void ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application);
+    void ShowEditModal(const dpp::button_click_t& event, SApplicationVoteData application);
 };
