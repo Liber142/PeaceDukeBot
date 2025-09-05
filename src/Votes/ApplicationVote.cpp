@@ -40,7 +40,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     }
 
     SApplicationVoteData& application = it->second;
-    application.m_direckMessage = event.custom_id == "accept" ? defaultAcceptedDirectMessage : defaultAcceptedDirectMessage;
+    application.m_direckMessage = event.custom_id == "accept" ? defaultAcceptedDirectMessage : defaultRejectedDirectMessage;
 
     if (application.m_status == "pending")
     {
@@ -90,6 +90,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
                 .set_id("blacklist")));
     }
 
+    msg.add_component(actionRow);
     event.reply(msg, [this, msg, event](const dpp::confirmation_callback_t& callback)
                 {
                 if (callback.is_error())
