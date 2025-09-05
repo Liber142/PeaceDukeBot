@@ -102,7 +102,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     std::cout << "5" << std::endl;
                 if (callback.is_error())
                 {
-                    std::cout << "Ошибка отправки сообщения в CApplicationVoteSystem::ShowModeratorOption" << std::endl;
+                    std::cout << "Ошибка отправки сообщения в CApplicationVoteSystem::ShowModeratorOption: " << callback.http_info.error << std::endl;
                     return;
                 }
 
