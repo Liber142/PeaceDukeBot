@@ -51,13 +51,15 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
 
 void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application)
 {
+    std::cout << "2" << std::endl;
     std::string strMsg;
-    strMsg += "ользователи в личные сообщения отправиться следующее сообщение: \n";
+    strMsg += "Пользователю в личные сообщения отправиться следующее сообщение: \n";
     strMsg += "```\n" + application.m_direckMessage + "\n```\n";
     strMsg += "убедитесь в коректности параметров или измените их\n";
     strMsg += "Подтвердите своё решение\n";
     dpp::message msg = dpp::message(CHANNEL_MODERATION_ID, strMsg).set_flags(dpp::m_ephemeral);
 
+    std::cout << "3" << std::endl;
     bool result = event.custom_id == "accept";
     dpp::component actionRow;
     actionRow.add_component(dpp::component(
@@ -76,6 +78,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
 
     if (!result)
     {
+    std::cout << "4" << std::endl;
         actionRow.add_component(dpp::component(
             dpp::component()
                 .set_label("Причина")
@@ -94,6 +97,8 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     msg.add_component(actionRow);
     event.reply(msg, [this, msg, event](const dpp::confirmation_callback_t& callback)
                 {
+
+    std::cout << "5" << std::endl;
                 if (callback.is_error())
                     return;
 
