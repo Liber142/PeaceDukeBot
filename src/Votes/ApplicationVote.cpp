@@ -233,6 +233,7 @@ nlohmann::json SApplicationVoteData::ToJson() const
 // Десериализация данных заявки
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
 {
+    std::cout << "1" << std::endl;
     SApplicationVoteData v;
     if (j.contains("targetUserId"))
         v.m_targetUserId = j.value("targetUserId", "");
