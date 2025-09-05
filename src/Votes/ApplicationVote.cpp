@@ -39,6 +39,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
         return;
     }
 
+    event.thinking(true);
     SApplicationVoteData& application = it->second;
     application.m_direckMessage = event.custom_id == "accept" ? defaultAcceptedDirectMessage : defaultRejectedDirectMessage;
 
