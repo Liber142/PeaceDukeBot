@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <dpp/nlohmann/json_fwd.hpp>
 #include <exception>
+#include <ostream>
 #include <string>
 #include "../ConstAgr.h"
 #include "../DataBase.h"
@@ -100,7 +101,10 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
 
     std::cout << "5" << std::endl;
                 if (callback.is_error())
+                {
+                    std::cout << "Ошибка отправки сообщения в CApplicationVoteSystem::ShowModeratorOption" << std::endl;
                     return;
+                }
 
                 auto msg = callback.get<dpp::message>();
                 m_pairKeys[msg.id] = event.command.message_id; });
