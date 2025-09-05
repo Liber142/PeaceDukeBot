@@ -33,7 +33,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     {
         it = m_activeApplications.find(m_pairKeys[event.command.message_id]);
     }
-    else if(it == m_activeApplications.end())
+    else if (it == m_activeApplications.end())
     {
         event.reply("Заявка не найдена");
         return;
@@ -51,7 +51,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
 void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application)
 {
     std::string strMsg;
-    strMsg += "Пользователи в личные сообщения отправиться следующее сообщение: \n";
+    strMsg += "ользователи в личные сообщения отправиться следующее сообщение: \n";
     strMsg += "```\n" + application.m_direckMessage + "\n```\n";
     strMsg += "убедитесь в коректности параметров или измените их\n";
     strMsg += "Подтвердите своё решение\n";
@@ -60,55 +60,46 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     bool result = event.custom_id == "accept";
     dpp::component actionRow;
     actionRow.add_component(dpp::component(
-            dpp::component()
-                .set_label("Подтвердить")
-                .set_type(dpp::cot_button)
-                .set_style(result ? dpp::cos_success : dpp::cos_danger)
-                .set_id(result ? "comfirm_accept" : "comfirm_reject")
-            )
-        );
+        dpp::component()
+            .set_label("Подтвердить")
+            .set_type(dpp::cot_button)
+            .set_style(result ? dpp::cos_success : dpp::cos_danger)
+            .set_id(result ? "comfirm_accept" : "comfirm_reject")));
 
     actionRow.add_component(dpp::component(
-                dpp::component()
-                    .set_label("Редактировать")
-                    .set_type(dpp::cot_button)
-                    .set_style(dpp::cos_premium)
-                    .set_id("edit")
-                )
-            );
+        dpp::component()
+            .set_label("Редактировать")
+            .set_type(dpp::cot_button)
+            .set_style(dpp::cos_premium)
+            .set_id("edit")));
 
     if (!result)
     {
         actionRow.add_component(dpp::component(
-                    dpp::component()
-                        .set_label("Причина")
-                        .set_type(dpp::cot_button)
-                        .set_style(dpp::cos_danger)
-                        .set_id("reason")
-                    )
-                );
+            dpp::component()
+                .set_label("Причина")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_danger)
+                .set_id("reason")));
 
         actionRow.add_component(dpp::component(
-                    dpp::component()
-                        .set_label("В черный список")
-                        .set_type(dpp::cot_button)
-                        .set_style(dpp::cos_danger)
-                        .set_id("blacklist")
-                    )
-                );
+            dpp::component()
+                .set_label("В черный список")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_danger)
+                .set_id("blacklist")));
     }
 
     event.reply(msg, [this, msg, event](const dpp::confirmation_callback_t& callback)
-            {
+                {
                 if (callback.is_error())
                     return;
 
                 auto msg = callback.get<dpp::message>();
-                m_pairKeys[msg.id] = event.command.message_id;
-            });
+                m_pairKeys[msg.id] = event.command.message_id; });
 }
 
-    void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points)
+void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points)
 {
     dpp::embed embed = dpp::embed()
                            .set_author(user.username, "", user.get_avatar_url())
@@ -241,10 +232,14 @@ nlohmann::json SApplicationVoteData::ToJson() const
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
 {
     SApplicationVoteData v;
-    v.m_targetUserId = j.value("targetUserId", "");
-    v.m_processedBy = j.value("processedBy", "");
-    v.m_status = j.value("status", "pending");
-    v.m_rejectionReason = j.value("rejectionReason", "");
+    if (j.contains("targetUserId"))
+        v.m_targetUserId = j.value("targetUserId", "");
+    if (j.contains("processesBy"))
+        v.m_processedBy = j.value("processedBy", "");
+    if (j.contains("status"))
+        v.m_status = j.value("status", "");
+    if (j.contains("rejectionReason"))
+        v.m_rejectionReason = j.value("rejectionReason", "");
 
     if (j.contains("userData"))
     {
@@ -255,10 +250,14 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
     }
     else
     {
-        v.m_NickName = j.value("game_nick", "");
-        v.m_Age = j.value("age", 0);
-        v.m_About = j.value("about", "");
-        v.m_SocialReting = j.value("social_rating", 0);
+        if (j.contains("game_nick"))
+            v.m_NickName = j.value("game_nick", "");
+        if (j.contains("age"))
+            v.m_Age = j.value("age", 0);
+        if (j.contains("about"))
+            v.m_About = j.value("about", "");
+        if (j.contains("social_rating"))
+            v.m_SocialReting = j.value("social_rating", 0);
     }
 
     return v;
