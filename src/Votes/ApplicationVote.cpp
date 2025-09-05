@@ -256,7 +256,7 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
         if (j.contains("game_nick"))
             v.m_NickName = j.value("game_nick", "");
         if (j.contains("age"))
-            v.m_Age = j.value("age", 0);
+            v.m_Age = std::stoi(j.value("age", ""));
         if (j.contains("about"))
             v.m_About = j.value("about", "");
         if (j.contains("social_rating"))
