@@ -199,8 +199,10 @@ void CApplicationVoteSystem::LoadState()
     nlohmann::json data = db.GetVoteData();
     std::ifstream config(PATH_CONFIG);
     nlohmann::json jsonConfig = nlohmann::json::parse(config);
-    defaultAcceptedDirectMessage = jsonConfig.value("AplicationAceptedMessage", "");
-    defaultRejectedDirectMessage = jsonConfig.value("AplicationRejectedMessage", "");
+    if (jsonConfig.contains("AplicationAceptedMessage"))
+        defaultAcceptedDirectMessage = jsonConfig.value("AplicationAceptedMessage", "");
+    if (jsonConfig.contains("AplicationRejectedMessage"))
+        defaultRejectedDirectMessage = jsonConfig.value("AplicationRejectedMessage", "");
     config.close();
 
     if (!data.is_null())
