@@ -122,7 +122,7 @@ void CApplicationVoteSystem::ShowEditModal(const dpp::button_click_t& event, SAp
                 .set_label("Сообщение в ЛС")
                 .set_id("dm")
                 .set_type(dpp::cot_text)
-                .set_default_value(application.m_direckMessage)
+                //.set_default_value(application.m_direckMessage)
                 .set_text_style(dpp::text_paragraph)
             );
     modal.add_row();
