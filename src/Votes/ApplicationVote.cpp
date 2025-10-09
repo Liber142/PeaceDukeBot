@@ -38,7 +38,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     std::cout << event.custom_id.find(":") << std::endl;
     if (event.custom_id.find("confirm") != std::string::npos)
     {
-        id = event.custom_id.substr(event.custom_id.find(":"));
+        id = std::stoi(event.custom_id.substr(event.custom_id.find(":")));
         std::cout << "Это подтверждение оно нашло: " << id << std::endl;
     }
     else
