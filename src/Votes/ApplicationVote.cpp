@@ -125,7 +125,6 @@ void CApplicationVoteSystem::ShowEditModal(const dpp::button_click_t& event, SAp
                 .set_default_value(application.m_direckMessage)
                 .set_text_style(dpp::text_paragraph)
             );
-    modal.add_row();
     event.dialog(modal);
 }
 
