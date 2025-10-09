@@ -37,6 +37,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     if (event.custom_id.find(":") != std::string::npos)
     {
         id = event.custom_id.substr(event.custom_id.find(":") + 1);
+        std::cout << id << " | " << event.custom_id << std::endl;
     }
     else
     {
@@ -54,6 +55,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
 
     if (event.custom_id.find("edit") != std::string::npos)
     {
+        std::cout << "edit direct message" << std::endl;
         ShowEditModal(event, application);
     }
     if (application.m_status == "pending" && (event.custom_id == "accept" || event.custom_id == "reject"))
