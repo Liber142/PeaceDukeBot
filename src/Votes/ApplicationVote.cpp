@@ -77,6 +77,8 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     bool result = event.custom_id == "accept";
     std::string button_id = result ? "confirm_accept:" : "confirm_reject:";
     button_id += event.command.message_id;
+    std::cout << "event.command.message_id: " << event.command.message_id << std::endl;
+    std::cout << "button_id: " << button_id << std::endl;
     dpp::component actionRow;
     actionRow.add_component(dpp::component(
         dpp::component()
@@ -110,17 +112,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     }
 
     msg.add_component(actionRow);
-    event.reply(msg, [this, msg, event](const dpp::confirmation_callback_t& callback)
-                {
-
-                if (callback.is_error())
-                {
-                    std::cout << "Ошибка отправки сообщения в CApplicationVoteSystem::ShowModeratorOption: " << callback.http_info.body  << std::endl;
-                    return;
-                }
-
-                auto msg = callback.get<dpp::message>();
-                m_pairKeys[msg.id] = event.command.message_id; });
+    event.reply(msg);
 }
 
 void CApplicationVoteSystem::ShowEditModal(const dpp::button_click_t& event, SApplicationVoteData application)
