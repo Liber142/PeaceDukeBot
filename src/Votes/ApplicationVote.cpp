@@ -117,15 +117,15 @@ void CApplicationVoteSystem::ShowEditModal(const dpp::button_click_t& event, SAp
 {
     dpp::interaction_modal_response modal("editor_modal", "Изменение ответа на заявку");
 
-    modal.add_row();
     modal.add_component(
             dpp::component()
                 .set_label("Сообщение в ЛС")
                 .set_id("dm")
                 .set_type(dpp::cot_text)
-                //.set_default_value(application.m_direckMessage)
+                .set_default_value(application.m_direckMessage)
                 .set_text_style(dpp::text_paragraph)
             );
+    modal.add_row();
     event.dialog(modal);
 }
 
