@@ -21,7 +21,10 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
 
     bot.on_button_click([this, &bot](const dpp::button_click_t& event)
                         {
-            if(event.custom_id == "accept" || event.custom_id == "reject")    
+            if(event.custom_id == "accept" || 
+                    event.custom_id == "reject" ||
+                    event.custom_id == "edit" ||
+                    event.custom_id.find("confirm") != std::string::npos)    
             {
                 ProcessButtonClick(event);
             } });
@@ -29,10 +32,21 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
 
 void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event)
 {
-    auto it = m_activeApplications.find(event.command.message_id);
+    dpp::snowflake id;
+    if (event.custom_id.find("confirm") != std::string::npos)
+    {
+        id = event.custom_id.substr(event.custom_id.find(":") + 1);
+        event.reply("Это подтверждение оно нашло");
+    }
+    else
+    {
+        id = event.command.message_id;
+        event.reply("Любая другая кнопка обычная нажата");
+    }
+    auto it = m_activeApplications.find(id);
     if (it == m_activeApplications.end())
     {
-        it = m_activeApplications.find(m_pairKeys[event.command.message_id]);
+        it = m_activeApplications.find(m_pairKeys[id]);
     }
     else if (it == m_activeApplications.end())
     {
@@ -63,13 +77,15 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     dpp::message msg = dpp::message(CHANNEL_MODERATION_ID, strMsg).set_flags(dpp::m_ephemeral);
 
     bool result = event.custom_id == "accept";
+    std::string button_id = result ? "confirm_accept:" : "confirm_reject:";
+    button_id += msg.id;
     dpp::component actionRow;
     actionRow.add_component(dpp::component(
         dpp::component()
             .set_label("Подтвердить")
             .set_type(dpp::cot_button)
             .set_style(result ? dpp::cos_success : dpp::cos_danger)
-            .set_id(result ? "comfirm_accept" : "comfirm_reject")));
+            .set_id(button_id)));
 
     actionRow.add_component(dpp::component(
         dpp::component()
