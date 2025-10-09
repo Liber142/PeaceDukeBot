@@ -24,7 +24,7 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
                         {
             if(event.custom_id == "accept" || 
                     event.custom_id == "reject" ||
-                    event.custom_id == "edit" ||
+                    event.custom_id.find("edit") != std::string::npos ||
                     event.custom_id.find("confirm") != std::string::npos)    
             {
                 ProcessButtonClick(event);
@@ -34,13 +34,9 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
 void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event)
 {
     dpp::snowflake id;
-    std::cout << event.custom_id << std::endl;
-    std::cout << event.custom_id.find(":") << std::endl;
-    if (event.custom_id.find("confirm") != std::string::npos)
+    if (event.custom_id.find(":") != std::string::npos)
     {
-        std::string str_id = event.custom_id.substr(event.custom_id.find(":") + 1);
-        id = str_id;
-        std::cout << "Это подтверждение и оно нашло: " << id << " | " << str_id << std::endl;
+        id = event.custom_id.substr(event.custom_id.find(":") + 1);
     }
     else
     {
@@ -56,7 +52,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     SApplicationVoteData& application = it->second;
     application.m_direckMessage = event.custom_id == "accept" ? defaultAcceptedDirectMessage : defaultRejectedDirectMessage;
 
-    if (event.custom_id == "edit")
+    if (event.custom_id.find("edit") != std::string::npos)
     {
         ShowEditModal(event, application);
     }
@@ -78,8 +74,6 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     bool result = event.custom_id == "accept";
     std::string button_id = result ? "confirm_accept:" : "confirm_reject:";
     button_id += std::to_string(event.command.message_id);
-    std::cout << "event.command.message_id: " << event.command.message_id << std::endl;
-    std::cout << "button_id: " << button_id << std::endl;
     dpp::component actionRow;
     actionRow.add_component(dpp::component(
         dpp::component()
@@ -88,12 +82,13 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
             .set_style(result ? dpp::cos_success : dpp::cos_danger)
             .set_id(button_id)));
 
+    button_id = "edit:" + std::to_string(event.command.message_id);
     actionRow.add_component(dpp::component(
         dpp::component()
             .set_label("Редактировать")
             .set_type(dpp::cot_button)
             .set_style(dpp::cos_primary)
-            .set_id("edit")));
+            .set_id(button_id)));
 
     if (!result)
     {
