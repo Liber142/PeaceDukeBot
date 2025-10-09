@@ -35,7 +35,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
 {
     dpp::snowflake id;
     std::cout << event.custom_id << std::endl;
-    std::cout << event.custom_id.find(":");
+    std::cout << event.custom_id.find(":") << std::endl;
     if (event.custom_id.find("confirm") != std::string::npos)
     {
         id = event.custom_id.substr(event.custom_id.find(":"));
@@ -76,7 +76,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
 
     bool result = event.custom_id == "accept";
     std::string button_id = result ? "confirm_accept:" : "confirm_reject:";
-    button_id += msg.id;
+    button_id += event.command.message_id;
     dpp::component actionRow;
     actionRow.add_component(dpp::component(
         dpp::component()

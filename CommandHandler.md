@@ -1,6 +1,6 @@
 Обработчик slash-команд бота.
 
-```C++
+```cpp
 class CommandHandler
 {
 public:
