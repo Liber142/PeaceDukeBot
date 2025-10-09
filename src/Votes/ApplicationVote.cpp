@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <dpp/nlohmann/json_fwd.hpp>
 #include <exception>
+#include <iostream>
 #include <ostream>
 #include <string>
 #include "../ConstAgr.h"
@@ -33,6 +34,8 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
 void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event)
 {
     dpp::snowflake id;
+    std::cout << event.custom_id << std::endl;
+    std::cout << event.custom_id.find(":");
     if (event.custom_id.find("confirm") != std::string::npos)
     {
         id = event.custom_id.substr(event.custom_id.find(":"));
@@ -44,10 +47,6 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     }
     auto it = m_activeApplications.find(id);
     if (it == m_activeApplications.end())
-    {
-        it = m_activeApplications.find(m_pairKeys[id]);
-    }
-    else if (it == m_activeApplications.end())
     {
         event.reply("Заявка не найдена");
         return;
