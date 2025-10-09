@@ -76,7 +76,7 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
 
     bool result = event.custom_id == "accept";
     std::string button_id = result ? "confirm_accept:" : "confirm_reject:";
-    button_id.push_back(event.command.message_id);
+    button_id += std::to_string(event.command.message_id);
     std::cout << "event.command.message_id: " << event.command.message_id << std::endl;
     std::cout << "button_id: " << button_id << std::endl;
     dpp::component actionRow;
