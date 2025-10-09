@@ -35,8 +35,8 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     dpp::snowflake id;
     if (event.custom_id.find("confirm") != std::string::npos)
     {
-        id = event.custom_id.substr(event.custom_id.find(":") + 1);
-        event.reply("Это подтверждение оно нашло");
+        id = event.custom_id.substr(event.custom_id.find(":"));
+        std::cout << "Это подтверждение оно нашло: " << id << std::endl;
     }
     else
     {
