@@ -41,7 +41,6 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     else
     {
         id = event.command.message_id;
-        event.reply("Любая другая кнопка обычная нажата");
     }
     auto it = m_activeApplications.find(id);
     if (it == m_activeApplications.end())
