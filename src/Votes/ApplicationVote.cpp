@@ -395,17 +395,21 @@ void CApplicationVoteSystem::CreateDiscussionChannel(dpp::cluster& bot, const SA
            .set_topic("Обсуждение заявки пользователя " + application.m_NickName);
 
     // Устанавливаем права доступа - только для модераторов
-    dpp::permission_overwrite po;
-    po.id = GUILD_ID;
-    po.type = dpp::overwrite_type::ot_role;
-    po.deny = dpp::permissions::p_view_channel;
-    channel.permissions.push_back(po);
+    // Запрещаем просмотр для @everyone (роли guild_id)
+    channel.add_permission_overwrite(
+        GUILD_ID,
+        dpp::overwrite_type::ot_role,
+        0,
+        dpp::permissions::p_view_channel
+    );
 
-    dpp::permission_overwrite po_mod;
-    po_mod.id = MODERATOR_ROLE_ID; // ID роли модераторов
-    po_mod.type = dpp::overwrite_type::ot_role;
-    po_mod.allow = dpp::permissions::p_view_channel | dpp::permissions::p_send_messages;
-    channel.permissions.push_back(po_mod);
+    // Разрешаем просмотр и отправку сообщений для модераторов
+    channel.add_permission_overwrite(
+        MODERATOR_ROLE_ID,
+        dpp::overwrite_type::ot_role,
+        dpp::permissions::p_view_channel | dpp::permissions::p_send_messages,
+        0
+    );
 
     bot.channel_create(channel, [this, &bot, application](const dpp::confirmation_callback_t& callback) {
         if (callback.is_error())
