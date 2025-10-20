@@ -216,7 +216,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     }
     else
     {
-        event.reply("Действие недоступно").set_flags(dpp::m_ephemeral);
+        event.reply(dpp::message("Дейстиве недоступно").set_flags(dpp::m_ephemeral));
     }
 }
 
@@ -303,9 +303,8 @@ void CApplicationVoteSystem::ProcessFinalAcceptance(dpp::cluster& bot, SApplicat
 
     // Обновляем сообщение заявки
     dpp::message newMsg;
-    newMsg.set_channel_id(CHANNEL_MODERATION_ID)
-          .set_id(application.m_messageId);
-
+    newMsg.set_channel_id(CHANNEL_MODERATION_ID);
+    newMsg.id = application.m_messageId;
     newMsg.embeds.push_back(
         dpp::embed()
             .set_color(dpp::colors::green)
@@ -427,44 +426,3 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
     return v;
 }
 
-nlohmann::json SApplicationVoteData::ToJson() const
-{
-    auto time_t = std::chrono::system_clock::to_time_t(m_decisionTime);
-
-    return {
-        {"targetUserId", m_targetUserId},
-        {"processedBy", m_processedBy},
-        {"messageId", m_messageId},
-        {"discussionChannelId", m_discussionChannelId},
-        {"game_nick", m_NickName},
-        {"age", m_Age},
-        {"social_rating", m_SocialReting},
-        {"about", m_About},
-        {"directMessage", m_direckMessage},
-        {"status", m_status},
-        {"rejectionReason", m_rejectionReason},
-        {"decisionTime", time_t},
-        {"isBlacklisted", m_isBlacklisted}
-    };
-}
-
-SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
-{
-    SApplicationVoteData v;
-
-    // ... существующий код ...
-
-    if (j.contains("messageId"))
-        v.m_messageId = j.value("messageId", dpp::snowflake(0));
-    if (j.contains("directMessage"))
-        v.m_direckMessage = j.value("directMessage", "");
-    if (j.contains("decisionTime"))
-    {
-        auto time_t = j.value("decisionTime", std::time_t{});
-        v.m_decisionTime = std::chrono::system_clock::from_time_t(time_t);
-    }
-    if (j.contains("isBlacklisted"))
-        v.m_isBlacklisted = j.value("isBlacklisted", false);
-
-    return v;
-}
