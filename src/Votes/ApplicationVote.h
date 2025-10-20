@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <chrono>
+#include <fstream>
 #include "DataBase.h"
 #include "IVoteSystem.h"
 
@@ -13,12 +15,12 @@ struct SApplicationVoteData
     dpp::snowflake m_processedBy;
     dpp::snowflake m_messageId;
     dpp::snowflake m_discussionChannelId;
-    int m_Age;
-    int m_SocialReting;
+    int m_Age = 0;
+    int m_SocialReting = 0;
     std::string m_NickName;
     std::string m_About;
     std::string m_direckMessage;
-    std::string m_status;
+    std::string m_status = "pending";
     std::string m_rejectionReason;
     std::chrono::system_clock::time_point m_decisionTime;
     bool m_isBlacklisted = false;

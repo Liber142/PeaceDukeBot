@@ -15,6 +15,7 @@
 #include "../DataBase.h"
 #include "../Parsing.h"
 #include "ApplicationVote.h"
+
 void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
 {
     LoadState();
@@ -167,7 +168,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     dpp::snowflake id;
     if (event.custom_id.find(":") != std::string::npos)
     {
-        id = event.custom_id.substr(event.custom_id.find(":") + 1);
+        id = std::stoull(event.custom_id.substr(event.custom_id.find(":") + 1));
     }
     else
     {
@@ -219,7 +220,6 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
         event.reply(dpp::message("Дейстиве недоступно").set_flags(dpp::m_ephemeral));
     }
 }
-
 
 void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::button_click_t& event,
                                                SApplicationVoteData& application, bool accepted)
@@ -397,15 +397,15 @@ void CApplicationVoteSystem::CreateDiscussionChannel(dpp::cluster& bot, const SA
     // Устанавливаем права доступа - только для модераторов
     dpp::permission_overwrite po;
     po.id = GUILD_ID;
-    po.type = dpp::pot_role;
-    po.deny = dpp::p_view_channel;
-    channel.add_permission_overwrite(po);
+    po.type = dpp::overwrite_type::ot_role;
+    po.deny = dpp::permissions::p_view_channel;
+    channel.permissions.push_back(po);
 
     dpp::permission_overwrite po_mod;
     po_mod.id = MODERATOR_ROLE_ID; // ID роли модераторов
-    po_mod.type = dpp::pot_role;
-    po_mod.allow = dpp::p_view_channel | dpp::p_send_messages;
-    channel.add_permission_overwrite(po_mod);
+    po_mod.type = dpp::overwrite_type::ot_role;
+    po_mod.allow = dpp::permissions::p_view_channel | dpp::permissions::p_send_messages;
+    channel.permissions.push_back(po_mod);
 
     bot.channel_create(channel, [this, &bot, application](const dpp::confirmation_callback_t& callback) {
         if (callback.is_error())
@@ -617,6 +617,69 @@ void CApplicationVoteSystem::LoadState()
     }
 }
 
+void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, 
+                                const std::string& nickname, const std::string& age, 
+                                const std::string& about, const std::string& points)
+{
+    // Создание embed сообщения заявки
+    dpp::embed embed = dpp::embed()
+        .set_color(dpp::colors::blue)
+        .set_title("📝 Новая заявка в клан")
+        .add_field("Пользователь:", user.get_mention(), true)
+        .add_field("Никнейм:", nickname, true)
+        .add_field("Возраст:", age, true)
+        .add_field("Социальный рейтинг:", points, true)
+        .add_field("О себе:", about)
+        .set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(user.id)))
+        .set_timestamp(std::time(0));
+
+    // Создаем кнопки
+    dpp::component actionRow;
+    actionRow.add_component(
+        dpp::component()
+            .set_label("✅ Принять")
+            .set_type(dpp::cot_button)
+            .set_style(dpp::cos_success)
+            .set_id("accept")
+    );
+    actionRow.add_component(
+        dpp::component()
+            .set_label("❌ Отклонить")
+            .set_type(dpp::cot_button)
+            .set_style(dpp::cos_danger)
+            .set_id("reject")
+    );
+
+    dpp::message msg(CHANNEL_MODERATION_ID, embed);
+    msg.add_component(actionRow);
+
+    // Отправляем сообщение
+    bot.message_create(msg, [this, user, nickname, age, about, points](const dpp::confirmation_callback_t& callback) {
+        if (callback.is_error())
+        {
+            std::cerr << "Ошибка отправки заявки: " << callback.get_error().message << std::endl;
+            return;
+        }
+
+        auto message = callback.get<dpp::message>();
+
+        // Сохраняем заявку в системе
+        SApplicationVoteData application;
+        application.m_targetUserId = user.id;
+        application.m_messageId = message.id;
+        application.m_NickName = nickname;
+        application.m_Age = std::stoi(age);
+        application.m_About = about;
+        application.m_SocialReting = std::stoi(points);
+        application.m_status = "pending";
+        application.m_direckMessage = defaultAcceptedDirectMessage;
+        application.m_decisionTime = std::chrono::system_clock::now();
+
+        m_activeApplications[message.id] = application;
+        SaveState();
+    });
+}
+
 nlohmann::json SApplicationVoteData::ToJson() const
 {
     auto time_t = std::chrono::system_clock::to_time_t(m_decisionTime);
@@ -642,19 +705,30 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
 {
     SApplicationVoteData v;
 
-
+    if (j.contains("targetUserId"))
+        v.m_targetUserId = j.value("targetUserId", dpp::snowflake(0));
+    if (j.contains("processedBy"))
+        v.m_processedBy = j.value("processedBy", dpp::snowflake(0));
     if (j.contains("messageId"))
         v.m_messageId = j.value("messageId", dpp::snowflake(0));
+    if (j.contains("discussionChannelId"))
+        v.m_discussionChannelId = j.value("discussionChannelId", dpp::snowflake(0));
+    if (j.contains("game_nick"))
+        v.m_NickName = j.value("game_nick", "");
+    if (j.contains("age"))
+        v.m_Age = j.value("age", 0);
+    if (j.contains("social_rating"))
+        v.m_SocialReting = j.value("social_rating", 0);
+    if (j.contains("about"))
+        v.m_About = j.value("about", "");
     if (j.contains("directMessage"))
         v.m_direckMessage = j.value("directMessage", "");
-    if (j.contains("decisionTime"))
-    {
-        auto time_t = j.value("decisionTime", std::time_t{});
-        v.m_decisionTime = std::chrono::system_clock::from_time_t(time_t);
-    }
+    if (j.contains("status"))
+        v.m_status = j.value("status", "pending");
+    if (j.contains("rejectionReason"))
+        v.m_rejectionReason = j.value("rejectionReason", "");
     if (j.contains("isBlacklisted"))
         v.m_isBlacklisted = j.value("isBlacklisted", false);
 
     return v;
 }
-
