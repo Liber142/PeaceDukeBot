@@ -384,6 +384,239 @@ void CApplicationVoteSystem::ShowModeratorOptions(dpp::cluster& bot, const dpp::
     event.reply(msg);
 }
 
+// Реализация CreateDiscussionChannel
+void CApplicationVoteSystem::CreateDiscussionChannel(dpp::cluster& bot, const SApplicationVoteData& application)
+{
+    // Создаем текстовый канал для обсуждения
+    dpp::channel channel;
+    channel.set_guild_id(GUILD_ID)
+           .set_name("обсуждение-" + std::to_string(application.m_targetUserId))
+           .set_type(dpp::channel_type::CHANNEL_TEXT)
+           .set_topic("Обсуждение заявки пользователя " + application.m_NickName);
+
+    // Устанавливаем права доступа - только для модераторов
+    dpp::permission_overwrite po;
+    po.id = GUILD_ID;
+    po.type = dpp::pot_role;
+    po.deny = dpp::p_view_channel;
+    channel.add_permission_overwrite(po);
+
+    dpp::permission_overwrite po_mod;
+    po_mod.id = MODERATOR_ROLE_ID; // ID роли модераторов
+    po_mod.type = dpp::pot_role;
+    po_mod.allow = dpp::p_view_channel | dpp::p_send_messages;
+    channel.add_permission_overwrite(po_mod);
+
+    bot.channel_create(channel, [this, &bot, application](const dpp::confirmation_callback_t& callback) {
+        if (callback.is_error())
+        {
+            std::cerr << "Ошибка создания канала обсуждения: " << callback.get_error().message << std::endl;
+            return;
+        }
+
+        auto new_channel = callback.get<dpp::channel>();
+
+        // Отправляем информацию о заявке в новый канал
+        dpp::embed embed = dpp::embed()
+            .set_title("🚨 Обсуждение заявки")
+            .set_color(dpp::colors::orange)
+            .add_field("Пользователь:", "<@" + std::to_string(application.m_targetUserId) + "> (" + application.m_NickName + ")")
+            .add_field("Возраст:", std::to_string(application.m_Age))
+            .add_field("О себе:", application.m_About)
+            .add_field("Статус:", application.m_status)
+            .add_field("Решение принял:", "<@" + std::to_string(application.m_processedBy) + ">")
+            .set_footer(dpp::embed_footer().set_text("Канал создан для обсуждения заявки"));
+
+        dpp::message msg(new_channel.id, embed);
+
+        // Добавляем кнопку для быстрого принятия решения
+        dpp::component actionRow;
+        actionRow.add_component(
+            dpp::component()
+                .set_label("✅ Подтвердить принятие")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_success)
+                .set_id("force_accept:" + std::to_string(application.m_messageId))
+        );
+        actionRow.add_component(
+            dpp::component()
+                .set_label("❌ Отменить принятие")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_danger)
+                .set_id("force_reject:" + std::to_string(application.m_messageId))
+        );
+
+        msg.add_component(actionRow);
+
+        bot.message_create(msg);
+
+        // Обновляем заявку с ID канала обсуждения
+        auto it = m_activeApplications.find(application.m_messageId);
+        if (it != m_activeApplications.end())
+        {
+            it->second.m_discussionChannelId = new_channel.id;
+            SaveState();
+        }
+    });
+}
+
+// Реализация ArchiveApplication
+void CApplicationVoteSystem::ArchiveApplication(dpp::cluster& bot, SApplicationVoteData& application)
+{
+    // Удаляем из активных заявок
+    m_activeApplications.erase(application.m_messageId);
+
+    // TODO: Реализовать логику архивации - перемещение сообщения в архивный канал
+    // Пока просто сохраняем состояние без этой заявки
+    SaveState();
+
+    std::cout << "Заявка пользователя " << application.m_NickName << " архивирована" << std::endl;
+}
+
+// Реализация AssignMemberRole
+void CApplicationVoteSystem::AssignMemberRole(dpp::cluster& bot, dpp::snowflake userId)
+{
+    // Выдаем роль участника
+    bot.guild_member_add_role(GUILD_ID, userId, MEMBER_ROLE_ID,
+        [userId](const dpp::confirmation_callback_t& callback) {
+            if (callback.is_error())
+            {
+                std::cerr << "Ошибка выдачи роли пользователю " << userId << ": "
+                          << callback.get_error().message << std::endl;
+            }
+            else
+            {
+                std::cout << "Роль выдана пользователю " << userId << std::endl;
+            }
+        });
+}
+
+// Реализация SendWelcomeMessage
+void CApplicationVoteSystem::SendWelcomeMessage(dpp::cluster& bot, const SApplicationVoteData& application)
+{
+    std::string welcomeMsg = fmt::format(
+        "🎉 **Добро пожаловать в клан, {}!**\n\n"
+        "Мы рады приветствовать тебя в наших рядах!\n"
+        "Не забудь ознакомиться с правилами и представиться в соответствующем канале.",
+        application.m_NickName
+    );
+
+    dpp::embed welcomeEmbed = dpp::embed()
+        .set_title("Новый участник! 🎉")
+        .set_description(welcomeMsg)
+        .add_field("Никнейм:", application.m_NickName, true)
+        .add_field("Возраст:", std::to_string(application.m_Age), true)
+        .set_color(dpp::colors::green)
+        .set_footer(dpp::embed_footer().set_text("Добро пожаловать!"));
+
+    bot.message_create(dpp::message(WELCOME_CHANNEL_ID, welcomeEmbed),
+        [](const dpp::confirmation_callback_t& callback) {
+            if (callback.is_error())
+            {
+                std::cerr << "Ошибка отправки приветственного сообщения: "
+                          << callback.get_error().message << std::endl;
+            }
+        });
+}
+
+void CApplicationVoteSystem::ProcessFormSubmit(const dpp::form_submit_t& event)
+{
+    try
+    {
+        dpp::user user = event.command.get_issuing_user();
+        std::string nickname = std::get<std::string>(event.components[0].components[0].value);
+        std::string age = std::get<std::string>(event.components[1].components[0].value);
+        std::string about = std::get<std::string>(event.components[2].components[0].value);
+
+        // Валидация возраста
+        if (!std::all_of(age.begin(), age.end(), ::isdigit))
+        {
+            event.reply(dpp::message("Возраст должен быть числом").set_flags(dpp::m_ephemeral));
+            return;
+        }
+
+        int i_age = std::stoi(age);
+        if (i_age < 1)
+        {
+            event.reply(dpp::message("Некорректный возраст").set_flags(dpp::m_ephemeral));
+            return;
+        }
+
+        event.reply(dpp::message("Заявка отправлена").set_flags(dpp::m_ephemeral));
+
+        std::string points = std::to_string(Parsing::GetPoints(Parsing::GetUrl(nickname)));
+        CreateApplicationMessage(*event.from()->creator, user, nickname, age, about, points);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Ошибка в ProcessFormSubmit: " << e.what() << std::endl;
+        event.reply("Произошла ошибка при обработке заявки");
+    }
+}
+
+void CApplicationVoteSystem::SaveState()
+{
+    DataBase db(PATH_VOTES_DATA_BASE);
+    nlohmann::json data;
+
+    for (auto& [msgId, application] : m_activeApplications)
+    {
+        data[std::to_string(msgId)] = application.ToJson();
+    }
+
+    db.SaveVoteData(data);
+    std::cout << "Состояние заявок сохранено, активных заявок: " << m_activeApplications.size() << std::endl;
+}
+
+void CApplicationVoteSystem::LoadState()
+{
+    DataBase db(PATH_VOTES_DATA_BASE);
+    nlohmann::json data = db.GetVoteData();
+
+    // Загрузка конфигурации
+    std::ifstream config(PATH_CONFIG);
+    if (config.is_open())
+    {
+        try
+        {
+            nlohmann::json jsonConfig = nlohmann::json::parse(config);
+            if (jsonConfig.contains("AplicationAceptedMessage"))
+                defaultAcceptedDirectMessage = jsonConfig.value("AplicationAceptedMessage", "");
+            if (jsonConfig.contains("AplicationRejectedMessage"))
+                defaultRejectedDirectMessage = jsonConfig.value("AplicationRejectedMessage", "");
+            if (jsonConfig.contains("WelcomeMessage"))
+                defaultWelcomeMessage = jsonConfig.value("WelcomeMessage", "");
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Ошибка загрузки конфигурации: " << e.what() << std::endl;
+        }
+        config.close();
+    }
+
+    if (!data.is_null())
+    {
+        m_activeApplications.clear();
+        for (auto& [key, value] : data.items())
+        {
+            try
+            {
+                dpp::snowflake msgId = std::stoull(key);
+                SApplicationVoteData application = SApplicationVoteData::FromJson(value);
+
+                // Восстанавливаем ID сообщения
+                application.m_messageId = msgId;
+                m_activeApplications[msgId] = application;
+            }
+            catch (const std::exception& e)
+            {
+                std::cerr << "Ошибка загрузки заявки " << key << ": " << e.what() << std::endl;
+            }
+        }
+        std::cout << "Загружено заявок: " << m_activeApplications.size() << std::endl;
+    }
+}
+
 nlohmann::json SApplicationVoteData::ToJson() const
 {
     auto time_t = std::chrono::system_clock::to_time_t(m_decisionTime);
@@ -409,7 +642,6 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
 {
     SApplicationVoteData v;
 
-    // ... существующий код ...
 
     if (j.contains("messageId"))
         v.m_messageId = j.value("messageId", dpp::snowflake(0));
