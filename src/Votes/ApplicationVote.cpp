@@ -21,7 +21,7 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
     LoadState();
 
     bot.on_button_click([this, &bot](const dpp::button_click_t& event)
-    {
+                        {
         if(event.custom_id == "accept" || 
            event.custom_id == "reject" ||
            event.custom_id.find("edit") != std::string::npos ||
@@ -31,12 +31,11 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
            event.custom_id.find("intervene") != std::string::npos)    
         {
             ProcessButtonClick(event);
-        }
-    });
+        } });
 
     // Обработка модальных окон
     bot.on_form_submit([this](const dpp::form_submit_t& event)
-    {
+                       {
         if (event.custom_id.find("modal_") != std::string::npos)
         {
             ProcessModalResponse(event);
@@ -44,8 +43,7 @@ void CApplicationVoteSystem::Initialize(dpp::cluster& bot)
         else
         {
             ProcessFormSubmit(event);
-        }
-    });
+        } });
 }
 
 void CApplicationVoteSystem::ProcessModalResponse(const dpp::form_submit_t& event)
@@ -119,8 +117,7 @@ void CApplicationVoteSystem::ShowEditModal(const dpp::button_click_t& event, SAp
             .set_text_style(dpp::text_paragraph)
             .set_placeholder("Введите сообщение которое получит пользователь")
             .set_min_length(10)
-            .set_max_length(2000)
-    );
+            .set_max_length(2000));
 
     event.dialog(modal);
 }
@@ -138,8 +135,7 @@ void CApplicationVoteSystem::ShowReasonModal(const dpp::button_click_t& event, S
             .set_text_style(dpp::text_paragraph)
             .set_placeholder("Объясните причину отказа пользователю")
             .set_min_length(10)
-            .set_max_length(1000)
-    );
+            .set_max_length(1000));
 
     event.dialog(modal);
 }
@@ -157,8 +153,7 @@ void CApplicationVoteSystem::ShowBlacklistModal(const dpp::button_click_t& event
             .set_placeholder("Укажите причину добавления в черный список")
             .set_min_length(10)
             .set_max_length(1000)
-            .set_required(true)
-    );
+            .set_required(true));
 
     event.dialog(modal);
 }
@@ -187,11 +182,11 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     // Обработка разных типов кнопок
     if (event.custom_id.find("confirm_accept") != std::string::npos)
     {
-        ProcessConfirmation(*event.from()->creator, event, application, true);
+        ProcessConfirmation(*event.from, event, application, true);
     }
     else if (event.custom_id.find("confirm_reject") != std::string::npos)
     {
-        ProcessConfirmation(*event.from()->creator, event, application, false);
+        ProcessConfirmation(*event.from, event, application, false);
     }
     else if (event.custom_id.find("edit") != std::string::npos)
     {
@@ -221,29 +216,19 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     }
 }
 
-void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::button_click_t& event,
-                                               SApplicationVoteData& application, bool accepted)
+void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application, bool accepted)
 {
     application.m_status = accepted ? "accepted" : "rejected";
     application.m_processedBy = event.command.usr.id;
     application.m_decisionTime = std::chrono::system_clock::now();
 
-    // Отправляем сообщение пользователю
-    if (!application.m_direckMessage.empty())
-    {
-        bot.direct_message_create(application.m_targetUserId,
-            dpp::message(application.m_direckMessage));
-    }
-
+   
     // Обновляем сообщение заявки
     dpp::message newMsg = event.command.msg;
 
     if (accepted)
     {
-        newMsg.embeds[0].set_color(dpp::colors::yellow)
-                        .set_title("✅ Заявка принята (ожидает подтверждения)")
-                        .add_field("Принял:", event.command.usr.get_mention(), true)
-                        .add_field("Статус:", "Автоподтверждение через 24 часа", true);
+        newMsg.embeds[0].set_color(dpp::colors::yellow).set_title("✅ Заявка принята (ожидает подтверждения)").add_field("Принял:", event.command.usr.get_mention(), true).add_field("Статус:", "Автоподтверждение через 24 часа", true);
 
         // Добавляем кнопку "Вмешаться" только для принятых заявок
         dpp::component actionRow;
@@ -252,26 +237,24 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
                 .set_label("🚨 Вмешаться")
                 .set_type(dpp::cot_button)
                 .set_style(dpp::cos_secondary)
-                .set_id("intervene:" + std::to_string(application.m_messageId))
-        );
+                .set_id("intervene:" + std::to_string(application.m_messageId)));
         newMsg.components.clear();
         newMsg.add_component(actionRow);
 
         // Устанавливаем таймер на 24 часа для финального принятия
-        bot.start_timer([this, &bot, application](dpp::timer timer) {
+        bot.start_timer([this, &bot, application](dpp::timer timer)
+                        {
             auto it = m_activeApplications.find(application.m_messageId);
             if (it != m_activeApplications.end() && it->second.m_status == "accepted")
             {
                 ProcessFinalAcceptance(bot, it->second);
-            }
-        }, 86400); // 24 часа
+            } },
+                        86400); // 24 часа
     }
     else
     {
         // Для отклоненных заявок
-        newMsg.embeds[0].set_color(dpp::colors::red)
-                        .set_title("❌ Заявка отклонена")
-                        .add_field("Отклонил:", event.command.usr.get_mention(), true);
+        newMsg.embeds[0].set_color(dpp::colors::red).set_title("❌ Заявка отклонена").add_field("Отклонил:", event.command.usr.get_mention(), true);
 
         if (!application.m_rejectionReason.empty())
         {
@@ -300,6 +283,14 @@ void CApplicationVoteSystem::ProcessFinalAcceptance(dpp::cluster& bot, SApplicat
     // Выдаем роль и отправляем приветствие
     AssignMemberRole(bot, application.m_targetUserId);
     SendWelcomeMessage(bot, application);
+   
+    // Отправляем сообщение пользователю
+    if (!application.m_direckMessage.empty())
+    {
+        bot.direct_message_create(application.m_targetUserId,
+                                  dpp::message(application.m_direckMessage));
+    }
+
 
     // Обновляем сообщение заявки
     dpp::message newMsg;
@@ -312,8 +303,7 @@ void CApplicationVoteSystem::ProcessFinalAcceptance(dpp::cluster& bot, SApplicat
             .add_field("Пользователь:", "<@" + std::to_string(application.m_targetUserId) + ">")
             .add_field("Ник:", application.m_NickName)
             .add_field("Принял:", "<@" + std::to_string(application.m_processedBy) + ">")
-            .set_footer(dpp::embed_footer().set_text("Автоподтверждение"))
-    );
+            .set_footer(dpp::embed_footer().set_text("Автоподтверждение")));
 
     newMsg.components.clear(); // Убираем все кнопки
 
@@ -390,9 +380,9 @@ void CApplicationVoteSystem::CreateDiscussionChannel(dpp::cluster& bot, const SA
     // Создаем текстовый канал для обсуждения
     dpp::channel channel;
     channel.set_guild_id(GUILD_ID)
-           .set_name("обсуждение-" + std::to_string(application.m_targetUserId))
-           .set_type(dpp::channel_type::CHANNEL_TEXT)
-           .set_topic("Обсуждение заявки пользователя " + application.m_NickName);
+        .set_name("обсуждение-" + std::to_string(application.m_targetUserId))
+        .set_type(dpp::channel_type::CHANNEL_TEXT)
+        .set_topic("Обсуждение заявки пользователя " + application.m_NickName);
 
     // Устанавливаем права доступа - только для модераторов
     // Запрещаем просмотр для @everyone (роли guild_id)
@@ -400,18 +390,17 @@ void CApplicationVoteSystem::CreateDiscussionChannel(dpp::cluster& bot, const SA
         GUILD_ID,
         dpp::overwrite_type::ot_role,
         0,
-        dpp::permissions::p_view_channel
-    );
+        dpp::permissions::p_view_channel);
 
     // Разрешаем просмотр и отправку сообщений для модераторов
     channel.add_permission_overwrite(
         MODERATOR_ROLE_ID,
         dpp::overwrite_type::ot_role,
         dpp::permissions::p_view_channel | dpp::permissions::p_send_messages,
-        0
-    );
+        0);
 
-    bot.channel_create(channel, [this, &bot, application](const dpp::confirmation_callback_t& callback) {
+    bot.channel_create(channel, [this, &bot, application](const dpp::confirmation_callback_t& callback)
+                       {
         if (callback.is_error())
         {
             std::cerr << "Ошибка создания канала обсуждения: " << callback.get_error().message << std::endl;
@@ -460,8 +449,7 @@ void CApplicationVoteSystem::CreateDiscussionChannel(dpp::cluster& bot, const SA
         {
             it->second.m_discussionChannelId = new_channel.id;
             SaveState();
-        }
-    });
+        } });
 }
 
 // Реализация ArchiveApplication
@@ -481,8 +469,8 @@ void CApplicationVoteSystem::ArchiveApplication(dpp::cluster& bot, SApplicationV
 void CApplicationVoteSystem::AssignMemberRole(dpp::cluster& bot, dpp::snowflake userId)
 {
     // Выдаем роль участника
-    bot.guild_member_add_role(GUILD_ID, userId, MEMBER_ROLE_ID,
-        [userId](const dpp::confirmation_callback_t& callback) {
+    bot.guild_member_add_role(GUILD_ID, userId, MEMBER_ROLE_ID, [userId](const dpp::confirmation_callback_t& callback)
+                              {
             if (callback.is_error())
             {
                 std::cerr << "Ошибка выдачи роли пользователю " << userId << ": "
@@ -491,8 +479,7 @@ void CApplicationVoteSystem::AssignMemberRole(dpp::cluster& bot, dpp::snowflake 
             else
             {
                 std::cout << "Роль выдана пользователю " << userId << std::endl;
-            }
-        });
+            } });
 }
 
 // Реализация SendWelcomeMessage
@@ -502,25 +489,25 @@ void CApplicationVoteSystem::SendWelcomeMessage(dpp::cluster& bot, const SApplic
         "🎉 **Добро пожаловать в клан, {}!**\n\n"
         "Мы рады приветствовать тебя в наших рядах!\n"
         "Не забудь ознакомиться с правилами и представиться в соответствующем канале.",
-        application.m_NickName
-    );
+        application.m_NickName);
 
     dpp::embed welcomeEmbed = dpp::embed()
-        .set_title("Новый участник! 🎉")
-        .set_description(welcomeMsg)
-        .add_field("Никнейм:", application.m_NickName, true)
-        .add_field("Возраст:", std::to_string(application.m_Age), true)
-        .set_color(dpp::colors::green)
-        .set_footer(dpp::embed_footer().set_text("Добро пожаловать!"));
+                                  .set_title("Новый участник! 🎉")
+                                  .set_description(welcomeMsg)
+                                  .add_field("Никнейм:", application.m_NickName, true)
+                                  .add_field("Возраст:", std::to_string(application.m_Age), true)
+                                  .set_color(dpp::colors::green)
+                                  .set_footer(dpp::embed_footer().set_text("Добро пожаловать!"));
 
     bot.message_create(dpp::message(WELCOME_CHANNEL_ID, welcomeEmbed),
-        [](const dpp::confirmation_callback_t& callback) {
-            if (callback.is_error())
-            {
-                std::cerr << "Ошибка отправки приветственного сообщения: "
-                          << callback.get_error().message << std::endl;
-            }
-        });
+                       [](const dpp::confirmation_callback_t& callback)
+                       {
+                           if (callback.is_error())
+                           {
+                               std::cerr << "Ошибка отправки приветственного сообщения: "
+                                         << callback.get_error().message << std::endl;
+                           }
+                       });
 }
 
 void CApplicationVoteSystem::ProcessFormSubmit(const dpp::form_submit_t& event)
@@ -621,21 +608,19 @@ void CApplicationVoteSystem::LoadState()
     }
 }
 
-void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, 
-                                const std::string& nickname, const std::string& age, 
-                                const std::string& about, const std::string& points)
+void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, const std::string& nickname, const std::string& age, const std::string& about, const std::string& points)
 {
     // Создание embed сообщения заявки
     dpp::embed embed = dpp::embed()
-        .set_color(dpp::colors::blue)
-        .set_title("📝 Новая заявка в клан")
-        .add_field("Пользователь:", user.get_mention(), true)
-        .add_field("Никнейм:", nickname, true)
-        .add_field("Возраст:", age, true)
-        .add_field("Социальный рейтинг:", points, true)
-        .add_field("О себе:", about)
-        .set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(user.id)))
-        .set_timestamp(std::time(0));
+                           .set_color(dpp::colors::blue)
+                           .set_title("📝 Новая заявка в клан")
+                           .add_field("Пользователь:", user.get_mention(), true)
+                           .add_field("Никнейм:", nickname, true)
+                           .add_field("Возраст:", age, true)
+                           .add_field("Социальный рейтинг:", points, true)
+                           .add_field("О себе:", about)
+                           .set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(user.id)))
+                           .set_timestamp(std::time(0));
 
     // Создаем кнопки
     dpp::component actionRow;
@@ -644,21 +629,20 @@ void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const d
             .set_label("✅ Принять")
             .set_type(dpp::cot_button)
             .set_style(dpp::cos_success)
-            .set_id("accept")
-    );
+            .set_id("accept"));
     actionRow.add_component(
         dpp::component()
             .set_label("❌ Отклонить")
             .set_type(dpp::cot_button)
             .set_style(dpp::cos_danger)
-            .set_id("reject")
-    );
+            .set_id("reject"));
 
     dpp::message msg(CHANNEL_MODERATION_ID, embed);
     msg.add_component(actionRow);
 
     // Отправляем сообщение
-    bot.message_create(msg, [this, user, nickname, age, about, points](const dpp::confirmation_callback_t& callback) {
+    bot.message_create(msg, [this, user, nickname, age, about, points](const dpp::confirmation_callback_t& callback)
+                       {
         if (callback.is_error())
         {
             std::cerr << "Ошибка отправки заявки: " << callback.get_error().message << std::endl;
@@ -680,8 +664,7 @@ void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const d
         application.m_decisionTime = std::chrono::system_clock::now();
 
         m_activeApplications[message.id] = application;
-        SaveState();
-    });
+        SaveState(); });
 }
 
 nlohmann::json SApplicationVoteData::ToJson() const
@@ -701,8 +684,7 @@ nlohmann::json SApplicationVoteData::ToJson() const
         {"status", m_status},
         {"rejectionReason", m_rejectionReason},
         {"decisionTime", time_t},
-        {"isBlacklisted", m_isBlacklisted}
-    };
+        {"isBlacklisted", m_isBlacklisted}};
 }
 
 SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
