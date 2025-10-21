@@ -1,5 +1,6 @@
 #include <dpp/application.h>
 #include <dpp/cluster.h>
+#include <dpp/colors.h>
 #include <dpp/dispatcher.h>
 #include <dpp/message.h>
 #include <dpp/snowflake.h>
@@ -216,74 +217,116 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
         event.reply(dpp::message("Дейстиве недоступно").set_flags(dpp::m_ephemeral));
     }
 }
-
 void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application, bool accepted)
 {
-        std::cout << "2" << std::endl;
-    application.m_status = accepted ? "accepted" : "rejected";
-    application.m_processedBy = event.command.usr.id;
-    application.m_decisionTime = std::chrono::system_clock::now();
-
-   
-    // Обновляем сообщение заявки
-    dpp::message newMsg = event.command.msg;
-
-    if (accepted)
+    try
     {
-        std::cout << "3" << std::endl;
-        newMsg.embeds[0].set_title("✅ Заявка принята (ожидает подтверждения)").add_field("Принял:", event.command.usr.get_mention(), true).add_field("Статус:", "Автоподтверждение через 24 часа", true);
+        application.m_status = accepted ? "accepted" : "rejected";
+        application.m_processedBy = event.command.usr.id;
+        application.m_decisionTime = std::chrono::system_clock::now();
 
-        // Добавляем кнопку "Вмешаться" только для принятых заявок
-        dpp::component actionRow;
-        actionRow.add_component(
-            dpp::component()
-                .set_label("🚨 Вмешаться")
-                .set_type(dpp::cot_button)
-                .set_style(dpp::cos_secondary)
-                .set_id("intervene:" + std::to_string(application.m_messageId)));
-        newMsg.components.clear();
-        newMsg.add_component(actionRow);
+        // Отправляем сообщение пользователю с обработкой ошибок
+        if (!application.m_direckMessage.empty())
+        {
+            bot.direct_message_create(
+                application.m_targetUserId,
+                dpp::message(application.m_direckMessage),
+                [application](const dpp::confirmation_callback_t& callback)
+                {
+                    if (callback.is_error())
+                    {
+                        std::cerr << "Ошибка отправки сообщения пользователю "
+                                  << application.m_targetUserId << ": "
+                                  << callback.get_error().message << std::endl;
+                    }
+                });
+        }
 
-        std::cout << "4" << std::endl;
-        // Устанавливаем таймер на 24 часа для финального принятия
-        bot.start_timer([this, &bot, application](dpp::timer timer)
-                        {
-        std::cout << "5" << std::endl;
-            auto it = m_activeApplications.find(application.m_messageId);
-            if (it != m_activeApplications.end() && it->second.m_status == "accepted")
+        // Создаем новое сообщение для редактирования
+        dpp::message newMsg(event.command.msg.channel_id, "");
+        newMsg.id = event.command.msg.id;
+
+        if (accepted)
+        {
+            dpp::embed embed = dpp::embed()
+                                   .set_color(dpp::colors::yellow)
+                                   .set_title("✅ Заявка принята (ожидает подтверждения)")
+                                   .add_field("Пользователь:", "<@" + std::to_string(application.m_targetUserId) + ">", true)
+                                   .add_field("Ник:", application.m_NickName, true)
+                                   .add_field("Принял:", event.command.usr.get_mention(), true)
+                                   .add_field("Статус:", "Автоподтверждение через 24 часа", true)
+                                   .set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(application.m_targetUserId)))
+                                   .set_timestamp(std::chrono::system_clock::now());
+
+            newMsg.embeds.push_back(embed);
+
+            // Добавляем кнопку "Вмешаться"
+            dpp::component actionRow;
+            actionRow.add_component(
+                dpp::component()
+                    .set_label("🚨 Вмешаться")
+                    .set_type(dpp::cot_button)
+                    .set_style(dpp::cos_secondary)
+                    .set_id("intervene:" + std::to_string(application.m_messageId)));
+            newMsg.components.clear();
+            newMsg.add_component(actionRow);
+
+            // Устанавливаем таймер на 24 часа для финального принятия
+            bot.start_timer([this, &bot, application](dpp::timer timer)
+                            {
+                auto it = m_activeApplications.find(application.m_messageId);
+                if (it != m_activeApplications.end() && it->second.m_status == "accepted")
+                {
+                    ProcessFinalAcceptance(bot, it->second);
+                } },
+                            86400); // 24 часа
+        }
+        else
+        {
+            // Для отклоненных заявок
+            dpp::embed embed = dpp::embed()
+                                   .set_color(dpp::colors::red)
+                                   .set_title("❌ Заявка отклонена")
+                                   .add_field("Пользователь:", "<@" + std::to_string(application.m_targetUserId) + ">", true)
+                                   .add_field("Ник:", application.m_NickName, true)
+                                   .add_field("Отклонил:", event.command.usr.get_mention(), true);
+
+            if (!application.m_rejectionReason.empty())
             {
-                ProcessFinalAcceptance(bot, it->second);
-            } },
-                        86400); // 24 часа
+                embed.add_field("Причина:", application.m_rejectionReason);
+            }
+
+            if (application.m_isBlacklisted)
+            {
+                embed.add_field("Черный список:", "✅ Да");
+            }
+
+            embed.set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(application.m_targetUserId)))
+                .set_timestamp(std::chrono::system_clock::now());
+
+            newMsg.embeds.push_back(embed);
+            newMsg.components.clear(); // Убираем все кнопки
+
+            // Архивируем отклоненную заявку
+            ArchiveApplication(bot, application);
+        }
+
+        // Редактируем сообщение с обработкой ошибок
+        bot.message_edit(newMsg, [event, accepted](const dpp::confirmation_callback_t& callback)
+                         {
+            if (callback.is_error()) {
+                std::cerr << "Ошибка редактирования сообщения: " 
+                          << callback.get_error().message << std::endl;
+            } });
+
+        SaveState();
+        event.reply(dpp::message("Решение применено").set_flags(dpp::m_ephemeral));
     }
-    else
+    catch (const std::exception& e)
     {
-        // Для отклоненных заявок
-        newMsg.embeds[0].set_color(dpp::colors::red).set_title("❌ Заявка отклонена").add_field("Отклонил:", event.command.usr.get_mention(), true);
-
-        std::cout << "6" << std::endl;
-        if (!application.m_rejectionReason.empty())
-        {
-            newMsg.embeds[0].add_field("Причина:", application.m_rejectionReason);
-        }
-
-        if (application.m_isBlacklisted)
-        {
-            newMsg.embeds[0].add_field("Черный список:", "✅ Да");
-        }
-
-        // Убираем все кнопки для отклоненных заявок
-        newMsg.components.clear();
-
-        std::cout << "7" << std::endl;
-        // Архивируем отклоненную заявку сразу
-        ArchiveApplication(bot, application);
+        std::cerr << "Ошибка в ProcessConfirmation: " << e.what() << std::endl;
+        event.reply(dpp::message("Произошла ошибка при обработке").set_flags(dpp::m_ephemeral));
     }
-
-        std::cout << "8" << std::endl;
-    bot.message_edit(newMsg);
-    SaveState();
-    event.reply(dpp::message("Решение применено").set_flags(dpp::m_ephemeral));
 }
 
 void CApplicationVoteSystem::ProcessFinalAcceptance(dpp::cluster& bot, SApplicationVoteData& application)
@@ -291,14 +334,13 @@ void CApplicationVoteSystem::ProcessFinalAcceptance(dpp::cluster& bot, SApplicat
     // Выдаем роль и отправляем приветствие
     AssignMemberRole(bot, application.m_targetUserId);
     SendWelcomeMessage(bot, application);
-   
+
     // Отправляем сообщение пользователю
     if (!application.m_direckMessage.empty())
     {
         bot.direct_message_create(application.m_targetUserId,
                                   dpp::message(application.m_direckMessage));
     }
-
 
     // Обновляем сообщение заявки
     dpp::message newMsg;
