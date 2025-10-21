@@ -7,6 +7,7 @@
 #include <dpp/user.h>
 #include <fmt/format.h>
 #include <algorithm>
+#include <chrono>
 #include <dpp/nlohmann/json_fwd.hpp>
 #include <exception>
 #include <iostream>
@@ -223,7 +224,7 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
     {
         application.m_status = accepted ? "accepted" : "rejected";
         application.m_processedBy = event.command.usr.id;
-        application.m_decisionTime = std::chrono::system_clock::now();
+        application.m_decisionTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
         // Отправляем сообщение пользователю с обработкой ошибок
         if (!application.m_direckMessage.empty())
@@ -704,21 +705,18 @@ void CApplicationVoteSystem::CreateApplicationMessage(dpp::cluster& bot, const d
         application.m_SocialReting = std::stoi(points);
         application.m_status = "pending";
         application.m_direckMessage = defaultAcceptedDirectMessage;
-        application.m_decisionTime = std::chrono::system_clock::now();
+        application.m_decisionTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
         m_activeApplications[message.id] = application;
         SaveState(); });
 }
-
 nlohmann::json SApplicationVoteData::ToJson() const
 {
-    auto time_t = std::chrono::system_clock::to_time_t(m_decisionTime);
-
     return {
-        {"targetUserId", m_targetUserId},
-        {"processedBy", m_processedBy},
-        {"messageId", m_messageId},
-        {"discussionChannelId", m_discussionChannelId},
+        {"targetUserId", std::to_string(m_targetUserId)},  // Конвертируем snowflake в string
+        {"processedBy", std::to_string(m_processedBy)},    // Конвертируем snowflake в string
+        {"messageId", std::to_string(m_messageId)},        // Конвертируем snowflake в string
+        {"discussionChannelId", std::to_string(m_discussionChannelId)}, // Конвертируем snowflake в string
         {"game_nick", m_NickName},
         {"age", m_Age},
         {"social_rating", m_SocialReting},
@@ -726,7 +724,7 @@ nlohmann::json SApplicationVoteData::ToJson() const
         {"directMessage", m_direckMessage},
         {"status", m_status},
         {"rejectionReason", m_rejectionReason},
-        {"decisionTime", time_t},
+        {"decisionTime", static_cast<int64_t>(m_decisionTime)},    // Явно указываем тип
         {"isBlacklisted", m_isBlacklisted}};
 }
 
@@ -734,14 +732,49 @@ SApplicationVoteData SApplicationVoteData::FromJson(const nlohmann::json& j)
 {
     SApplicationVoteData v;
 
-    if (j.contains("targetUserId"))
-        v.m_targetUserId = j.value("targetUserId", dpp::snowflake(0));
-    if (j.contains("processedBy"))
-        v.m_processedBy = j.value("processedBy", dpp::snowflake(0));
-    if (j.contains("messageId"))
-        v.m_messageId = j.value("messageId", dpp::snowflake(0));
-    if (j.contains("discussionChannelId"))
-        v.m_discussionChannelId = j.value("discussionChannelId", dpp::snowflake(0));
+    // Обрабатываем snowflake поля, которые могут быть как string, так и number
+    if (j.contains("targetUserId")) {
+        if (j["targetUserId"].is_string()) {
+            v.m_targetUserId = std::stoull(j["targetUserId"].get<std::string>());
+        } else {
+            v.m_targetUserId = j["targetUserId"].get<dpp::snowflake>();
+        }
+    }
+
+    if (j.contains("processedBy")) {
+        if (j["processedBy"].is_string()) {
+            v.m_processedBy = std::stoull(j["processedBy"].get<std::string>());
+        } else {
+            v.m_processedBy = j["processedBy"].get<dpp::snowflake>();
+        }
+    }
+
+    if (j.contains("messageId")) {
+        if (j["messageId"].is_string()) {
+            v.m_messageId = std::stoull(j["messageId"].get<std::string>());
+        } else {
+            v.m_messageId = j["messageId"].get<dpp::snowflake>();
+        }
+    }
+
+    if (j.contains("discussionChannelId")) {
+        if (j["discussionChannelId"].is_string()) {
+            v.m_discussionChannelId = std::stoull(j["discussionChannelId"].get<std::string>());
+        } else {
+            v.m_discussionChannelId = j["discussionChannelId"].get<dpp::snowflake>();
+        }
+    }
+
+    // Обрабатываем decisionTime, который может быть string или number
+    if (j.contains("decisionTime")) {
+        if (j["decisionTime"].is_string()) {
+            v.m_decisionTime = std::stoll(j["decisionTime"].get<std::string>());
+        } else {
+            v.m_decisionTime = j["decisionTime"].get<time_t>();
+        }
+    }
+
+    // Остальные поля
     if (j.contains("game_nick"))
         v.m_NickName = j.value("game_nick", "");
     if (j.contains("age"))

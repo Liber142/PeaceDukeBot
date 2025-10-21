@@ -22,7 +22,7 @@ struct SApplicationVoteData
     std::string m_direckMessage;
     std::string m_status = "pending";
     std::string m_rejectionReason;
-    std::chrono::system_clock::time_point m_decisionTime;
+    time_t m_decisionTime;
     bool m_isBlacklisted = false;
 
     nlohmann::json ToJson() const;
