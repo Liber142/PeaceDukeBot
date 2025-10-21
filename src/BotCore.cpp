@@ -57,13 +57,6 @@ void BotCore::SetupEvent()
         OnlineClanMember.Init(bot);
     });  
 
-
-    bot.on_form_submit([&](const dpp::form_submit_t& event) 
-    {
-        if (event.custom_id == "clan_apply") 
-            applicationVoteSystem->ProcessFormSubmit(event);
-    });
-
     bot.on_guild_member_add([this](const dpp::guild_member_add_t& event)
     {
         dpp::snowflake guild_id = event.added.guild_id;

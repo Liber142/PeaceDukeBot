@@ -58,8 +58,6 @@ void C_OnlineClanMember::Init(dpp::cluster& bot)
 
 void C_OnlineClanMember::UpdateMessage(dpp::cluster& bot)
 {
-    std::cout << "Updating online members..." << std::endl;
-    
     data = Parsing::GetOnlineClanMembers("https://master1.ddnet.org/ddnet/15/servers.json");
     if (!data.empty() && data.contains("addresses"))
     {
