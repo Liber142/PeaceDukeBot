@@ -182,11 +182,12 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
     // Обработка разных типов кнопок
     if (event.custom_id.find("confirm_accept") != std::string::npos)
     {
-        ProcessConfirmation(*event.from, event, application, true);
+        std::cout << "1" << std::endl;
+        ProcessConfirmation(*event.from()->creator, event, application, true);
     }
     else if (event.custom_id.find("confirm_reject") != std::string::npos)
     {
-        ProcessConfirmation(*event.from, event, application, false);
+        ProcessConfirmation(*event.from()->creator, event, application, false);
     }
     else if (event.custom_id.find("edit") != std::string::npos)
     {
@@ -218,6 +219,7 @@ void CApplicationVoteSystem::ProcessButtonClick(const dpp::button_click_t& event
 
 void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::button_click_t& event, SApplicationVoteData& application, bool accepted)
 {
+        std::cout << "2" << std::endl;
     application.m_status = accepted ? "accepted" : "rejected";
     application.m_processedBy = event.command.usr.id;
     application.m_decisionTime = std::chrono::system_clock::now();
@@ -228,6 +230,7 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
 
     if (accepted)
     {
+        std::cout << "3" << std::endl;
         newMsg.embeds[0].set_color(dpp::colors::yellow).set_title("✅ Заявка принята (ожидает подтверждения)").add_field("Принял:", event.command.usr.get_mention(), true).add_field("Статус:", "Автоподтверждение через 24 часа", true);
 
         // Добавляем кнопку "Вмешаться" только для принятых заявок
@@ -241,9 +244,11 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
         newMsg.components.clear();
         newMsg.add_component(actionRow);
 
+        std::cout << "4" << std::endl;
         // Устанавливаем таймер на 24 часа для финального принятия
         bot.start_timer([this, &bot, application](dpp::timer timer)
                         {
+        std::cout << "5" << std::endl;
             auto it = m_activeApplications.find(application.m_messageId);
             if (it != m_activeApplications.end() && it->second.m_status == "accepted")
             {
@@ -256,6 +261,7 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
         // Для отклоненных заявок
         newMsg.embeds[0].set_color(dpp::colors::red).set_title("❌ Заявка отклонена").add_field("Отклонил:", event.command.usr.get_mention(), true);
 
+        std::cout << "6" << std::endl;
         if (!application.m_rejectionReason.empty())
         {
             newMsg.embeds[0].add_field("Причина:", application.m_rejectionReason);
@@ -269,10 +275,12 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
         // Убираем все кнопки для отклоненных заявок
         newMsg.components.clear();
 
+        std::cout << "7" << std::endl;
         // Архивируем отклоненную заявку сразу
         ArchiveApplication(bot, application);
     }
 
+        std::cout << "8" << std::endl;
     bot.message_edit(newMsg);
     SaveState();
     event.reply(dpp::message("Решение применено").set_flags(dpp::m_ephemeral));
