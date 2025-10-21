@@ -231,7 +231,7 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
     if (accepted)
     {
         std::cout << "3" << std::endl;
-        newMsg.embeds[0].set_color(dpp::colors::yellow).set_title("✅ Заявка принята (ожидает подтверждения)").add_field("Принял:", event.command.usr.get_mention(), true).add_field("Статус:", "Автоподтверждение через 24 часа", true);
+        newMsg.embeds[0].set_title("✅ Заявка принята (ожидает подтверждения)").add_field("Принял:", event.command.usr.get_mention(), true).add_field("Статус:", "Автоподтверждение через 24 часа", true);
 
         // Добавляем кнопку "Вмешаться" только для принятых заявок
         dpp::component actionRow;
