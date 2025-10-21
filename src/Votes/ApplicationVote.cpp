@@ -248,15 +248,12 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
 
         if (accepted)
         {
-            dpp::embed embed = dpp::embed()
-                                   .set_color(dpp::colors::yellow)
+            dpp::embed embed = dpp::embed().set_color(dpp::colors::yellow)
                                    .set_title("✅ Заявка принята (ожидает подтверждения)")
                                    .add_field("Пользователь:", "<@" + std::to_string(application.m_targetUserId) + ">", true)
                                    .add_field("Ник:", application.m_NickName, true)
                                    .add_field("Принял:", event.command.usr.get_mention(), true)
-                                   .add_field("Статус:", "Автоподтверждение через 24 часа", true)
-                                   .set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(application.m_targetUserId)))
-                                   .set_timestamp(std::chrono::system_clock::now());
+                                   .add_field("Статус:", "Автоподтверждение через 24 часа", true);
 
             newMsg.embeds.push_back(embed);
 
@@ -300,10 +297,6 @@ void CApplicationVoteSystem::ProcessConfirmation(dpp::cluster& bot, const dpp::b
             {
                 embed.add_field("Черный список:", "✅ Да");
             }
-
-            embed.set_footer(dpp::embed_footer().set_text("ID: " + std::to_string(application.m_targetUserId)))
-                .set_timestamp(std::chrono::system_clock::now());
-
             newMsg.embeds.push_back(embed);
             newMsg.components.clear(); // Убираем все кнопки
 
