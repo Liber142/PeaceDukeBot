@@ -22,6 +22,12 @@ private:
 
     std::vector<MsgData> Servers;
 
+    dpp::timer update_timer;
+    dpp::snowflake last_message_id = 0;
+
+    void UpdateMessage(dpp::cluster& bot);
+    void CreateNewMessage(dpp::cluster& bot);
+
 public:
     void Init(dpp::cluster& bot);
 };
