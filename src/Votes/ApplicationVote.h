@@ -42,6 +42,7 @@ private:
                                 const std::string& about, const std::string& points);
     void ProcessVote(dpp::cluster& bot, const dpp::button_click_t& event, 
                     SApplicationVoteData& application, bool vote);
+    void UpdateApplicationMessage(dpp::cluster& bot, SApplicationVoteData& application);
     void CheckVoteResult(dpp::cluster& bot, SApplicationVoteData& application);
     void AcceptApplication(dpp::cluster& bot, SApplicationVoteData& application);
     void RejectApplication(dpp::cluster& bot, SApplicationVoteData& application);
