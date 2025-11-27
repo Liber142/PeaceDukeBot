@@ -3,7 +3,7 @@
 #include <dpp/message.h>
 #include <chrono>
 #include <cstddef>
-#include <nlohmann/json.hpp>
+#include <dpp/nlohmann/json.hpp>
 #include <string>
 #include <vector>
 

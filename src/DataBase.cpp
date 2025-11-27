@@ -3,7 +3,7 @@
 #include <dpp/snowflake.h>
 #include <fstream>
 #include <iostream>
-#include <nlohmann/json.hpp>
+#include <dpp/nlohmann/json.hpp>
 #include <string>
 
 void printHex(const std::string& s)

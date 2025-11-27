@@ -1,6 +1,6 @@
 #pragma once
 #include <dpp/dpp.h>
-#include <nlohmann/json.hpp>
+#include <dpp/nlohmann/json.hpp>
 
 class IVoteSystem
 {

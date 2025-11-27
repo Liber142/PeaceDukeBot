@@ -1,9 +1,9 @@
 #include <dpp/dpp.h>
 #include <cstdlib>
 #include <dpp/guild.h>
-#include <nlohmann/json.hpp>
+#include <dpp/nlohmann/json.hpp>
 #include <fstream>
-#include <nlohmann/json_fwd.hpp>
+#include <dpp/nlohmann/json_fwd.hpp>
 #include <string>
 
 #include "DataBase.h"

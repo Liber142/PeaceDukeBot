@@ -6,7 +6,7 @@
 #include <dpp/snowflake.h>
 #include <dpp/user.h>
 #include <iostream>
-#include <nlohmann/json.hpp>
+#include <dpp/nlohmann/json.hpp>
 #include <string>
 #include <variant>
 
