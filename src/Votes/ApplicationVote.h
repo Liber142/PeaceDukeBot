@@ -3,28 +3,21 @@
 #include <dpp/snowflake.h>
 #include <string>
 #include <unordered_map>
-#include <unordered_set>
 #include <chrono>
-#include <fstream>
 #include "DataBase.h"
 #include "IVoteSystem.h"
 
 struct SApplicationVoteData
 {
     dpp::snowflake m_targetUserId;
-    dpp::snowflake m_processedBy;
     dpp::snowflake m_messageId;
-    dpp::snowflake m_discussionChannelId;
     int m_Age = 0;
     int m_SocialReting = 0;
     std::string m_NickName;
     std::string m_About;
-    std::string m_direckMessage;
     std::string m_status = "pending";
-    std::string m_rejectionReason;
-    time_t m_decisionTime;
-    bool m_isBlacklisted = false;
-
+    std::unordered_map<dpp::snowflake, bool> m_votes; // user_id -> vote (true = accept)
+    
     nlohmann::json ToJson() const;
     static SApplicationVoteData FromJson(const nlohmann::json& j);
 };
@@ -47,17 +40,11 @@ private:
     void CreateApplicationMessage(dpp::cluster& bot, const dpp::user& user, 
                                 const std::string& nickname, const std::string& age, 
                                 const std::string& about, const std::string& points);
-    void ShowModeratorOptions(dpp::cluster& bot, const dpp::button_click_t& event, 
-                            SApplicationVoteData& application);
-    void ShowEditModal(const dpp::button_click_t& event, SApplicationVoteData application);
-    void ShowReasonModal(const dpp::button_click_t& event, SApplicationVoteData application);
-    void ShowBlacklistModal(const dpp::button_click_t& event, SApplicationVoteData application);
-    void ProcessModalResponse(const dpp::form_submit_t& event);
-    void ProcessConfirmation(dpp::cluster& bot, const dpp::button_click_t& event, 
-                           SApplicationVoteData& application, bool accepted);
-    void ProcessFinalAcceptance(dpp::cluster& bot, SApplicationVoteData& application);
-    void CreateDiscussionChannel(dpp::cluster& bot, const SApplicationVoteData& application);
-    void ArchiveApplication(dpp::cluster& bot, SApplicationVoteData& application);
+    void ProcessVote(dpp::cluster& bot, const dpp::button_click_t& event, 
+                    SApplicationVoteData& application, bool vote);
+    void CheckVoteResult(dpp::cluster& bot, SApplicationVoteData& application);
+    void AcceptApplication(dpp::cluster& bot, SApplicationVoteData& application);
+    void RejectApplication(dpp::cluster& bot, SApplicationVoteData& application);
     void AssignMemberRole(dpp::cluster& bot, dpp::snowflake userId);
     void SendWelcomeMessage(dpp::cluster& bot, const SApplicationVoteData& application);
 };
