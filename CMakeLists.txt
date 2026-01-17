@@ -1,38 +1,40 @@
-cmake_minimum_required(VERSION 3.20)  # Минимум 3.20 для лучшей совместимости
+# Minimum CMake version required, we'll just use the latest version.
+cmake_minimum_required(VERSION 3.22)
+# Project name, version and description
+project(discord-bot VERSION 1.0 DESCRIPTION "A discord bot")
 
-project(DiscrodBot VERSION 0.1.0 LANGUAGES CXX)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-# Явно указываем необходимые версии
-find_package(dpp REQUIRED)
-find_package(fmt REQUIRED)
-# find_package(nlohmann_json REQUIRED)
+set(ENGINE_SRC 
+    src/engine/config.cpp
+    src/engine/config.h
+    src/engine/config_variables.h
+    src/engine/database.cpp
+    src/engine/database.h
+)
 
-find_library(CURL_LIB NAMES curl)
-find_path(CURL_INCLUDE_DIR NAMES curl/curl.h)
+# Create an executable
+add_executable(${PROJECT_NAME}
+    ${ENGINE_SRC}
+	src/main.cpp
+)
 
-include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${CMAKE_SOURCE_DIR}/src/Command)
-include_directories(${CMAKE_SOURCE_DIR}/src/Events)
-include_directories(${CMAKE_SOURCE_DIR}/src/Votes)
+# Find our pre-installed DPP package (using FindDPP.cmake).
+find_package(DPP REQUIRED)
 
+# Link the pre-installed DPP package.
+target_link_libraries(${PROJECT_NAME} 
+	${DPP_LIBRARIES}
+)
 
-file(GLOB SOURCES
-       "src/Command/*.cpp"
-       "src/Events/*.cpp"
-       "src/Votes/*.cpp"
-       "src/*.cpp"
-       "main.cpp"
-   )
+# Include the DPP directories.
+target_include_directories(${PROJECT_NAME} PRIVATE
+	${DPP_INCLUDE_DIR}
+)
 
-add_executable(PeaceDukeBote ${SOURCES})
+# Set C++ version
+set_target_properties(${PROJECT_NAME} PROPERTIES
+	CXX_STANDARD 20
+	CXX_STANDARD_REQUIRED ON
+)
 
-target_include_directories(PeaceDukeBote PRIVATE include)
-
-target_link_libraries(PeaceDukeBote PRIVATE
-    dpp::dpp
-    fmt::fmt
-    ${CMAKE_THREAD_LIBS_INIT}
-    )
-
-target_link_libraries(PeaceDukeBote PRIVATE ${CURL_LIB})
-target_include_directories(PeaceDukeBote PRIVATE ${CURL_INCLUDE_DIR})
