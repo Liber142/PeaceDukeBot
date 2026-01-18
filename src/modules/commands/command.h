@@ -12,5 +12,5 @@ public:
 	{
 	}
 	virtual void Register() = 0;
-	virtual void Execute(const dpp::slashcommand_t& Event) = 0;
+	virtual void Execute(const dpp::slashcommand_t &Event) = 0;
 };

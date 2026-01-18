@@ -1,7 +1,7 @@
 #pragma once
 
-#include "module.h"
 #include "commands/command.h"
+#include "module.h"
 
 class CCommandHandler : public IModule
 {
@@ -19,5 +19,5 @@ private:
 	} *m_pFirstCmd = nullptr;
 
 	void AddCommand(std::string Name, ICommand *pCommand);
-	void Execute(const dpp::slashcommand_t& Event);
+	void Execute(const dpp::slashcommand_t &Event);
 };
