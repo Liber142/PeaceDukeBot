@@ -17,4 +17,5 @@ public:
 
     CConfig* Config() { return config; }
     IDataBase* DataBase() { return db; }
+    dpp::cluster* Bot() { return bot; }
 };
