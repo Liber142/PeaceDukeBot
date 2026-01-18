@@ -2,14 +2,14 @@
 #include <fstream>
 #include <iostream>
 
-void JsonDataBase::Connect(std::string path)
+void SJsonDataBase::Connect(std::string Path)
 {
-    filePath = path + ".json";
+    m_FilePath = Path + ".json";
 
-    std::ifstream file(filePath);
+    std::ifstream file(m_FilePath);
     if (!file.is_open())
     {
-        std::ofstream nfile(filePath);
+        std::ofstream nfile(m_FilePath);
         nfile << "{}";
         nfile.close();
     }
@@ -18,13 +18,13 @@ void JsonDataBase::Connect(std::string path)
     Update();
 }
 
-UserData JsonDataBase::GetUser(uint64_t key)
+SUserData CJsonDataBase::GetUser(uint64_t Key)
 {
-    UserData result;
+    SUserData result;
     try
     {
-        result = fromJson(json[key]);
-        result.id = key;
+        result = fromJson(m_Json[Key]);
+        result.m_Id = Key;
     }
     catch (std::exception& e)
     {
@@ -33,12 +33,12 @@ UserData JsonDataBase::GetUser(uint64_t key)
     return result;
 }
 
-void JsonDataBase::AddUser(uint64_t key, UserData data)
+void CJsonDataBase::AddUser(uint64_t key, SUserData data)
 {
     try
     {
         nlohmann::json j = toJson(data);
-        json["members"][std::to_string(key)] = j;
+        m_Json["members"][std::to_string(key)] = j;
         Save();
     }
     catch (std::exception& e)
@@ -47,9 +47,9 @@ void JsonDataBase::AddUser(uint64_t key, UserData data)
     }
 }
 
-void JsonDataBase::Update()
+void CJsonDataBase::Update()
 {
-    std::ifstream file(filePath);
+    std::ifstream file(m_FilePath);
     if (!file.is_open())
     {
         std::cerr << "Failed open db file" << std::endl;
@@ -60,7 +60,7 @@ void JsonDataBase::Update()
     {
         nlohmann::json j = nlohmann::json::parse(file);
         file.close();
-        json = j;
+        m_Json = j;
     }
     catch (std::exception& e)
     {
@@ -68,9 +68,9 @@ void JsonDataBase::Update()
     }
 }
 
-void JsonDataBase::Save()
+void CJsonDataBase::Save()
 {
-    std::ofstream file(filePath);
+    std::ofstream file(m_FilePath);
 
     if (!file.is_open())
     {
@@ -80,7 +80,7 @@ void JsonDataBase::Save()
 
     try
     {
-        file << json.dump(4);
+        file << m_Json.dump(4);
         file.close();
     }
     catch (std::exception& e)
@@ -89,29 +89,29 @@ void JsonDataBase::Save()
     }
 }
 
-nlohmann::json JsonDataBase::toJson(UserData data)
+nlohmann::json CJsonDataBase::toJson(SUserData Data)
 {
-    nlohmann::json result;
+    nlohmann::json Result;
 
-    result = {
-        {"about", data.about},
-        {"age", data.age},
-        {"clan", data.clan},
-        {"game_nick", data.gameNick},
-        {"social_rating", data.socialRating}};
+    Result = {
+        {"about", Data.m_About},
+        {"age", Data.m_Age},
+        {"clan", Data.m_Clan},
+        {"game_nick", Data.m_GameNick},
+        {"social_rating", Data.m_SocialRating}};
 
-    return result;
+    return Result;
 }
 
-UserData JsonDataBase::fromJson(nlohmann::json data)
+SUserData CJsonDataBase::fromJson(nlohmann::json Data)
 {
-    UserData result;
+    SUserData Result;
 
-    result.age = data.value("age", 0);
-    result.socialRating = data.value("social_rating", 0);
-    result.gameNick = data.value("game_nick", "");
-    result.clan = data.value("clan", "");
-    result.about = data.value("about", "");
+    Result.m_Age = Data.value("age", 0);
+    Result.m_SocialRating = Data.value("social_rating", 0);
+    Result.m_GameNick = Data.value("game_nick", "");
+    Result.m_Clan = Data.value("clan", "");
+    Result.m_About = Data.value("about", "");
 
-    return result;
+    return Result;
 }

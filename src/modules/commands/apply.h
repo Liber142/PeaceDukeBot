@@ -2,10 +2,10 @@
 
 #include "command.h"
 
-class Apply : public ICommand
+class CApply : public ICommand
 {
 public:
-    Apply(CBotCore* botcore);
+    CApply(CBotCore* pBoteCore);
     void Register() override;
     void Execute() override;
 };

@@ -6,39 +6,39 @@
 #include <dpp/snowflake.h>
 #include <dpp/nlohmann/json.hpp>
 
-struct UserData
+struct SUserData
 {
-    dpp::snowflake id;
+    dpp::snowflake m_Id;
 
-    int age;
-    int socialRating;
-    std::string gameNick;
-    std::string clan;
-    std::string about;
+    int m_Age;
+    int m_SocialRating;
+    std::string m_GameNick;
+    std::string m_Clan;
+    std::string m_About;
 };
 
 class IDataBase
 {
 public:
-    virtual void Connect(std::string path) = 0;
-    virtual UserData GetUser(uint64_t key) = 0;
-    virtual void AddUser(uint64_t key, UserData data) = 0;
+    virtual void Connect(std::string Path) = 0;
+    virtual SUserData GetUser(uint64_t Key) = 0;
+    virtual void AddUser(uint64_t Key, SUserData Data) = 0;
 };
 
-class JsonDataBase : public IDataBase
+class CJsonDataBase : public IDataBase
 {
 private:
-    std::string filePath;
-    nlohmann::json json;
+    std::string m_FilePath;
+    nlohmann::json m_Json;
 
-    nlohmann::json toJson(UserData data);
-    UserData fromJson(nlohmann::json data);
+    nlohmann::json toJson(SUserData Data);
+    SUserData fromJson(nlohmann::json Data);
 
     void Update();
     void Save();
 
 public:
-    void Connect(std::string path) override;
-    UserData GetUser(uint64_t key) override;
-    void AddUser(uint64_t key, UserData data) override;
+    void Connect(std::string Path) override;
+    SUserData GetUser(uint64_t Key) override;
+    void AddUser(uint64_t Key, SUserData Data) override;
 };

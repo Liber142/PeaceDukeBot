@@ -1,21 +1,21 @@
 #include "apply.h"
 
-Apply::Apply(CBotCore* botcore)
-    : ICommand(botcore)
+CApply::CApply(CBotCore* pBotCore)
+    : ICommand(pBotCore)
 {
     Register();
 }
 
-void Apply::Register()
+void CApply::Register()
 {
-    dpp::slashcommand command = dpp::slashcommand(
+    dpp::slashcommand Command = dpp::slashcommand(
         "apply",
         "Создаст сообщение с кнопкой для подачи заявки",
         BotCore()->Bot()->me.id);
 
-    BotCore()->Bot()->global_command_create(command);
+    BotCore()->Bot()->global_command_create(Command);
 }
 
-void Apply::Execute()
+void CApply::Execute()
 {
 }

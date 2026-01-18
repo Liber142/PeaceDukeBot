@@ -8,24 +8,24 @@
 class CBotCore
 {
 private:
-    dpp::cluster* bot;
+    dpp::cluster* m_pBot;
 
-    CConfig* config;
-    IDataBase* db;
+    CConfig* m_pConfig;
+    IDataBase* m_pDataBase;
 
 public:
-    CBotCore(dpp::cluster* bot);
+    CBotCore(dpp::cluster* pBot);
 
     CConfig* Config()
     {
-        return config;
+        return m_pConfig;
     }
     IDataBase* DataBase()
     {
-        return db;
+        return m_pDataBase;
     }
     dpp::cluster* Bot()
     {
-        return bot;
+        return m_pBot;
     }
 };

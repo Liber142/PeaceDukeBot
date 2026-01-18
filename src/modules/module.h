@@ -5,11 +5,11 @@
 class IModule
 {
 private:
-    CBotCore* botCore;
+    CBotCore* m_pBotCore;
 
 public:
-    IModule(CBotCore* botCore)
-        : botCore(botCore)
+    IModule(CBotCore* pBotCore)
+        : m_pBotCore(pBotCore)
     {
     }
 
@@ -18,6 +18,6 @@ public:
     }
     virtual CBotCore* BotCore()
     {
-        return botCore;
+        return m_pBotCore;
     }
 };

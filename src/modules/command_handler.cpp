@@ -1,19 +1,19 @@
 #include "command_handler.h"
 #include "commands/apply.h"
 
-CCommandHandler::CCommandHandler(CBotCore* botCore)
-    : IModule(botCore)
+CCommandHandler::CCommandHandler(CBotCore* m_pBotCore)
+    : IModule(m_pBotCore)
 {
-    Apply* apply = new Apply(botCore);
-    AddCommand("apply", apply);
+    CApply* Apply = new CApply(m_pBotCore);
+    AddCommand("apply", Apply);
 }
 
-void CCommandHandler::AddCommand(std::string name, ICommand* command)
+void CCommandHandler::AddCommand(std::string &Name, ICommand* pCommand)
 {
-    SCommand* tmp = new SCommand;
-    tmp->name = name;
-    tmp->pCommand = command;
+    SCommand* pTmp = new SCommand;
+    pTmp->m_Name = Name;
+    pTmp->m_pCommand = pCommand;
 
-    tmp->next = firstCmd;
-    tmp = firstCmd;
+    pTmp->m_pNext = m_pFirstCmd;
+    pTmp = m_pFirstCmd;
 }

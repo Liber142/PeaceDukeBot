@@ -6,16 +6,16 @@
 
 int main()
 {
-    char* token = std::getenv("DISCORD_TOKEN");
-    if (!token)
+    char* Token = std::getenv("DISCORD_TOKEN");
+    if (!Token)
     {
         std::cerr << "Missing env DISCORD_TOKEN" << std::endl;
         return 1;
     }
 
-    dpp::cluster bot(token);
+    dpp::cluster Bot(Token);
 
-    CBotCore BotCore(&bot);
+    CBotCore BotCore(&Bot);
 
-    bot.start();
+    Bot.start();
 }

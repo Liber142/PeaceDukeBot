@@ -3,14 +3,14 @@
 
 #include "modules/test.h"
 
-CBotCore::CBotCore(dpp::cluster* bot)
-    : bot(bot)
+CBotCore::CBotCore(dpp::cluster* pBot)
+    : m_pBot(pBot)
 {
-    config = new CConfig();
-    db = new JsonDataBase();
+    m_pConfig = new CConfig();
+    m_pDataBase = new JsonDataBase();
 
-    db->Connect("db");
+    m_pDataBase->Connect("db");
 
-    Test test(this);
-    test.OnInit();
+    Test Test(this);
+    Test.OnInit();
 }
