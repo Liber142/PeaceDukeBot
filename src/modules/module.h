@@ -13,7 +13,7 @@ public:
 	{
 	}
 
-    virtual ~IModule() = default;
+	virtual ~IModule() = default;
 	virtual void OnInit() = 0;
 	virtual CBotCore *BotCore()
 	{

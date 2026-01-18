@@ -12,7 +12,7 @@ class CBotCore
 public:
 	CBotCore(dpp::cluster *pBot);
 
-    ~CBotCore();
+	~CBotCore();
 
 	CConfig *Config()
 	{
@@ -33,13 +33,13 @@ private:
 	CConfig *m_pConfig;
 	IDataBase *m_pDataBase;
 
-    struct SModule
-    {
-        IModule* m_pModule;
-        SModule* m_pNext;
-    } *m_pFirstModule = nullptr;
+	struct SModule
+	{
+		IModule *m_pModule;
+		SModule *m_pNext;
+	} *m_pFirstModule = nullptr;
 
-    void AddModule(IModule* pModule);
-    
-    void Init();
+	void AddModule(IModule *pModule);
+
+	void Init();
 };

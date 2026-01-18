@@ -15,14 +15,14 @@ CCommandHandler::CCommandHandler(CBotCore *pBotCore) :
 
 CCommandHandler::~CCommandHandler()
 {
-    for(SCommand *pCmd = m_pFirstCmd; pCmd;)
-    {
-        SCommand* pTmp = pCmd;
-        pCmd = pCmd->m_pNext;
-        delete pTmp;
-    }
+	for(SCommand *pCmd = m_pFirstCmd; pCmd;)
+	{
+		SCommand *pTmp = pCmd;
+		pCmd = pCmd->m_pNext;
+		delete pTmp;
+	}
 
-    m_pFirstCmd = nullptr;
+	m_pFirstCmd = nullptr;
 }
 
 void CCommandHandler::AddCommand(std::string Name, ICommand *pCommand)
