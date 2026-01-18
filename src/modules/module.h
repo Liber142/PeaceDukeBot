@@ -5,19 +5,19 @@
 class IModule
 {
 private:
-    CBotCore* m_pBotCore;
+	CBotCore *m_pBotCore;
 
 public:
-    IModule(CBotCore* pBotCore)
-        : m_pBotCore(pBotCore)
-    {
-    }
+	IModule(CBotCore *pBotCore) :
+		m_pBotCore(pBotCore)
+	{
+	}
 
-    virtual void OnInit()
-    {
-    }
-    virtual CBotCore* BotCore()
-    {
-        return m_pBotCore;
-    }
+	virtual void OnInit()
+	{
+	}
+	virtual CBotCore *BotCore()
+	{
+		return m_pBotCore;
+	}
 };

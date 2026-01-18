@@ -7,18 +7,18 @@ class ICommand;
 class CCommandHandler : public IModule
 {
 public:
-    CCommandHandler(CBotCore* pBotCore);
+	CCommandHandler(CBotCore *pBotCore);
 
-    void OnInit() override;
+	void OnInit() override;
 
 private:
-    struct SCommand
-    {
-        std::string m_Name;
-        ICommand* m_pCommand;
-        SCommand* m_pNext = nullptr;
-    } *m_pFirstCmd;
+	struct SCommand
+	{
+		std::string m_Name;
+		ICommand *m_pCommand;
+		SCommand *m_pNext = nullptr;
+	} *m_pFirstCmd;
 
-    void AddCommand(std::string &Name, ICommand* pCommand);
-    void Execute();
+	void AddCommand(std::string &Name, ICommand *pCommand);
+	void Execute();
 };

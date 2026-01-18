@@ -5,7 +5,7 @@
 class CApply : public ICommand
 {
 public:
-    CApply(CBotCore* pBoteCore);
-    void Register() override;
-    void Execute() override;
+	CApply(CBotCore *pBoteCore);
+	void Register() override;
+	void Execute() override;
 };

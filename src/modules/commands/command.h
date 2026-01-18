@@ -7,10 +7,10 @@
 class ICommand : public IModule
 {
 public:
-    ICommand(CBotCore* pBotCore)
-        : IModule(pBotCore)
-    {
-    }
-    virtual void Register();
-    virtual void Execute();
+	ICommand(CBotCore *pBotCore) :
+		IModule(pBotCore)
+	{
+	}
+	virtual void Register();
+	virtual void Execute();
 };
