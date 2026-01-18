@@ -7,7 +7,10 @@
 class ICommand : public IModule
 {
 public:
-    ICommand(CBotCore* botcore) : IModule(botcore) {}
+    ICommand(CBotCore* botcore)
+        : IModule(botcore)
+    {
+    }
     virtual void Register();
     virtual void Execute();
 };

@@ -3,11 +3,12 @@
 
 #include "modules/test.h"
 
-CBotCore::CBotCore(dpp::cluster* bot) : bot(bot)
+CBotCore::CBotCore(dpp::cluster* bot)
+    : bot(bot)
 {
     config = new CConfig();
     db = new JsonDataBase();
-    
+
     db->Connect("db");
 
     Test test(this);

@@ -2,14 +2,22 @@
 
 #include "../bot_core.h"
 
-class IModule 
+class IModule
 {
 private:
     CBotCore* botCore;
 
 public:
-    IModule(CBotCore* botCore) : botCore(botCore) {}
+    IModule(CBotCore* botCore)
+        : botCore(botCore)
+    {
+    }
 
-    virtual void OnInit() {}
-    virtual CBotCore* BotCore() { return botCore; }
+    virtual void OnInit()
+    {
+    }
+    virtual CBotCore* BotCore()
+    {
+        return botCore;
+    }
 };

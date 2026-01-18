@@ -1,6 +1,6 @@
 #include <stdint.h>
 
-class IConsole 
+class IConsole
 {
     enum class AccessLevel
     {
@@ -10,25 +10,31 @@ class IConsole
         USER,
     };
 
-    class IResult 
+    class IResult
     {
     protected:
         unsigned m_NumArgs;
-    public: 
-        IResult(uint64_t userId) :
-            m_NumArgs(0),
-            m_UserId(userId) {}
 
-        int NumArguments() const { return m_NumArgs; }
+    public:
+        IResult(uint64_t userId)
+            : m_NumArgs(0)
+            , m_UserId(userId)
+        {
+        }
+
+        int NumArguments() const
+        {
+            return m_NumArgs;
+        }
         uint64_t m_UserId;
     };
 
-    class ICommandInfo 
+    class ICommandInfo
     {
         virtual AccessLevel GetAccessLevel() const = 0;
     };
 
-    typedef void (*CommandCallback)(IResult *pResult);
+    typedef void (*CommandCallback)(IResult* pResult);
 
     virtual void Register();
     virtual void Execute();

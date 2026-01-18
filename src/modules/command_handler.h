@@ -4,19 +4,20 @@
 
 class ICommand;
 
-class CCommandHandler : public IModule 
+class CCommandHandler : public IModule
 {
 public:
     CCommandHandler(CBotCore* botCore);
 
     void OnInit() override;
+
 private:
-    struct SCommand 
+    struct SCommand
     {
         std::string name;
         ICommand* pCommand;
         SCommand* next = nullptr;
-    } *firstCmd;
+    }* firstCmd;
 
     void AddCommand(std::string name, ICommand* pCommand);
     void Execute();

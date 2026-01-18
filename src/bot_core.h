@@ -5,18 +5,27 @@
 #include "engine/config.h"
 #include "engine/database.h"
 
-class CBotCore 
+class CBotCore
 {
 private:
     dpp::cluster* bot;
-    
+
     CConfig* config;
     IDataBase* db;
 
-public:  
+public:
     CBotCore(dpp::cluster* bot);
 
-    CConfig* Config() { return config; }
-    IDataBase* DataBase() { return db; }
-    dpp::cluster* Bot() { return bot; }
+    CConfig* Config()
+    {
+        return config;
+    }
+    IDataBase* DataBase()
+    {
+        return db;
+    }
+    dpp::cluster* Bot()
+    {
+        return bot;
+    }
 };

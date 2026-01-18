@@ -7,9 +7,9 @@
 int main()
 {
     char* token = std::getenv("DISCORD_TOKEN");
-    if(!token)
+    if (!token)
     {
-        std::cerr << "Missing env DISCORD_TOKEN" << std::endl; 
+        std::cerr << "Missing env DISCORD_TOKEN" << std::endl;
         return 1;
     }
 

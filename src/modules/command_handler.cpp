@@ -1,7 +1,8 @@
 #include "command_handler.h"
 #include "commands/apply.h"
 
-CCommandHandler::CCommandHandler(CBotCore* botCore) : IModule(botCore)
+CCommandHandler::CCommandHandler(CBotCore* botCore)
+    : IModule(botCore)
 {
     Apply* apply = new Apply(botCore);
     AddCommand("apply", apply);

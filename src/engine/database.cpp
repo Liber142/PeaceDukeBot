@@ -7,13 +7,13 @@ void JsonDataBase::Connect(std::string path)
     filePath = path + ".json";
 
     std::ifstream file(filePath);
-    if(!file.is_open())
+    if (!file.is_open())
     {
         std::ofstream nfile(filePath);
         nfile << "{}";
         nfile.close();
     }
-    else 
+    else
         file.close();
     Update();
 }
@@ -21,12 +21,12 @@ void JsonDataBase::Connect(std::string path)
 UserData JsonDataBase::GetUser(uint64_t key)
 {
     UserData result;
-    try 
+    try
     {
         result = fromJson(json[key]);
         result.id = key;
-    } 
-    catch (std::exception& e) 
+    }
+    catch (std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
@@ -35,37 +35,36 @@ UserData JsonDataBase::GetUser(uint64_t key)
 
 void JsonDataBase::AddUser(uint64_t key, UserData data)
 {
-    try 
+    try
     {
         nlohmann::json j = toJson(data);
         json["members"][std::to_string(key)] = j;
         Save();
     }
-    catch (std::exception& e) 
+    catch (std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
-
 }
 
 void JsonDataBase::Update()
 {
     std::ifstream file(filePath);
-    if(!file.is_open())
+    if (!file.is_open())
     {
         std::cerr << "Failed open db file" << std::endl;
         return;
     }
 
-    try 
+    try
     {
-        nlohmann::json j = nlohmann::json::parse(file); 
+        nlohmann::json j = nlohmann::json::parse(file);
         file.close();
         json = j;
     }
-    catch(std::exception& e)
+    catch (std::exception& e)
     {
-        std::cerr << "Error parse data base: "  << e.what() << std::endl;
+        std::cerr << "Error parse data base: " << e.what() << std::endl;
     }
 }
 
@@ -73,20 +72,20 @@ void JsonDataBase::Save()
 {
     std::ofstream file(filePath);
 
-    if(!file.is_open())
+    if (!file.is_open())
     {
         std::cerr << "Failed open db file" << std::endl;
         return;
     }
 
-    try 
+    try
     {
         file << json.dump(4);
         file.close();
     }
-    catch(std::exception& e)
+    catch (std::exception& e)
     {
-        std::cerr << "Error save data base file : "  << e.what() << std::endl;
+        std::cerr << "Error save data base file : " << e.what() << std::endl;
     }
 }
 
@@ -99,8 +98,7 @@ nlohmann::json JsonDataBase::toJson(UserData data)
         {"age", data.age},
         {"clan", data.clan},
         {"game_nick", data.gameNick},
-        {"social_rating", data.socialRating}
-    };
+        {"social_rating", data.socialRating}};
 
     return result;
 }
@@ -114,7 +112,6 @@ UserData JsonDataBase::fromJson(nlohmann::json data)
     result.gameNick = data.value("game_nick", "");
     result.clan = data.value("clan", "");
     result.about = data.value("about", "");
-
 
     return result;
 }
