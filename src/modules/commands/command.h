@@ -11,6 +11,6 @@ public:
 		IModule(pBotCore)
 	{
 	}
-	virtual void Register();
-	virtual void Execute();
+	virtual void Register() = 0;
+	virtual void Execute(const dpp::slashcommand_t& Event) = 0;
 };

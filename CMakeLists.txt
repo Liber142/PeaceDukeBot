@@ -5,25 +5,38 @@ project(discord-bot VERSION 1.0 DESCRIPTION "A discord bot")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-file(GLOB_RECURSE ENGINE_SRC
-    src/engine/*.cpp
-    src/engine/*.h
+set(ENGINE_SRC
+    src/engine/config_variables.h
+    src/engine/config.h
+    src/engine/config.cpp
+    src/engine/database.h
+    src/engine/database.cpp
 )
 
-file(GLOB_RECURSE MODULES_SRC
-    src/modules/*.cpp
-    src/modules/*.h
+set(COMMANDS_SRC
+    src/modules/commands/command.h
+    src/modules/commands/apply.h
+    src/modules/commands/apply.cpp
+    src/modules/commands/test.h
 )
 
-file(GLOB_RECURSE BOT_SRC
-    src/*.cpp
-    src/*.h
+set(MODULES_SRC
+    src/modules/module.h
+    ${COMMANDS_SRC}
+    src/modules/command_handler.h
+    src/modules/command_handler.cpp
+)
+
+set(BOT_SRC
+    src/bot_core.h
+    src/bot_core.cpp
+    src/main.cpp
 )
 
 set(SRC 
     ${ENGINE_SRC}
-    ${MODULES_SRC}
     ${BOT_SRC}
+    ${MODULES_SRC}
 )
 
 # Create an executable

@@ -3,43 +3,43 @@
 #include <fstream>
 #include <iostream>
 
-void SJsonDataBase::Connect(std::string Path)
+void CJsonDataBase::Connect(std::string Path)
 {
 	m_FilePath = Path + ".json";
 
-	std::ifstream file(m_FilePath);
-	if(!file.is_open())
+	std::ifstream File(m_FilePath);
+	if(!File.is_open())
 	{
-		std::ofstream nfile(m_FilePath);
-		nfile << "{}";
-		nfile.close();
+		std::ofstream NewFile(m_FilePath);
+		NewFile << "{}";
+		NewFile.close();
 	}
 	else
-		file.close();
+		File.close();
 	Update();
 }
 
 SUserData CJsonDataBase::GetUser(uint64_t Key)
 {
-	SUserData result;
+	SUserData Result;
 	try
 	{
-		result = fromJson(m_Json[Key]);
-		result.m_Id = Key;
+		Result = fromJson(m_Json[Key]);
+		Result.m_Id = Key;
 	}
 	catch(std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
-	return result;
+	return Result;
 }
 
-void CJsonDataBase::AddUser(uint64_t key, SUserData data)
+void CJsonDataBase::AddUser(uint64_t Key, SUserData Data)
 {
 	try
 	{
-		nlohmann::json j = toJson(data);
-		m_Json["members"][std::to_string(key)] = j;
+		nlohmann::json j = toJson(Data);
+		m_Json["members"][std::to_string(Key)] = j;
 		Save();
 	}
 	catch(std::exception &e)
@@ -50,8 +50,8 @@ void CJsonDataBase::AddUser(uint64_t key, SUserData data)
 
 void CJsonDataBase::Update()
 {
-	std::ifstream file(m_FilePath);
-	if(!file.is_open())
+	std::ifstream File(m_FilePath);
+	if(!File.is_open())
 	{
 		std::cerr << "Failed open db file" << std::endl;
 		return;
@@ -59,8 +59,8 @@ void CJsonDataBase::Update()
 
 	try
 	{
-		nlohmann::json j = nlohmann::json::parse(file);
-		file.close();
+		nlohmann::json j = nlohmann::json::parse(File);
+		File.close();
 		m_Json = j;
 	}
 	catch(std::exception &e)
@@ -71,9 +71,9 @@ void CJsonDataBase::Update()
 
 void CJsonDataBase::Save()
 {
-	std::ofstream file(m_FilePath);
+	std::ofstream File(m_FilePath);
 
-	if(!file.is_open())
+	if(!File.is_open())
 	{
 		std::cerr << "Failed open db file" << std::endl;
 		return;
@@ -81,8 +81,8 @@ void CJsonDataBase::Save()
 
 	try
 	{
-		file << m_Json.dump(4);
-		file.close();
+		File << m_Json.dump(4);
+		File.close();
 	}
 	catch(std::exception &e)
 	{
