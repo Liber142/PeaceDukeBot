@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../module.h"
 
 #include <dpp/dpp.h>

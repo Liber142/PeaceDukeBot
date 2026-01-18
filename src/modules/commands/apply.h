@@ -1,3 +1,5 @@
+#pragma once
+
 #include "command.h"
 
 class Apply : public ICommand

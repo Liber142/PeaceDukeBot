@@ -5,27 +5,30 @@ project(discord-bot VERSION 1.0 DESCRIPTION "A discord bot")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(ENGINE_SRC 
-    src/engine/config.cpp
-    src/engine/config.h
-    src/engine/config_variables.h
-    src/engine/database.cpp
-    src/engine/database.h
+file(GLOB_RECURSE ENGINE_SRC
+    src/engine/*.cpp
+    src/engine/*.h
 )
 
-set(MODULES_SRC 
-    src/modules/module.h
-    src/modules/test.cpp
-    src/modules/test.h
+file(GLOB_RECURSE MODULES_SRC
+    src/modules/*.cpp
+    src/modules/*.h
+)
+
+file(GLOB_RECURSE BOT_SRC
+    src/*.cpp
+    src/*.h
+)
+
+set(SRC 
+    ${ENGINE_SRC}
+    ${MODULES_SRC}
+    ${BOT_SRC}
 )
 
 # Create an executable
 add_executable(${PROJECT_NAME}
-    ${ENGINE_SRC}
-    ${MODULES_SRC}
-    src/bot_core.h
-    src/bot_core.cpp
-	src/main.cpp
+    ${SRC}
 )
 
 # Find our pre-installed DPP package (using FindDPP.cmake).
