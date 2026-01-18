@@ -15,9 +15,41 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 
 	CCommandHandler *CommandHandler = new CCommandHandler(this);
 
-	m_pBot->on_ready([this, CommandHandler](const dpp::ready_t &Event) {
-		std::cout << "I'm " << m_pBot->me.format_username() << " ready!" << std::endl;
+    AddModule(CommandHandler);
 
-		CommandHandler->OnInit();
+	m_pBot->on_ready([this, CommandHandler](const dpp::ready_t &Event) {
+		std::cout << "I'm " << m_pBot->me.format_username() << " ready!\n";
+        Init();
 	});
+}
+
+CBotCore::~CBotCore()
+{
+    delete m_pConfig;
+    delete m_pDataBase;
+    delete m_pBot;
+
+    for(SModule *pCmd = m_pFirstModule; pCmd;)
+    {
+        SModule* pTmp = pCmd;
+        pCmd = pCmd->m_pNext;
+        delete pTmp;
+    }
+    m_pFirstModule = nullptr;
+}
+
+void CBotCore::AddModule(IModule* pModule)
+{
+    SModule *pTmp = new SModule;
+    pTmp->m_pModule = pModule;
+    pTmp->m_pNext = m_pFirstModule;
+    m_pFirstModule = pTmp;
+}
+
+void CBotCore::Init()
+{
+    for(SModule *pModule = m_pFirstModule; pModule; pModule = pModule->m_pNext)
+    {
+        pModule->m_pModule->OnInit();
+    }
 }

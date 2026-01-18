@@ -11,9 +11,18 @@ CCommandHandler::CCommandHandler(CBotCore *pBotCore) :
 {
 	CApply *Apply = new CApply(pBotCore);
 	AddCommand("apply", Apply);
+}
 
-	CTest *Test = new CTest(pBotCore);
-	AddCommand("test", Test);
+CCommandHandler::~CCommandHandler()
+{
+    for(SCommand *pCmd = m_pFirstCmd; pCmd;)
+    {
+        SCommand* pTmp = pCmd;
+        pCmd = pCmd->m_pNext;
+        delete pTmp;
+    }
+
+    m_pFirstCmd = nullptr;
 }
 
 void CCommandHandler::AddCommand(std::string Name, ICommand *pCommand)

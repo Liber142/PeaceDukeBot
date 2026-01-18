@@ -18,6 +18,8 @@ private:
 		SCommand *m_pNext = nullptr;
 	} *m_pFirstCmd = nullptr;
 
+    ~CCommandHandler() override;
+
 	void AddCommand(std::string Name, ICommand *pCommand);
 	void Execute(const dpp::slashcommand_t &Event);
 };

@@ -5,16 +5,14 @@
 
 #include <dpp/cluster.h>
 
+class IModule;
+
 class CBotCore
 {
-private:
-	dpp::cluster *m_pBot;
-
-	CConfig *m_pConfig;
-	IDataBase *m_pDataBase;
-
 public:
 	CBotCore(dpp::cluster *pBot);
+
+    ~CBotCore();
 
 	CConfig *Config()
 	{
@@ -28,4 +26,20 @@ public:
 	{
 		return m_pBot;
 	}
+
+private:
+	dpp::cluster *m_pBot;
+
+	CConfig *m_pConfig;
+	IDataBase *m_pDataBase;
+
+    struct SModule
+    {
+        IModule* m_pModule;
+        SModule* m_pNext;
+    } *m_pFirstModule = nullptr;
+
+    void AddModule(IModule* pModule);
+    
+    void Init();
 };

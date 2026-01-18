@@ -20,6 +20,7 @@ struct SUserData
 class IDataBase
 {
 public:
+    virtual ~IDataBase() = default;
 	virtual void Connect(std::string Path) = 0;
 	virtual SUserData GetUser(uint64_t Key) = 0;
 	virtual void AddUser(uint64_t Key, SUserData Data) = 0;
@@ -27,6 +28,12 @@ public:
 
 class CJsonDataBase : public IDataBase
 {
+public:
+    ~CJsonDataBase() override = default;
+	void Connect(std::string Path) override;
+	SUserData GetUser(uint64_t Key) override;
+	void AddUser(uint64_t Key, SUserData Data) override;
+
 private:
 	std::string m_FilePath;
 	nlohmann::json m_Json;
@@ -36,9 +43,4 @@ private:
 
 	void Update();
 	void Save();
-
-public:
-	void Connect(std::string Path) override;
-	SUserData GetUser(uint64_t Key) override;
-	void AddUser(uint64_t Key, SUserData Data) override;
 };

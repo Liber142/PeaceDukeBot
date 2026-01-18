@@ -13,9 +13,8 @@ public:
 	{
 	}
 
-	virtual void OnInit()
-	{
-	}
+    virtual ~IModule() = default;
+	virtual void OnInit() = 0;
 	virtual CBotCore *BotCore()
 	{
 		return m_pBotCore;
