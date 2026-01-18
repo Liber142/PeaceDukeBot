@@ -13,9 +13,18 @@ set(ENGINE_SRC
     src/engine/database.h
 )
 
+set(MODULES_SRC 
+    src/modules/module.h
+    src/modules/test.cpp
+    src/modules/test.h
+)
+
 # Create an executable
 add_executable(${PROJECT_NAME}
     ${ENGINE_SRC}
+    ${MODULES_SRC}
+    src/bot_core.h
+    src/bot_core.cpp
 	src/main.cpp
 )
 

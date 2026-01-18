@@ -1,7 +1,9 @@
+#pragma once
+
 #include <stdint.h>
 #include <string>
 
-class Config 
+class CConfig 
 {
     public: 
     #define MACRO_CONFIG_SNOWFLAKE(Name, def) \
@@ -14,4 +16,4 @@ class Config
 
 };
 
-extern Config g_Config;
+extern CConfig g_Config;
