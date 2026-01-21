@@ -4,9 +4,6 @@
 
 class IModule
 {
-private:
-	CBotCore *m_pBotCore;
-
 public:
 	IModule(CBotCore *pBotCore) :
 		m_pBotCore(pBotCore)
@@ -19,4 +16,7 @@ public:
 	{
 		return m_pBotCore;
 	}
+
+private:
+	CBotCore *m_pBotCore;
 };

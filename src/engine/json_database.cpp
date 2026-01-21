@@ -19,27 +19,42 @@ void CJsonDataBase::Connect(std::string Path)
 	Update();
 }
 
-SUserData CJsonDataBase::GetUser(uint64_t Key)
+SUserData CJsonDataBase::ExtractUser(uint64_t Key)
 {
-	SUserData Result;
+    SUserData Result; 
+    try 
+    {
+        Update();
+        Result = ConvertFromJson(m_Json["members"][Key], Result);
+        return Result;
+    } 
+    catch (std::exception& e) 
+    {
+		std::cerr << e.what() << std::endl;
+    }
+    return Result;
+}
+
+void CJsonDataBase::InsertUser(uint64_t Key, SUserData Data)
+{
 	try
 	{
-		Result = fromJson(m_Json[Key]);
-		Result.m_Id = Key;
+		nlohmann::json j = ConvertToJson(Data);
+		m_Json["members"][std::to_string(Key)] = j;
+		Save();
 	}
 	catch(std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
-	return Result;
 }
 
-void CJsonDataBase::AddUser(uint64_t Key, SUserData Data)
+void CJsonDataBase::InsertVote(uint64_t Key, SVoteData Data)
 {
 	try
 	{
-		nlohmann::json j = toJson(Data);
-		m_Json["members"][std::to_string(Key)] = j;
+		nlohmann::json j = ConvertToJson(Data);
+		m_Json["votes"][std::to_string(Key)] = j;
 		Save();
 	}
 	catch(std::exception &e)
@@ -90,29 +105,21 @@ void CJsonDataBase::Save()
 	}
 }
 
-nlohmann::json CJsonDataBase::toJson(SUserData Data)
+void CJsonDataBase::toJson(nlohmann::json Result, SUserData Data)
 {
-	nlohmann::json Result;
-
 	Result = {
 		{"about", Data.m_About},
 		{"age", Data.m_Age},
 		{"clan", Data.m_Clan},
 		{"game_nick", Data.m_GameNick},
 		{"social_rating", Data.m_SocialRating}};
-
-	return Result;
 }
 
-SUserData CJsonDataBase::fromJson(nlohmann::json Data)
+void CJsonDataBase::fromJson(nlohmann::json Data, SUserData Result)
 {
-	SUserData Result;
-
 	Result.m_Age = Data.value("age", 0);
 	Result.m_SocialRating = Data.value("social_rating", 0);
 	Result.m_GameNick = Data.value("game_nick", "");
 	Result.m_Clan = Data.value("clan", "");
 	Result.m_About = Data.value("about", "");
-
-	return Result;
 }

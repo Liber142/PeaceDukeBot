@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 
 #include "engine/config.h"
 #include "engine/database.h"
@@ -14,32 +15,26 @@ public:
 
 	~CBotCore();
 
-	CConfig *Config()
+	CConfig& Config()
 	{
-		return m_pConfig;
+		return *m_pConfig;
 	}
-	IDataBase *DataBase()
+	const IDataBase& DataBase()
 	{
-		return m_pDataBase;
+		return *m_pDataBase;
 	}
-	dpp::cluster *Bot()
+	const dpp::cluster& Bot()
 	{
-		return m_pBot;
+		return *m_pBot;
 	}
 
 private:
-	dpp::cluster *m_pBot;
+    dpp::cluster *m_pBot;
 
-	CConfig *m_pConfig;
-	IDataBase *m_pDataBase;
+    std::unique_ptr<CConfig> m_pConfig;
+    std::shared_ptr<IDataBase> m_pDataBase;
 
-	struct SModule
-	{
-		IModule *m_pModule;
-		SModule *m_pNext;
-	} *m_pFirstModule = nullptr;
-
-	void AddModule(IModule *pModule);
+    std::vector<std::unique_ptr<IModule>> m_vpModules;
 
 	void Init();
 };

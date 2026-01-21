@@ -2,7 +2,6 @@
 
 #include "commands/apply.h"
 #include "commands/command.h"
-#include "commands/test.h"
 
 #include <string>
 
