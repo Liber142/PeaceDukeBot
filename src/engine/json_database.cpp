@@ -1,148 +1,57 @@
 #include "json_database.h"
-
+#include "logger.h"
 #include <fstream>
-#include <iostream>
 
-void CJsonDataBase::Connect(std::string Path)
+CJsonDataBase::~CJsonDataBase()
+{
+	Sync();
+}
+
+void CJsonDataBase::Connect(const std::string &Path)
 {
 	m_FilePath = Path + ".json";
-
 	std::ifstream File(m_FilePath);
-	if(!File.is_open())
+	
+	if (File.is_open())
 	{
-		std::ofstream NewFile(m_FilePath);
-		NewFile << "{}";
-		NewFile.close();
-	}
-	else
+		try {
+			File >> m_Root;
+		} catch (...) {
+			m_Root = nlohmann::json::object();
+		}
 		File.close();
-	Update();
+	}
+	else {
+		m_Root = nlohmann::json::object();
+		Sync();
+	}
 }
 
-SUserData CJsonDataBase::ExtractUser(uint64_t Key)
+void CJsonDataBase::WriteRaw(const std::string &Table, const std::string &Key, const nlohmann::json &Data)
 {
-	SUserData Result;
-	try
-	{
-		Update();
-		Result = ConvertFromJson(m_Json["members"][Key], Result);
-		return Result;
-	}
-	catch(std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-	return Result;
+	m_Root[Table][Key] = Data;
+	Sync(); 
 }
 
-SVoteData CJsonDataBase::ExtractVote(uint64_t Key)
+nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::string &Key)
 {
-	SVoteData Result;
-	return Result;
+	if (m_Root.contains(Table) && m_Root[Table].contains(Key))
+	{
+		return m_Root[Table][Key];
+	}
+	return nullptr;
 }
 
-void CJsonDataBase::InsertUser(uint64_t Key, SUserData Data)
-{
-	try
-	{
-		nlohmann::json j = ConvertToJson(Data);
-		m_Json["members"][std::to_string(Key)] = j;
-		Save();
-	}
-	catch(std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-}
-
-void CJsonDataBase::InsertVote(uint64_t Key, SVoteData Data)
-{
-	try
-	{
-		nlohmann::json j = ConvertToJson(Data);
-		m_Json["votes"][std::to_string(Key)] = j;
-		Save();
-	}
-	catch(std::exception &e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
-}
-
-void CJsonDataBase::Update()
-{
-	std::ifstream File(m_FilePath);
-	if(!File.is_open())
-	{
-		std::cerr << "Failed open db file" << std::endl;
-		return;
-	}
-
-	try
-	{
-		nlohmann::json j = nlohmann::json::parse(File);
-		File.close();
-		m_Json = j;
-	}
-	catch(std::exception &e)
-	{
-		std::cerr << "Error parse data base: " << e.what() << std::endl;
-	}
-}
-
-void CJsonDataBase::Save()
+void CJsonDataBase::Sync()
 {
 	std::ofstream File(m_FilePath);
-
-	if(!File.is_open())
+	if (File.is_open())
 	{
-		std::cerr << "Failed open db file" << std::endl;
-		return;
-	}
-
-	try
-	{
-		File << m_Json.dump(4);
+		File << m_Root.dump(4);
 		File.close();
 	}
-	catch(std::exception &e)
-	{
-		std::cerr << "Error save data base file : " << e.what() << std::endl;
+	else {
+		CLogger::Error("Database", "Failed to sync database to file: " + m_FilePath);
 	}
 }
 
-nlohmann::json CJsonDataBase::ConvertToJson(const SUserData &Data)
-{
-	nlohmann::json Result = {
-		{"about", Data.m_About},
-		{"age", Data.m_Age},
-		{"clan", Data.m_Clan},
-		{"game_nick", Data.m_GameNick},
-		{"social_rating", Data.m_SocialRating}};
-
-	return Result;
-}
-
-nlohmann::json CJsonDataBase::ConvertToJson(const SVoteData &Data)
-{
-	nlohmann::json Result;
-
-	return Result;
-}
-
-SUserData CJsonDataBase::ConvertFromJson(const nlohmann::json &Data, const SUserData &Type)
-{
-	SUserData Result;
-	Result.m_Age = Data.value("age", 0);
-	Result.m_SocialRating = Data.value("social_rating", 0);
-	Result.m_GameNick = Data.value("game_nick", "");
-	Result.m_Clan = Data.value("clan", "");
-	Result.m_About = Data.value("about", "");
-	return Result;
-}
-
-SVoteData CJsonDataBase::ConvertFromJson(const nlohmann::json &Data, const SVoteData &Type)
-{
-	SVoteData Result;
-	return Result;
-}
