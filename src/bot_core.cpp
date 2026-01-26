@@ -1,8 +1,10 @@
 #include "bot_core.h"
 
 #include "engine/config.h"
-#include "modules/command_handler.h"
 #include "engine/json_database.h"
+
+#include "modules/module.h"
+#include "modules/command_handler.h"
 
 #include <iostream>
 
@@ -14,19 +16,23 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pDataBase->Connect("db");
 
     // Init modules
-    std::unique_ptr<IModule> CommandHandler = std::make_unique<CCommandHandler>(this);
+    std::unique_ptr<CCommandHandler> CommandHandler = std::make_unique<CCommandHandler>(this);
     m_vpModules.emplace_back(std::move(CommandHandler));
 
 	m_pBot->on_ready([this](const dpp::ready_t &Event) {
-		std::cout << "I'm " << m_pBot->me.format_username() << " ready!\n";
+        CLogger::Info("botcore", m_pBot->me.format_username() + " ready!");
 		Init();
 	});
 }
 
+CBotCore::~CBotCore() = default;
+
 void CBotCore::Init()
 {
-    for(auto It = m_vpModules.begin(); It != m_vpModules.end(); ++It)
+    CLogger::Info("botcore", "Initial modules");
+    for(const auto& pSmartModule : m_vpModules)
     {
-        It->get()->OnInit(); 
+        IModule* pModule = pSmartModule.get();
+        pModule->OnInit();
     }
 }

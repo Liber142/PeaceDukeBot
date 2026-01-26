@@ -8,7 +8,7 @@ CApply::CApply(CBotCore *pBotCore) :
 void CApply::Register()
 {
 	dpp::slashcommand Command = dpp::slashcommand(
-		"apply",
+		Name(),
 		"Создаст сообщение с кнопкой для подачи заявки",
 		BotCore()->Bot()->me.id);
 
@@ -35,6 +35,6 @@ void CApply::Execute(const dpp::slashcommand_t &Event)
 	}
 	catch(std::exception &e)
 	{
-		std::cerr << "[ERROR] " << e.what() << std::endl;
+        CLogger::Error("apply", e.what());
 	}
 }

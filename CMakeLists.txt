@@ -10,14 +10,14 @@ set(ENGINE_SRC
     src/engine/config.h
     src/engine/config.cpp
     src/engine/database.h
-    src/engine/database.cpp
+    src/engine/json_database.h
+    src/engine/json_database.cpp
 )
 
 set(COMMANDS_SRC
     src/modules/commands/command.h
     src/modules/commands/apply.h
     src/modules/commands/apply.cpp
-    src/modules/commands/test.h
 )
 
 set(MODULES_SRC

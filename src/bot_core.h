@@ -3,6 +3,7 @@
 
 #include "engine/config.h"
 #include "engine/database.h"
+#include "engine/logger.h"
 
 #include <dpp/cluster.h>
 
@@ -12,8 +13,7 @@ class CBotCore
 {
 public:
 	CBotCore(dpp::cluster *pBot);
-
-	~CBotCore();
+    virtual ~CBotCore();
 
 	CConfig& Config()
 	{
@@ -23,9 +23,9 @@ public:
 	{
 		return *m_pDataBase;
 	}
-	const dpp::cluster& Bot()
+	dpp::cluster* Bot()
 	{
-		return *m_pBot;
+		return m_pBot;
 	}
 
 private:

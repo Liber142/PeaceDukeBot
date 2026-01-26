@@ -9,14 +9,10 @@ public:
 	CCommandHandler(CBotCore *pBotCore);
 
 	void OnInit() override;
-	~CCommandHandler() override;
+
+    std::string Name() const override { return "CCommandHandler"; }
 private:
-	struct SCommand
-	{
-		std::string m_Name;
-		ICommand *m_pCommand = nullptr;
-		SCommand *m_pNext = nullptr;
-	} *m_pFirstCmd = nullptr;
+    std::vector<std::unique_ptr<ICommand>> m_vpCommands;
 
 	void AddCommand(std::string Name, ICommand *pCommand);
 	void Execute(const dpp::slashcommand_t &Event);

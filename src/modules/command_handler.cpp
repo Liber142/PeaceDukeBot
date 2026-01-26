@@ -8,45 +8,17 @@
 CCommandHandler::CCommandHandler(CBotCore *pBotCore) :
 	IModule(pBotCore)
 {
-	CApply *Apply = new CApply(pBotCore);
-	AddCommand("apply", Apply);
-}
-
-CCommandHandler::~CCommandHandler()
-{
-	for(SCommand *pCmd = m_pFirstCmd; pCmd;)
-	{
-		SCommand *pTmp = pCmd;
-		pCmd = pCmd->m_pNext;
-		delete pTmp;
-	}
-
-	m_pFirstCmd = nullptr;
-}
-
-void CCommandHandler::AddCommand(std::string Name, ICommand *pCommand)
-{
-	SCommand *pTmp = new SCommand;
-	pTmp->m_Name = Name;
-	pTmp->m_pCommand = pCommand;
-
-	pTmp->m_pNext = m_pFirstCmd;
-	m_pFirstCmd = pTmp;
+    std::unique_ptr<CApply> Apply = std::make_unique<CApply>(pBotCore);
+    m_vpCommands.emplace_back(std::move(Apply));
 }
 
 void CCommandHandler::OnInit()
 {
-	try
-	{
-		for(SCommand *pCmd = m_pFirstCmd; pCmd; pCmd = pCmd->m_pNext)
-		{
-			pCmd->m_pCommand->Register();
-		}
-	}
-	catch(const std::exception &e)
-	{
-		std::cerr << "[ERROR] " << e.what() << std::endl;
-	}
+    CLogger::Info("command_handler", "Register commands");
+    for(auto& pCmd : m_vpCommands)
+    {
+        pCmd->Register();
+    }
 
 	BotCore()->Bot()->on_slashcommand([this](const dpp::slashcommand_t &Event) {
 		Execute(Event);
@@ -58,11 +30,11 @@ void CCommandHandler::Execute(const dpp::slashcommand_t &Event)
 	try
 	{
 		std::string Name = Event.command.get_command_name();
-		for(SCommand *pCmd = m_pFirstCmd; pCmd; pCmd = pCmd->m_pNext)
+        for(auto& pCmd : m_vpCommands)
 		{
-			if(Name == pCmd->m_Name && pCmd->m_pCommand)
+			if(Name == pCmd->Name())
 			{
-				pCmd->m_pCommand->Execute(Event);
+				pCmd->Execute(Event);
 				return;
 			}
 		}

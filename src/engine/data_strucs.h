@@ -6,7 +6,7 @@
 
 struct IData 
 {
-    virtual ~IData();
+    virtual ~IData() {}
 };
 
 struct SUserData : IData

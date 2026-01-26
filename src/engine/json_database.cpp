@@ -35,6 +35,12 @@ SUserData CJsonDataBase::ExtractUser(uint64_t Key)
     return Result;
 }
 
+SVoteData CJsonDataBase::ExtractVote(uint64_t Key)
+{
+    SVoteData Result;
+    return Result;
+}
+
 void CJsonDataBase::InsertUser(uint64_t Key, SUserData Data)
 {
 	try
@@ -105,21 +111,38 @@ void CJsonDataBase::Save()
 	}
 }
 
-void CJsonDataBase::toJson(nlohmann::json Result, SUserData Data)
+nlohmann::json CJsonDataBase::ConvertToJson(const SUserData& Data)
 {
-	Result = {
+    nlohmann::json Result = {
 		{"about", Data.m_About},
 		{"age", Data.m_Age},
 		{"clan", Data.m_Clan},
 		{"game_nick", Data.m_GameNick},
 		{"social_rating", Data.m_SocialRating}};
+
+    return Result;
 }
 
-void CJsonDataBase::fromJson(nlohmann::json Data, SUserData Result)
+nlohmann::json CJsonDataBase::ConvertToJson(const SVoteData& Data)
 {
+    nlohmann::json Result; 
+
+    return Result;
+}
+
+SUserData CJsonDataBase::ConvertFromJson(const nlohmann::json& Data, const SUserData& Type)
+{
+    SUserData Result;
 	Result.m_Age = Data.value("age", 0);
 	Result.m_SocialRating = Data.value("social_rating", 0);
 	Result.m_GameNick = Data.value("game_nick", "");
 	Result.m_Clan = Data.value("clan", "");
 	Result.m_About = Data.value("about", "");
+    return Result;
+}
+
+SVoteData CJsonDataBase::ConvertFromJson(const nlohmann::json& Data, const SVoteData& Type)
+{
+    SVoteData Result;
+    return Result;
 }

@@ -13,9 +13,9 @@ int main()
 		return 1;
 	}
 
-    std::unique_ptr<dpp::cluster> Bot = std::make_unique<dpp::cluster>(Token);
+    dpp::cluster Bot(Token);
 
 	CBotCore BotCore(&Bot);
 
-	Bot->start();
+	Bot.start();
 }
