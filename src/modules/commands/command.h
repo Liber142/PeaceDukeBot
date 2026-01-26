@@ -11,9 +11,9 @@ public:
 		IModule(pBotCore)
 	{
 	}
-    virtual ~ICommand() = default;
+	virtual ~ICommand() = default;
 
 	virtual void Register() = 0;
 	virtual void Execute(const dpp::slashcommand_t &Event) = 0;
-    std::string Name() const override { return "icommand"; }
+	std::string Name() const override { return "icommand"; }
 };

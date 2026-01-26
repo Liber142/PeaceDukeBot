@@ -13,7 +13,7 @@ int main()
 		return 1;
 	}
 
-    dpp::cluster Bot(Token);
+	dpp::cluster Bot(Token);
 
 	CBotCore BotCore(&Bot);
 

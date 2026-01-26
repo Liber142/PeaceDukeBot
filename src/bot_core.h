@@ -1,11 +1,11 @@
 #pragma once
-#include <memory>
-
 #include "engine/config.h"
 #include "engine/database.h"
 #include "engine/logger.h"
 
 #include <dpp/cluster.h>
+
+#include <memory>
 
 class IModule;
 
@@ -13,28 +13,28 @@ class CBotCore
 {
 public:
 	CBotCore(dpp::cluster *pBot);
-    virtual ~CBotCore();
+	virtual ~CBotCore();
 
-	CConfig& Config()
+	CConfig &Config()
 	{
 		return *m_pConfig;
 	}
-	const IDataBase& DataBase()
+	const IDataBase &DataBase()
 	{
 		return *m_pDataBase;
 	}
-	dpp::cluster* Bot()
+	dpp::cluster *Bot()
 	{
 		return m_pBot;
 	}
 
 private:
-    dpp::cluster *m_pBot;
+	dpp::cluster *m_pBot;
 
-    std::unique_ptr<CConfig> m_pConfig;
-    std::shared_ptr<IDataBase> m_pDataBase;
+	std::unique_ptr<CConfig> m_pConfig;
+	std::shared_ptr<IDataBase> m_pDataBase;
 
-    std::vector<std::unique_ptr<IModule>> m_vpModules;
+	std::vector<std::unique_ptr<IModule>> m_vpModules;
 
 	void Init();
 };

@@ -35,6 +35,6 @@ void CApply::Execute(const dpp::slashcommand_t &Event)
 	}
 	catch(std::exception &e)
 	{
-        CLogger::Error("apply", e.what());
+		CLogger::Error("apply", e.what());
 	}
 }

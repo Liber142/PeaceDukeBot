@@ -1,12 +1,12 @@
 #pragma once
+#include <dpp/snowflake.h>
+
 #include <string>
 #include <vector>
 
-#include <dpp/snowflake.h>
-
-struct IData 
+struct IData
 {
-    virtual ~IData() {}
+	virtual ~IData() {}
 };
 
 struct SUserData : IData
@@ -22,10 +22,9 @@ struct SUserData : IData
 
 struct SVoteData : SUserData
 {
-    int m_NumberVoteAccept;
-    int m_NumberVoteReject;
+	int m_NumberVoteAccept;
+	int m_NumberVoteReject;
 
-    std::vector<std::string> m_vReasonsRejects;
-    std::vector<dpp::snowflake> m_vVoters;
+	std::vector<std::string> m_vReasonsRejects;
+	std::vector<dpp::snowflake> m_vVoters;
 };
-

@@ -21,24 +21,24 @@ void CJsonDataBase::Connect(std::string Path)
 
 SUserData CJsonDataBase::ExtractUser(uint64_t Key)
 {
-    SUserData Result; 
-    try 
-    {
-        Update();
-        Result = ConvertFromJson(m_Json["members"][Key], Result);
-        return Result;
-    } 
-    catch (std::exception& e) 
-    {
+	SUserData Result;
+	try
+	{
+		Update();
+		Result = ConvertFromJson(m_Json["members"][Key], Result);
+		return Result;
+	}
+	catch(std::exception &e)
+	{
 		std::cerr << e.what() << std::endl;
-    }
-    return Result;
+	}
+	return Result;
 }
 
 SVoteData CJsonDataBase::ExtractVote(uint64_t Key)
 {
-    SVoteData Result;
-    return Result;
+	SVoteData Result;
+	return Result;
 }
 
 void CJsonDataBase::InsertUser(uint64_t Key, SUserData Data)
@@ -111,38 +111,38 @@ void CJsonDataBase::Save()
 	}
 }
 
-nlohmann::json CJsonDataBase::ConvertToJson(const SUserData& Data)
+nlohmann::json CJsonDataBase::ConvertToJson(const SUserData &Data)
 {
-    nlohmann::json Result = {
+	nlohmann::json Result = {
 		{"about", Data.m_About},
 		{"age", Data.m_Age},
 		{"clan", Data.m_Clan},
 		{"game_nick", Data.m_GameNick},
 		{"social_rating", Data.m_SocialRating}};
 
-    return Result;
+	return Result;
 }
 
-nlohmann::json CJsonDataBase::ConvertToJson(const SVoteData& Data)
+nlohmann::json CJsonDataBase::ConvertToJson(const SVoteData &Data)
 {
-    nlohmann::json Result; 
+	nlohmann::json Result;
 
-    return Result;
+	return Result;
 }
 
-SUserData CJsonDataBase::ConvertFromJson(const nlohmann::json& Data, const SUserData& Type)
+SUserData CJsonDataBase::ConvertFromJson(const nlohmann::json &Data, const SUserData &Type)
 {
-    SUserData Result;
+	SUserData Result;
 	Result.m_Age = Data.value("age", 0);
 	Result.m_SocialRating = Data.value("social_rating", 0);
 	Result.m_GameNick = Data.value("game_nick", "");
 	Result.m_Clan = Data.value("clan", "");
 	Result.m_About = Data.value("about", "");
-    return Result;
+	return Result;
 }
 
-SVoteData CJsonDataBase::ConvertFromJson(const nlohmann::json& Data, const SVoteData& Type)
+SVoteData CJsonDataBase::ConvertFromJson(const nlohmann::json &Data, const SVoteData &Type)
 {
-    SVoteData Result;
-    return Result;
+	SVoteData Result;
+	return Result;
 }
