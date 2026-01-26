@@ -5,7 +5,7 @@
 #include "modules/command_handler.h"
 #include "modules/module.h"
 
-#include <iostream>
+#include "git_revision.h"
 
 CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pBot(pBot),
@@ -20,6 +20,7 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 
 	m_pBot->on_ready([this](const dpp::ready_t &Event) {
 		CLogger::Info("botcore", m_pBot->me.format_username() + " ready!");
+        CLogger::Info("botcore", "githash: " + std::string(GIT_SHORTREV_HASH));
 		Init();
 	});
 }

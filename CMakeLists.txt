@@ -12,6 +12,7 @@ set(ENGINE_SRC
     src/engine/database.h
     src/engine/json_database.h
     src/engine/json_database.cpp
+    src/engine/logger.h
 )
 
 set(COMMANDS_SRC
@@ -43,6 +44,24 @@ set(SRC
 add_executable(${PROJECT_NAME}
     ${SRC}
 )
+
+set(GEN_REVISION_FILE "${CMAKE_BINARY_DIR}/generated/src/git_revision.h")
+
+add_custom_command(
+    OUTPUT "${GEN_REVISION_FILE}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_BINARY_DIR}/generated/src"
+    COMMAND python3 "${CMAKE_SOURCE_DIR}/scripts/git_revision.py" > "${GEN_REVISION_FILE}.tmp"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${GEN_REVISION_FILE}.tmp" "${GEN_REVISION_FILE}"
+    DEPENDS "${CMAKE_SOURCE_DIR}/scripts/git_revision.py"
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    COMMENT "Generating git revision header"
+    VERBATIM
+)
+
+add_custom_target(generate_revision DEPENDS "${GEN_REVISION_FILE}")
+add_dependencies(${PROJECT_NAME} generate_revision)
+
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_BINARY_DIR}/generated/src")
 
 # Find our pre-installed DPP package (using FindDPP.cmake).
 find_package(DPP REQUIRED)
