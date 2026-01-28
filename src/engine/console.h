@@ -24,6 +24,9 @@ public:
 
 		int m_Flags;
 		dpp::slashcommand_t m_Event;
+
+        int NumArguments() const { return m_Args.size(); }
+        std::string GetString(int Index) const { return m_Args[Index]; }
 	};
 
 	using FnCallBack = std::function<void(IResult Result)>;

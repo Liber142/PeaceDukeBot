@@ -36,7 +36,7 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 		return;
 
 	CConsole::CCommand Cmd(Name, Callback);
-	Cmd.m_Flags = Flags;
+	Cmd.m_vParams = Params;
 	Cmd.m_Flags = Flags;
 	Cmd.m_Help = Help;
 
@@ -55,7 +55,7 @@ void CConsole::ExecuteSlash(const dpp::slashcommand_t &Event)
 		Result.m_Event = Event;
 		Result.m_Flags = pCommand->m_Flags;
 		CLogger::Info("console", "Execute " + Name + " command");
-		pCommand->m_CallBack(Result);
+		pCommand->m_CallBack(std::move(Result));
 	}
 }
 
@@ -128,7 +128,7 @@ void CConsole::ExecuteLine(std::string &Line)
                 break;
             }
 
-            Cmd->m_CallBack(Result);
+            Cmd->m_CallBack(std::move(Result));
 		}
 	}
 }
