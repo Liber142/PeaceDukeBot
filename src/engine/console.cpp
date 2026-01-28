@@ -1,4 +1,5 @@
 #include "console.h"
+
 #include "logger.h"
 
 #include <string>
@@ -36,7 +37,7 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 	Cmd.m_Flags = Flags;
 	Cmd.m_Help = Help;
 
-    CLogger::Info("console", "Register " + Name + " command");
+	CLogger::Info("console", "Register " + Name + " command");
 
 	m_vCommands.emplace_back(std::move(Cmd));
 }
@@ -51,7 +52,7 @@ void CConsole::ExecuteSlash(const dpp::slashcommand_t &Event)
 		Result.m_Event = Event;
 		Result.m_Flags = pCommand->m_Flags;
 		pCommand->m_CallBack(Result);
-        CLogger::Info("console", "Execute " + Name + " command");
+		CLogger::Info("console", "Execute " + Name + " command");
 	}
 }
 

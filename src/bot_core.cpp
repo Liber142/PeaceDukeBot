@@ -3,9 +3,8 @@
 #include "engine/config.h"
 #include "engine/json_database.h"
 #include "git_revision.h"
-
-#include "modules/module.h"
 #include "modules/command_handler.h"
+#include "modules/module.h"
 
 CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pBot(pBot),
