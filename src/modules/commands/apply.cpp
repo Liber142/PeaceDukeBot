@@ -5,7 +5,7 @@ CApply::CApply(CBotCore *pBotCore) :
 {
 }
 
-void CApply::Register()
+void CApply::OnConsoleInit()
 {
 	dpp::slashcommand Command = dpp::slashcommand(
 		Name(),
@@ -13,10 +13,12 @@ void CApply::Register()
 		BotCore()->Bot()->me.id);
 
 	BotCore()->Bot()->global_command_create(Command);
+    Console().Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result){Execute(Result);}, Command.description); 
 }
 
-void CApply::Execute(const dpp::slashcommand_t &Event)
+void CApply::Execute(CConsole::IResult& Result)
 {
+    const dpp::slashcommand_t& Event = Result.m_Event;
 	try
 	{
 		dpp::message Msg(

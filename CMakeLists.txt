@@ -9,6 +9,8 @@ set(ENGINE_SRC
     src/engine/config_variables.h
     src/engine/config.h
     src/engine/config.cpp
+    std/engine/console.h
+    std/engine/console.cpp
     src/engine/database.h
     src/engine/json_database.h
     src/engine/json_database.cpp
@@ -24,8 +26,6 @@ set(COMMANDS_SRC
 set(MODULES_SRC
     src/modules/module.h
     ${COMMANDS_SRC}
-    src/modules/command_handler.h
-    src/modules/command_handler.cpp
 )
 
 set(BOT_SRC

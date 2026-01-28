@@ -10,7 +10,8 @@
 CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pBot(pBot),
 	m_pConfig(std::make_unique<CConfig>()),
-	m_pDataBase(std::make_shared<CJsonDataBase>())
+	m_pDataBase(std::make_shared<CJsonDataBase>()),
+    m_pConsole(std::make_shared<CConsole>())
 {
 	m_pDataBase->Connect("db");
 
@@ -30,9 +31,9 @@ CBotCore::~CBotCore() = default;
 void CBotCore::Init()
 {
 	CLogger::Info("botcore", "Initial modules");
-	for(const auto &pSmartModule : m_vpModules)
+	for(const auto& pModule : m_vpModules)
 	{
-		IModule *pModule = pSmartModule.get();
 		pModule->OnInit();
+        pModule->OnConsoleInit();
 	}
 }

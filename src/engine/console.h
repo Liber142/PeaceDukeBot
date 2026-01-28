@@ -1,40 +1,54 @@
-#include <stdint.h>
+#pragma once
 
-class IConsole
+#include <functional>
+#include <string>
+#include <vector>
+#include <dpp/dpp.h>
+
+enum : int {
+    SLASH_COMMAND = 1 << 1,
+};
+
+class CConsole 
 {
-	enum class AccessLevel
-	{
-		ADMIN,
-		MODERATOR,
-		CLAN_MEMBER,
-		USER,
-	};
+public: 
+    class IResult 
+    {
+    public:
+        IResult(std::string& Name) : m_Name(Name) {}
+        std::string& m_Name;
+        std::vector<std::string> m_Args;
+        
+        int m_Flags;
+        dpp::slashcommand_t m_Event;
+    };
 
-	class IResult
-	{
-	protected:
-		unsigned m_NumArgs;
+    using FnCallBack = std::function<void(IResult Result)>;
 
-	public:
-		IResult(uint64_t userId) :
-			m_NumArgs(0), m_UserId(userId)
-		{
-		}
+    class CCommand 
+    {
+    public:
+        CCommand(const std::string& Name, FnCallBack& Callback);
+        const std::string& m_Name;
+        std::vector<std::string> m_vParams;
+        int m_Flags;
+        FnCallBack& m_CallBack;
+        std::string m_Help;
+    };
+    CCommand* FindCommand(const std::string& Name, int Flags);
 
-		int NumArguments() const
-		{
-			return m_NumArgs;
-		}
-		uint64_t m_UserId;
-	};
+    /* std::string& Name
+    * std::vector<std::string>& Params
+    * int& Flags
+    * FnCallBack Callback
+    * std::string& Help
+    */
+    void Register(const std::string& Name, const std::vector<std::string>& Params, int Flags, FnCallBack Callback, const std::string& Help);
 
-	class ICommandInfo
-	{
-		virtual AccessLevel GetAccessLevel() const = 0;
-	};
+    void ExecuteSlash(const dpp::slashcommand_t& Event);
+    void ExecuteLine(std::string& Line);
+    void ExecuteFile(std::string& Path);
 
-	typedef void (*CommandCallback)(IResult *pResult);
-
-	virtual void Register();
-	virtual void Execute();
+private: 
+    std::vector<CCommand> m_vCommands;
 };
