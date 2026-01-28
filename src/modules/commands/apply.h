@@ -10,8 +10,7 @@ public:
 	void OnInit() override {}
 	void OnConsoleInit() override;
 
-	void Register() override;
 	void Execute(CConsole::IResult &Result) override;
 
-	std::string Name() const override { return "apply"; }
+	const std::string Name() const override { return "apply"; }
 };

@@ -13,9 +13,8 @@ public:
 	}
 	virtual ~ICommand() = default;
 
-	virtual void Register() = 0;
 	virtual void Execute(CConsole::IResult &Result) = 0;
-	std::string Name() const override { return "icommand"; }
+	const std::string Name() const override { return "icommand"; }
 
 protected:
 	CConsole &Console() { return BotCore()->Console(); }
