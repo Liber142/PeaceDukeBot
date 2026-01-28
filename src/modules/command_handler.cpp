@@ -11,6 +11,11 @@ CCommandHandler::CCommandHandler(CBotCore *pBotCore) :
 
 void CCommandHandler::OnInit()
 {
+	BotCore()->Bot()->on_slashcommand([this](const dpp::slashcommand_t &Event) {
+		CLogger::Debug("command_handler", "ExecuteSlash");
+		BotCore()->Console().ExecuteSlash(Event);
+	});
+
 	for(const auto &pCommand : m_vpCommands)
 		pCommand->OnInit();
 }

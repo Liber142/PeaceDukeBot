@@ -39,6 +39,7 @@ public:
 		std::string m_Help;
 	};
 	CCommand *FindCommand(const std::string &Name, int Flags);
+	CCommand *FindCommand(const std::string &Name);
 
 	/* std::string& Name
 	 * std::vector<std::string>& Params

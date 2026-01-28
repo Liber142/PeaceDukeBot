@@ -33,6 +33,8 @@ void CApply::Execute(CConsole::IResult &Result)
 					.set_style(dpp::cos_primary)
 					.set_id("apply_button")));
 
+		CLogger::Debug("apply", "Hello");
+
 		Event.reply(Msg);
 	}
 	catch(std::exception &e)

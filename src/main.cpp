@@ -17,5 +17,11 @@ int main()
 
 	CBotCore BotCore(&Bot);
 
-	Bot.start();
+	Bot.start(dpp::st_return);
+
+    std::string Line;
+    while(std::getline(std::cin, Line))
+    {
+        BotCore.Console().ExecuteLine(Line);
+    }
 }
