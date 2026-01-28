@@ -1,6 +1,7 @@
 #pragma once
-#include <dpp/nlohmann/json.hpp>
 #include <dpp/snowflake.h>
+
+#include <dpp/nlohmann/json.hpp>
 #include <string>
 #include <vector>
 
@@ -18,7 +19,7 @@ struct SUserData
 
 struct SVoteData
 {
-    SUserData m_User;
+	SUserData m_User;
 	int m_NumberVoteAccept = 0;
 	int m_NumberVoteReject = 0;
 	std::vector<std::string> m_vReasonsRejects;
@@ -26,4 +27,3 @@ struct SVoteData
 
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE(SVoteData, m_User, m_NumberVoteAccept, m_NumberVoteReject, m_vReasonsRejects, m_vVoters)
 };
-

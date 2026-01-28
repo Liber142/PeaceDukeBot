@@ -13,12 +13,12 @@ void CApply::OnConsoleInit()
 		BotCore()->Bot()->me.id);
 
 	BotCore()->Bot()->global_command_create(Command);
-    Console().Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result){Execute(Result);}, Command.description); 
+	Console().Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, Command.description);
 }
 
-void CApply::Execute(CConsole::IResult& Result)
+void CApply::Execute(CConsole::IResult &Result)
 {
-    const dpp::slashcommand_t& Event = Result.m_Event;
+	const dpp::slashcommand_t &Event = Result.m_Event;
 	try
 	{
 		dpp::message Msg(

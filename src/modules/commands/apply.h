@@ -8,10 +8,10 @@ public:
 	CApply(CBotCore *pBoteCore);
 
 	void OnInit() override {}
-    void OnConsoleInit() override;
+	void OnConsoleInit() override;
 
 	void Register() override;
-	void Execute(CConsole::IResult& Result) override;
+	void Execute(CConsole::IResult &Result) override;
 
 	std::string Name() const override { return "apply"; }
 };

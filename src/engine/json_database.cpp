@@ -1,5 +1,7 @@
 #include "json_database.h"
+
 #include "logger.h"
+
 #include <fstream>
 
 CJsonDataBase::~CJsonDataBase()
@@ -11,17 +13,21 @@ void CJsonDataBase::Connect(const std::string &Path)
 {
 	m_FilePath = Path + ".json";
 	std::ifstream File(m_FilePath);
-	
-	if (File.is_open())
+
+	if(File.is_open())
 	{
-		try {
+		try
+		{
 			File >> m_Root;
-		} catch (...) {
+		}
+		catch(...)
+		{
 			m_Root = nlohmann::json::object();
 		}
 		File.close();
 	}
-	else {
+	else
+	{
 		m_Root = nlohmann::json::object();
 		Sync();
 	}
@@ -30,12 +36,12 @@ void CJsonDataBase::Connect(const std::string &Path)
 void CJsonDataBase::WriteRaw(const std::string &Table, const std::string &Key, const nlohmann::json &Data)
 {
 	m_Root[Table][Key] = Data;
-	Sync(); 
+	Sync();
 }
 
 nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::string &Key)
 {
-	if (m_Root.contains(Table) && m_Root[Table].contains(Key))
+	if(m_Root.contains(Table) && m_Root[Table].contains(Key))
 	{
 		return m_Root[Table][Key];
 	}
@@ -45,13 +51,13 @@ nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::strin
 void CJsonDataBase::Sync()
 {
 	std::ofstream File(m_FilePath);
-	if (File.is_open())
+	if(File.is_open())
 	{
 		File << m_Root.dump(4);
 		File.close();
 	}
-	else {
+	else
+	{
 		CLogger::Error("Database", "Failed to sync database to file: " + m_FilePath);
 	}
 }
-
