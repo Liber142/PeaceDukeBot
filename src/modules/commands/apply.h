@@ -2,10 +2,10 @@
 
 #include "command.h"
 
-class CApply : public ICommand
+class CApplyCommand : public ICommand
 {
 public:
-	CApply(CBotCore *pBoteCore);
+	CApplyCommand(CBotCore *pBoteCore);
 
 	void OnInit() override {}
 	void OnConsoleInit() override;

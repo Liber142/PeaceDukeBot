@@ -1,11 +1,11 @@
 #include "apply.h"
 
-CApply::CApply(CBotCore *pBotCore) :
+CApplyCommand::CApplyCommand(CBotCore *pBotCore) :
 	ICommand(pBotCore)
 {
 }
 
-void CApply::OnConsoleInit()
+void CApplyCommand::OnConsoleInit()
 {
 	dpp::slashcommand Command = dpp::slashcommand(
 		Name(),
@@ -17,7 +17,7 @@ void CApply::OnConsoleInit()
 }
 
 
-void CApply::Execute(CConsole::IResult &Result)
+void CApplyCommand::Execute(CConsole::IResult &Result)
 {
 	if(!(Result.m_Flags & SLASH_COMMAND))
 		return;

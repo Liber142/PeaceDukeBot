@@ -20,10 +20,11 @@ struct SUserData
 struct SVoteData
 {
 	SUserData m_User;
+    dpp::snowflake m_MessageId;
 	int m_NumberVoteAccept = 0;
 	int m_NumberVoteReject = 0;
 	std::vector<std::string> m_vReasonsRejects;
 	std::vector<dpp::snowflake> m_vVoters;
 
-	NLOHMANN_DEFINE_TYPE_INTRUSIVE(SVoteData, m_User, m_NumberVoteAccept, m_NumberVoteReject, m_vReasonsRejects, m_vVoters)
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(SVoteData, m_User, m_MessageId, m_NumberVoteAccept, m_NumberVoteReject, m_vReasonsRejects, m_vVoters)
 };

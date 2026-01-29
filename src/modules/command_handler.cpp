@@ -5,7 +5,7 @@
 CCommandHandler::CCommandHandler(CBotCore *pBotCore) :
 	IModule(pBotCore)
 {
-	std::unique_ptr<CApply> Apply = std::make_unique<CApply>(pBotCore);
+	std::unique_ptr<CApplyCommand> Apply = std::make_unique<CApplyCommand>(pBotCore);
 	m_vpCommands.emplace_back(std::move(Apply));
 }
 
