@@ -8,7 +8,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 set(ENGINE_SRC
     src/engine/config_variables.h
     src/engine/config.h
-    src/engine/config.cpp
     src/engine/console.h
     src/engine/console.cpp
     src/engine/database.h

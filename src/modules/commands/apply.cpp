@@ -16,8 +16,12 @@ void CApply::OnConsoleInit()
 	Console().Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, Command.description);
 }
 
+
 void CApply::Execute(CConsole::IResult &Result)
 {
+	if(!(Result.m_Flags & SLASH_COMMAND))
+		return;
+
 	const dpp::slashcommand_t &Event = Result.m_Event;
 	try
 	{
@@ -42,3 +46,5 @@ void CApply::Execute(CConsole::IResult &Result)
 		CLogger::Error("apply", e.what());
 	}
 }
+
+

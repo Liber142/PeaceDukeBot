@@ -9,6 +9,7 @@
 enum : int
 {
 	SLASH_COMMAND = 1 << 1,
+	CFGFLAG_SAVE = 1 << 2,
 };
 
 class CConsole
@@ -25,8 +26,8 @@ public:
 		int m_Flags;
 		dpp::slashcommand_t m_Event;
 
-        int NumArguments() const { return m_Args.size(); }
-        std::string GetString(int Index) const { return m_Args[Index]; }
+		int NumArguments() const { return m_Args.size(); }
+		std::string GetString(int Index) const { return m_Args[Index]; }
 	};
 
 	using FnCallBack = std::function<void(IResult Result)>;
@@ -34,11 +35,11 @@ public:
 	class CCommand
 	{
 	public:
-		CCommand(const std::string &Name, FnCallBack &Callback);
-		const std::string &m_Name;
+		CCommand(std::string Name, FnCallBack Callback);
+		const std::string m_Name;
 		std::vector<std::string> m_vParams;
 		int m_Flags;
-		FnCallBack &m_CallBack;
+		FnCallBack m_CallBack;
 		std::string m_Help;
 	};
 	CCommand *FindCommand(const std::string &Name, int Flags);
@@ -57,5 +58,5 @@ public:
 	void ExecuteFile(std::string &Path);
 
 private:
-	std::vector<CCommand> m_vCommands;
+	std::vector<std::unique_ptr<CCommand>> m_vpCommands;
 };

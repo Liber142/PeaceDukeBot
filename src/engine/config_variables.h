@@ -5,5 +5,5 @@
 #define MACRO_CONFIG_STR(Name, ScriptName, Def, Save, Desc)
 #endif
 
-MACRO_CONFIG_SNOWFLAKE(ROLE_ID, role_id, 1000, 0, "Desc for role id");
-MACRO_CONFIG_STR(About, about, "Hello", 0, "Desc for about");
+MACRO_CONFIG_SNOWFLAKE(ROLE_ID, "role_id", 1000, CFGFLAG_SAVE, "Desc for role id");
+MACRO_CONFIG_STR(About, "about", "Hello", CFGFLAG_SAVE, "Desc for about");

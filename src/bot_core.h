@@ -37,8 +37,8 @@ private:
 	dpp::cluster *m_pBot;
 
 	std::unique_ptr<CConfig> m_pConfig;
-	std::shared_ptr<IDataBase> m_pDataBase;
-	std::shared_ptr<CConsole> m_pConsole;
+	std::unique_ptr<IDataBase> m_pDataBase;
+	std::unique_ptr<CConsole> m_pConsole;
 
 	std::vector<std::unique_ptr<IModule>> m_vpModules;
 

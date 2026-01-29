@@ -4,26 +4,26 @@
 
 #include <string>
 
-CConsole::CCommand::CCommand(const std::string &Name, FnCallBack &Callback) :
-	m_Name(Name),
-	m_CallBack(Callback)
+CConsole::CCommand::CCommand(std::string Name, FnCallBack Callback) :
+	m_Name(std::move(Name)),
+	m_CallBack(std::move(Callback))
 {
 }
 
 CConsole::CCommand *CConsole::FindCommand(const std::string &Name, int Flags)
 {
-	for(CCommand &Cmd : m_vCommands)
-		if(Cmd.m_Flags & Flags && Cmd.m_Name == Name)
-            return &Cmd;
+	for(const auto &Cmd : m_vpCommands)
+		if(Cmd->m_Flags & Flags && Cmd->m_Name == Name)
+			return Cmd.get();
 
 	return nullptr;
 }
 
 CConsole::CCommand *CConsole::FindCommand(const std::string &Name)
 {
-	for(CCommand &Cmd : m_vCommands)
-		if(Cmd.m_Name == Name)
-            return &Cmd;
+	for(const auto &Cmd : m_vpCommands)
+		if(Cmd->m_Name == Name)
+			return Cmd.get();
 
 	return nullptr;
 }
@@ -35,14 +35,14 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 	if(pCmd)
 		return;
 
-	CConsole::CCommand Cmd(Name, Callback);
-	Cmd.m_vParams = Params;
-	Cmd.m_Flags = Flags;
-	Cmd.m_Help = Help;
+	std::unique_ptr<CConsole::CCommand> Cmd = std::make_unique<CConsole::CCommand>(Name, Callback);
+	Cmd->m_vParams = Params;
+	Cmd->m_Flags = Flags;
+	Cmd->m_Help = Help;
 
 	CLogger::Info("console", "Register " + Name + " command");
 
-	m_vCommands.emplace_back(std::move(Cmd));
+	m_vpCommands.push_back(std::move(Cmd));
 }
 
 void CConsole::ExecuteSlash(const dpp::slashcommand_t &Event)
@@ -65,7 +65,7 @@ void CConsole::ExecuteLine(std::string &Line)
 	auto It = Line.begin();
 
 	if(Line.substr(0, 3) == "mc;")
-        It += 3;
+		It += 3;
 
 	while(It != Line.end())
 	{
@@ -121,22 +121,23 @@ void CConsole::ExecuteLine(std::string &Line)
 			for(size_t i = 1; i < Tokens.size(); ++i)
 				Result.m_Args.push_back(std::move(Tokens[i]));
 
-            CCommand* Cmd = FindCommand(Tokens[0]);
-            if(!Cmd)
-            {
-                CLogger::Error("console", "can't find command: " + Tokens[0]);
-                break;
-            }
+			CCommand *Cmd = FindCommand(Tokens[0]);
+			if(!Cmd)
+			{
+				CLogger::Error("console", "can't find command: " + Tokens[0]);
+				break;
+			}
 
-            Cmd->m_CallBack(std::move(Result));
+			Cmd->m_CallBack(std::move(Result));
 		}
 	}
 }
 
 void CConsole::ExecuteFile(std::string &Path)
 {
-    std::ifstream File(Path);
-    std::string Line;
-    while(std::getline(File, Line))
-        ExecuteFile(Line);
+	std::ifstream File(Path);
+	std::string Line;
+	while(std::getline(File, Line))
+		ExecuteLine(Line);
+	File.close();
 }
