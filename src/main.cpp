@@ -24,10 +24,12 @@ int main()
 	if(!Token)
 	{
 		std::cerr << "Missing env DISCORD_TOKEN" << std::endl;
+		delete Token;
 		return 1;
 	}
 
 	dpp::cluster Bot(Token);
+	delete Token;
 
 	CBotCore BotCore(&Bot);
 

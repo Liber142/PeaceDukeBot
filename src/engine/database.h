@@ -1,4 +1,6 @@
 #pragma once
+#include "logger.h"
+
 #include <dpp/nlohmann/json.hpp>
 #include <string>
 
@@ -17,10 +19,18 @@ public:
 	template<typename T>
 	T Load(const std::string &Table, uint64_t Key)
 	{
-		nlohmann::json J = ReadRaw(Table, std::to_string(Key));
-		if(J.is_null() || J.empty())
+		try
+		{
+			nlohmann::json J = ReadRaw(Table, std::to_string(Key));
+			if(J.is_null() || J.empty())
+				return T();
+			return J.get<T>();
+		}
+		catch(const nlohmann::json::exception &e)
+		{
+			CLogger::Error("database", e.what());
 			return T();
-		return J.get<T>();
+		}
 	}
 
 protected:

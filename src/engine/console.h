@@ -24,10 +24,21 @@ public:
 		std::vector<std::string> m_Args;
 
 		int m_Flags;
-		dpp::slashcommand_t m_Event;
+		dpp::interaction_create_t m_Event;
 
 		int NumArguments() const { return m_Args.size(); }
 		std::string GetString(int Index) const { return m_Args[Index]; }
+		int GetInt(int Index) const
+		{
+			try
+			{
+				return std::stoi(m_Args[Index]);
+			}
+			catch(...)
+			{
+				return -1;
+			};
+		}
 	};
 
 	using FnCallBack = std::function<void(IResult Result)>;
@@ -53,7 +64,7 @@ public:
 	 */
 	void Register(const std::string &Name, const std::vector<std::string> &Params, int Flags, FnCallBack Callback, const std::string &Help);
 
-	void ExecuteSlash(const dpp::slashcommand_t &Event);
+	void ExecuteInteraction(const dpp::interaction_create_t &Event);
 	void ExecuteLine(std::string &Line);
 	void ExecuteFile(std::string &Path);
 

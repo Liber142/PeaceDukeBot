@@ -16,18 +16,14 @@ void CApplyCommand::OnConsoleInit()
 	Console().Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, Command.description);
 }
 
-
 void CApplyCommand::Execute(CConsole::IResult &Result)
 {
 	if(!(Result.m_Flags & SLASH_COMMAND))
 		return;
 
-	const dpp::slashcommand_t &Event = Result.m_Event;
 	try
 	{
-		dpp::message Msg(
-			Event.command.channel_id,
-			"Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
+		dpp::message Msg("Чтобы подать заявку на вступление в клан - нажмите кнопку ниже и заполните все поля. Мы сделаем все возможное, чтобы обработать ее как можно быстрее!");
 
 		Msg.add_component(
 			dpp::component().add_component(
@@ -39,12 +35,10 @@ void CApplyCommand::Execute(CConsole::IResult &Result)
 
 		CLogger::Debug("apply", "Hello");
 
-		Event.reply(Msg);
+		Result.m_Event.reply(Msg);
 	}
 	catch(std::exception &e)
 	{
 		CLogger::Error("apply", e.what());
 	}
 }
-
-

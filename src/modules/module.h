@@ -16,7 +16,7 @@ public:
 	virtual void OnConsoleInit() = 0;
 
 	virtual const std::string Name() const { return "IModule"; }
-	virtual CBotCore *BotCore()
+	CBotCore *BotCore()
 	{
 		return m_pBotCore;
 	}

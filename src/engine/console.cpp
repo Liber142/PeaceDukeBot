@@ -45,10 +45,18 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 	m_vpCommands.push_back(std::move(Cmd));
 }
 
-void CConsole::ExecuteSlash(const dpp::slashcommand_t &Event)
+void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
 {
+	const dpp::button_click_t *Button = dynamic_cast<const dpp::button_click_t *>(&Event);
+	if(Button)
+	{
+		std::string Line = Button->custom_id;
+		ExecuteLine(Line);
+		return;
+	}
+
 	std::string Name = Event.command.get_command_name();
-	CConsole::CCommand *pCommand = FindCommand(Name, SLASH_COMMAND);
+	CConsole::CCommand *pCommand = FindCommand(Name);
 	if(pCommand)
 	{
 		CConsole::IResult Result(Name);
@@ -56,6 +64,7 @@ void CConsole::ExecuteSlash(const dpp::slashcommand_t &Event)
 		Result.m_Flags = pCommand->m_Flags;
 		CLogger::Info("console", "Execute " + Name + " command");
 		pCommand->m_CallBack(std::move(Result));
+		return;
 	}
 }
 
