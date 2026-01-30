@@ -6,4 +6,5 @@
 #endif
 
 MACRO_CONFIG_SNOWFLAKE(ROLE_ID, "role_id", 1000, CFGFLAG_SAVE, "Desc for role id");
+MACRO_CONFIG_SNOWFLAKE(DEFAULT_ROLE_ID, "default_role_id", 1252679487968120852, CFGFLAG_SAVE, "This role got new guild member");
 MACRO_CONFIG_STR(About, "about", "Hello", CFGFLAG_SAVE, "Desc for about");

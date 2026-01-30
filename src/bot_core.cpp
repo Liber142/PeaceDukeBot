@@ -1,9 +1,9 @@
 #include "bot_core.h"
 
-#include "engine/config.h"
-#include "engine/data_strucs.h"
-#include "engine/json_database.h"
-#include "git_revision.h"
+#include <engine/config.h>
+#include <engine/data_strucs.h>
+#include <engine/json_database.h>
+#include <git_revision.h>
 #include "modules/command_handler.h"
 #include "modules/module.h"
 

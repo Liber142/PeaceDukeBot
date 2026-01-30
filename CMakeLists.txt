@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.22)
 # Project name, version and description
 project(discord-bot VERSION 1.0 DESCRIPTION "A discord bot")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 set(ENGINE_SRC
@@ -63,6 +66,7 @@ add_custom_target(generate_revision DEPENDS "${GEN_REVISION_FILE}")
 add_dependencies(${PROJECT_NAME} generate_revision)
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_BINARY_DIR}/generated/src")
+target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # Find our pre-installed DPP package (using FindDPP.cmake).
 find_package(DPP REQUIRED)
