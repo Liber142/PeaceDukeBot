@@ -23,13 +23,12 @@ int main()
 	char *Token = std::getenv("DISCORD_TOKEN");
 	if(!Token)
 	{
-		std::cerr << "Missing env DISCORD_TOKEN" << std::endl;
+		std::cerr << "Missing env DISCORD_TOKEN\n";
 		delete Token;
 		return 1;
 	}
 
 	dpp::cluster Bot(Token);
-	delete Token;
 
 	CBotCore BotCore(&Bot);
 

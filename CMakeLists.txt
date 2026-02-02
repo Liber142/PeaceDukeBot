@@ -30,6 +30,10 @@ set(MODULES_SRC
     ${COMMANDS_SRC}
     src/modules/command_handler.h
     src/modules/command_handler.cpp
+    src/modules/member_manager.h
+    src/modules/member_manager.cpp
+    src/modules/clan_member_manager.h
+    src/modules/clan_member_manager.cpp
 )
 
 set(BOT_SRC

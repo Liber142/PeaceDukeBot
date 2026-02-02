@@ -10,3 +10,7 @@ void CMemberManager::OnInit()
             Bot()->guild_member_add_role(GuildId, UserId, RoleId);
         });
 }
+
+void CMemberManager::OnConsoleInit()
+{
+}

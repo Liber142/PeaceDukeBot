@@ -11,7 +11,7 @@ public:
 	virtual void Connect(const std::string &Path) = 0;
 
 	template<typename T>
-	void Save(const std::string &Table, uint64_t Key, const T &Data)
+	void Save(std::string Table, uint64_t Key, const T &Data)
 	{
 		WriteRaw(Table, std::to_string(Key), Data);
 	}

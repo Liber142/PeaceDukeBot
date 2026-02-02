@@ -4,7 +4,9 @@
 #include <engine/data_strucs.h>
 #include <engine/json_database.h>
 #include <git_revision.h>
+
 #include "modules/command_handler.h"
+#include "modules/clan_member_manager.h"
 #include "modules/module.h"
 
 CBotCore::CBotCore(dpp::cluster *pBot) :
@@ -19,6 +21,9 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	// Init modules
 	std::unique_ptr<CCommandHandler> CommandHandler = std::make_unique<CCommandHandler>(this);
 	m_vpModules.emplace_back(std::move(CommandHandler));
+
+	std::unique_ptr<CClanMemberManager> ClanMemberManager = std::make_unique<CClanMemberManager>(this);
+	m_vpModules.emplace_back(std::move(ClanMemberManager));
 
 	for(const auto &pModule : m_vpModules)
 		pModule->OnConsoleInit();

@@ -20,7 +20,7 @@ public:
 	{
 		return *m_pConfig;
 	}
-	const IDataBase &DataBase()
+	IDataBase &DataBase()
 	{
 		return *m_pDataBase;
 	}

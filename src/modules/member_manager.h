@@ -12,6 +12,6 @@ public:
 	void OnConsoleInit() override;
 
 	const std::string Name() const override { return "CMemberManager"; }
-private:
+protected:
     dpp::cluster* Bot() { return BotCore()->Bot(); }
 };
