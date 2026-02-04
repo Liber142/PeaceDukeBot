@@ -9,7 +9,9 @@
 enum : int
 {
 	SLASH_COMMAND = 1 << 1,
-	CFGFLAG_SAVE = 1 << 2,
+    BUTTON = 1 << 2,
+    MODAL = 1 << 3,
+	CFGFLAG_SAVE = 1 << 4,
 };
 
 class CConsole
@@ -20,7 +22,7 @@ public:
 	public:
 		IResult(std::string &Name) :
 			m_Name(Name) {}
-		std::string &m_Name;
+		const std::string m_Name;
 		std::vector<std::string> m_Args;
 
 		int m_Flags;
@@ -62,12 +64,14 @@ public:
 	 * FnCallBack Callback
 	 * std::string& Help
 	 */
-	void Register(const std::string &Name, const std::vector<std::string> &Params, int Flags, FnCallBack Callback, const std::string &Help);
+	void Register(const std::string &Name, const std::vector<std::string> &Params, int Flags, const FnCallBack &Callback, const std::string &Help);
 
 	void ExecuteInteraction(const dpp::interaction_create_t &Event);
 	void ExecuteLine(std::string &Line);
 	void ExecuteFile(std::string &Path);
 
 private:
+
+    std::vector<CConsole::IResult> ParseLine(const std::string &Line);
 	std::vector<std::unique_ptr<CCommand>> m_vpCommands;
 };

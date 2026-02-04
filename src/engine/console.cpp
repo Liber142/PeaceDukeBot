@@ -29,7 +29,7 @@ CConsole::CCommand *CConsole::FindCommand(const std::string &Name)
 }
 
 void CConsole::Register(const std::string &Name, const std::vector<std::string> &Params,
-	int Flags, FnCallBack Callback, const std::string &Help)
+	int Flags, const FnCallBack &Callback, const std::string &Help)
 {
 	CConsole::CCommand *pCmd = FindCommand(Name, Flags);
 	if(pCmd)
@@ -47,99 +47,38 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 
 void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
 {
-	const dpp::button_click_t *Button = dynamic_cast<const dpp::button_click_t *>(&Event);
-	if(Button)
-	{
-		std::string Line = Button->custom_id;
-		ExecuteLine(Line);
-		return;
-	}
+    std::string Line;
+    int InteractionFlag = 0;
 
-	std::string Name = Event.command.get_command_name();
-	CConsole::CCommand *pCommand = FindCommand(Name);
-	if(pCommand)
-	{
-		CConsole::IResult Result(Name);
-		Result.m_Event = Event;
-		Result.m_Flags = pCommand->m_Flags;
-		CLogger::Info("console", "Execute " + Name + " command");
-		pCommand->m_CallBack(std::move(Result));
-		return;
-	}
+    if (const auto* Button = dynamic_cast<const dpp::button_click_t*>(&Event)) {
+        Line = Button->custom_id;
+        InteractionFlag = BUTTON;
+    } else if (const auto* Form = dynamic_cast<const dpp::form_submit_t*>(&Event)) {
+        Line = Form->custom_id;
+        InteractionFlag = MODAL; // Ваш флаг для форм
+    } else {
+        Line = Event.command.get_command_name();
+        InteractionFlag = SLASH_COMMAND;
+    }
+
+    auto Results = ParseLine(Line);
+    for(auto &Result : Results)
+    {
+        if(CCommand *Cmd = FindCommand(Result.m_Name))
+        {
+            Result.m_Event = Event; // Копируем событие в результат
+            Result.m_Flags |= InteractionFlag;
+            Cmd->m_CallBack(std::move(Result));
+        }
+    }
 }
 
 void CConsole::ExecuteLine(std::string &Line)
 {
-	std::vector<IResult> Results;
-	auto It = Line.begin();
-
-	if(Line.substr(0, 3) == "mc;")
-		It += 3;
-
-	while(It != Line.end())
-	{
-		while(It != Line.end() && (std::isspace(*It) || *It == ';'))
-			++It;
-		if(It == Line.end() || *It == '#')
-			break;
-
-		std::vector<std::string> Tokens;
-		bool InCommandBlock = true;
-
-		while(InCommandBlock && It != Line.end())
-		{
-			while(It != Line.end() && std::isspace(*It))
-				++It;
-			if(It == Line.end() || *It == ';' || *It == '#')
-			{
-				if(It != Line.end() && *It == ';')
-					InCommandBlock = false;
-				break;
-			}
-
-			std::string Token;
-			bool Quoted = false;
-			while(It != Line.end())
-			{
-				if(*It == '"')
-				{
-					Quoted = !Quoted;
-				}
-				else if(*It == '\\' && (It + 1) != Line.end() && *(It + 1) == '"')
-				{
-					Token += '"';
-					++It;
-				}
-				else if(!Quoted && (std::isspace(*It) || *It == ';' || *It == '#'))
-				{
-					break;
-				}
-				else
-				{
-					Token += *It;
-				}
-				++It;
-			}
-			if(!Token.empty())
-				Tokens.push_back(std::move(Token));
-		}
-
-		if(!Tokens.empty())
-		{
-			IResult Result(Tokens[0]);
-			for(size_t i = 1; i < Tokens.size(); ++i)
-				Result.m_Args.push_back(std::move(Tokens[i]));
-
-			CCommand *Cmd = FindCommand(Tokens[0]);
-			if(!Cmd)
-			{
-				CLogger::Error("console", "can't find command: " + Tokens[0]);
-				break;
-			}
-
-			Cmd->m_CallBack(std::move(Result));
-		}
-	}
+    std::vector<IResult> Results = ParseLine(Line);
+    for(const IResult &Result : Results)
+        if(CCommand *Cmd = FindCommand(Result.m_Name))
+            Cmd->m_CallBack(Result);
 }
 
 void CConsole::ExecuteFile(std::string &Path)
@@ -150,3 +89,55 @@ void CConsole::ExecuteFile(std::string &Path)
 		ExecuteLine(Line);
 	File.close();
 }
+
+std::vector<CConsole::IResult> CConsole::ParseLine(const std::string &Line)
+{
+    std::vector<IResult> Results;
+    auto It = Line.begin();
+
+    if(Line.size() >= 3 && Line.substr(0, 3) == "mc;")
+        It += 3;
+
+    while(It != Line.end())
+    {
+        while(It != Line.end() && (std::isspace(*It) || *It == ';')) ++It;
+        if(It == Line.end() || *It == '#') break;
+
+        std::vector<std::string> Tokens;
+        bool InCommandBlock = true;
+
+        while(InCommandBlock && It != Line.end())
+        {
+            while(It != Line.end() && std::isspace(*It)) ++It;
+            if(It == Line.end() || *It == ';' || *It == '#') {
+                if(It != Line.end() && *It == ';') InCommandBlock = false;
+                break;
+            }
+
+            std::string Token;
+            bool Quoted = false;
+            while(It != Line.end()) {
+                if(*It == '"') Quoted = !Quoted;
+                else if(*It == '\\' && (It + 1) != Line.end() && *(It + 1) == '"') { Token += '"'; ++It; }
+                else if(!Quoted && (std::isspace(*It) || *It == ';' || *It == '#')) break;
+                else Token += *It;
+                ++It;
+            }
+            if(!Token.empty()) Tokens.push_back(std::move(Token));
+        }
+
+        if(!Tokens.empty())
+        {
+            IResult Res(Tokens[0]);
+            for(size_t i = 1; i < Tokens.size(); ++i)
+                Res.m_Args.push_back(std::move(Tokens[i]));
+            
+            if(CCommand *Cmd = FindCommand(Res.m_Name))
+                Res.m_Flags = Cmd->m_Flags;
+            
+            Results.push_back(std::move(Res));
+        }
+    }
+    return Results;
+}
+
