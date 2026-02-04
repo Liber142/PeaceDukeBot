@@ -27,6 +27,7 @@ set(COMMANDS_SRC
 
 set(MODULES_SRC
     src/modules/module.h
+    src/modules/module.cpp
     ${COMMANDS_SRC}
     src/modules/command_handler.h
     src/modules/command_handler.cpp
@@ -43,8 +44,8 @@ set(BOT_SRC
 )
 
 set(SRC 
-    ${ENGINE_SRC}
     ${BOT_SRC}
+    ${ENGINE_SRC}
     ${MODULES_SRC}
 )
 

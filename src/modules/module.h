@@ -1,26 +1,30 @@
 #pragma once
-
-#include "../bot_core.h"
+#include <string>
+#include <dpp/dpp.h>
 
 class IModule
 {
 public:
-	IModule(CBotCore *pBotCore) :
-		m_pBotCore(pBotCore)
-	{
-	}
-
+    virtual void OnModuleInit(class CBotCore *pBotCore);
 	virtual ~IModule() = default;
 
 	virtual void OnInit() = 0;
 	virtual void OnConsoleInit() = 0;
 
 	virtual const std::string Name() const { return "IModule"; }
-	CBotCore *BotCore()
-	{
-		return m_pBotCore;
-	}
+
+protected:
+
+	class CBotCore *BotCore() const { return m_pBotCore; }
+
+    class IDataBase *DataBase() const;
+    
+    class CConsole *Console() const;
+
+    class CConfig *Config() const;
+
+    class dpp::cluster *Bot() const;
 
 private:
-	CBotCore *m_pBotCore;
+	class CBotCore *m_pBotCore = nullptr;
 };

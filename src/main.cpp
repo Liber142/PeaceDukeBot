@@ -39,7 +39,7 @@ int main()
 	{
 		if(!Line.empty())
 		{
-			BotCore.Console().ExecuteLine(Line);
+			BotCore.Console()->ExecuteLine(Line);
 		}
 	}
 

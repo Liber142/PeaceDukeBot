@@ -1,21 +1,13 @@
 #pragma once
 
-#include "../module.h"
+#include <modules/module.h>
+#include <engine/console.h>
 
 #include <dpp/dpp.h>
 
 class ICommand : public IModule
 {
 public:
-	ICommand(CBotCore *pBotCore) :
-		IModule(pBotCore)
-	{
-	}
-	virtual ~ICommand() = default;
-
 	virtual void Execute(CConsole::IResult &Result) = 0;
 	const std::string Name() const override { return "icommand"; }
-
-protected:
-	CConsole &Console() { return BotCore()->Console(); }
 };

@@ -1,46 +1,39 @@
 #pragma once
-#include <engine/config.h>
-#include <engine/console.h>
-#include <engine/database.h>
-#include <engine/logger.h>
-
 #include <dpp/cluster.h>
+
+//Modules 
+#include "modules/command_handler.h"
+#include "modules/clan_member_manager.h"
 
 #include <memory>
 
+class CConfig;
+class IDataBase;
+class CConsole;
 class IModule;
 
 class CBotCore
 {
+private:
+	dpp::cluster *m_pBot;
+
+	std::unique_ptr<class CConfig> m_pConfig;
+	std::unique_ptr<class IDataBase> m_pDataBase;
+	std::unique_ptr<class CConsole> m_pConsole;
+
+	void Init();
 public:
 	CBotCore(dpp::cluster *pBot);
 	virtual ~CBotCore();
 
-	CConfig &Config()
-	{
-		return *m_pConfig;
-	}
-	IDataBase &DataBase()
-	{
-		return *m_pDataBase;
-	}
-	CConsole &Console()
-	{
-		return *m_pConsole;
-	}
-	dpp::cluster *Bot()
-	{
-		return m_pBot;
-	}
-
+	class CConfig *Config() const;
+	class IDataBase *DataBase() const;
+	class CConsole *Console() const;
+	dpp::cluster *Bot() const;
+public:
+    //All modules
+    CCommandHandler m_CommandHandler;
+    CClanMemberManager m_ClanMemberManager;
 private:
-	dpp::cluster *m_pBot;
-
-	std::unique_ptr<CConfig> m_pConfig;
-	std::unique_ptr<IDataBase> m_pDataBase;
-	std::unique_ptr<CConsole> m_pConsole;
-
-	std::vector<std::unique_ptr<IModule>> m_vpModules;
-
-	void Init();
+	std::vector<class IModule *> m_vpModules;
 };
