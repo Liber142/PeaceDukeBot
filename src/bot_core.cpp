@@ -20,17 +20,14 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pConfig->OnInit(m_pConsole.get());
 
     m_vpModules.insert(m_vpModules.end(), {&m_CommandHandler,
-        &m_ClanMemberManager});
+        &m_ClanMemberManager,
+        &m_ClanVoteManager});
 
     for(const auto &pModule : m_vpModules)
     {
         pModule->OnModuleInit(this);
         pModule->OnConsoleInit();
     }
-
-	m_pBot->on_ready([this](const dpp::ready_t &Event) {
-        Init();
-	});
 
 	m_pBot->on_button_click([this](const dpp::button_click_t &Event) {
 		m_pConsole->ExecuteInteraction(Event);
@@ -43,6 +40,10 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
     m_pBot->on_form_submit([this](const dpp::form_submit_t &Event) {
         m_pConsole->ExecuteInteraction(Event);
     });
+
+	m_pBot->on_ready([this](const dpp::ready_t &Event) {
+        Init();
+	});
 }
 
 CBotCore::~CBotCore() = default;

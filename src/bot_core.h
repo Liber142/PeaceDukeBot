@@ -4,6 +4,7 @@
 //Modules 
 #include "modules/command_handler.h"
 #include "modules/clan_member_manager.h"
+#include "modules/votes.h"
 
 #include <memory>
 
@@ -34,6 +35,7 @@ public:
     //All modules
     CCommandHandler m_CommandHandler;
     CClanMemberManager m_ClanMemberManager;
+    CApplyVoteManager m_ClanVoteManager;
 private:
 	std::vector<class IModule *> m_vpModules;
 };

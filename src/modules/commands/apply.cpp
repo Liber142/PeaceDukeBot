@@ -25,9 +25,9 @@ void CApplyCommand::OnConsoleInit()
 void CApplyCommand::Execute(CConsole::IResult &Result)
 {
 	if(Result.m_Flags & SLASH_COMMAND)
-        Result.m_Event.reply(Message());
+        Result.m_Event->reply(Message());
     if(Result.m_Flags & BUTTON)
-        Result.m_Event.dialog(Modal());
+        Result.m_Event->dialog(Modal());
 }
 
 dpp::message CApplyCommand::Message() const

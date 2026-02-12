@@ -35,6 +35,8 @@ set(MODULES_SRC
     src/modules/member_manager.cpp
     src/modules/clan_member_manager.h
     src/modules/clan_member_manager.cpp
+    src/modules/votes.h
+    src/modules/votes.cpp
 )
 
 set(BOT_SRC
