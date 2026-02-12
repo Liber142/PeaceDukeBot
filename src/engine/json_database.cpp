@@ -48,6 +48,44 @@ nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::strin
 	return nullptr;
 }
 
+size_t CJsonDataBase::GenerateNewKey(const std::string &Table)
+{
+    nlohmann::json Meta = ReadRaw(Table, "0");
+    
+    size_t NextId = 1;
+    if (!Meta.is_null() && Meta.contains("next_id")) {
+        NextId = Meta["next_id"].get<size_t>();
+    }
+
+    Meta["next_id"] = NextId + 1;
+    WriteRaw(Table, "0", Meta);
+
+    return NextId;
+}
+
+std::vector<size_t> CJsonDataBase::GetKeys(const std::string &Table)
+{
+    std::vector<size_t> Keys;
+    if (!m_Root.contains(Table) || !m_Root[Table].is_object())
+        return Keys;
+
+    for (const auto& [key, value] : m_Root[Table].items())
+    {
+        try 
+        {
+            size_t Id = std::stoull(key);
+            if (Id == 0) 
+                continue;
+            Keys.emplace_back(Id);
+        } 
+        catch(...) 
+        {
+            continue;
+        }
+    }
+    return Keys;
+}
+
 void CJsonDataBase::Sync()
 {
 	std::ofstream File(m_FilePath);
