@@ -26,7 +26,7 @@ public:
 		std::vector<std::string> m_Args;
 
 		int m_Flags;
-		dpp::interaction_create_t m_Event;
+		const dpp::interaction_create_t* m_Event;
 
 		int NumArguments() const { return m_Args.size(); }
 		std::string GetString(int Index) const { return m_Args[Index]; }

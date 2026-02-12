@@ -40,7 +40,7 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 	Cmd->m_Flags = Flags;
 	Cmd->m_Help = Help;
 
-	CLogger::Info("console", "Register " + Name + " command");
+	CLogger::Info("console", "Register command: " + Name);
 
 	m_vpCommands.push_back(std::move(Cmd));
 }
@@ -55,7 +55,21 @@ void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
         InteractionFlag = BUTTON;
     } else if (const auto* Form = dynamic_cast<const dpp::form_submit_t*>(&Event)) {
         Line = Form->custom_id;
-        InteractionFlag = MODAL; // Ваш флаг для форм
+        for(const dpp::component &pComponent : Form->components)
+        {
+            std::string Params;
+            for(char c : std::get<std::string>(pComponent.value))
+            {
+                if(c == '\\')
+                    Params += "\\\\";
+                else if(c == '\"')
+                    Params += "\\\"";
+                else
+                    Params += c;
+            }
+            Line += " \"" + Params + "\"";
+        }
+        InteractionFlag = MODAL;
     } else {
         Line = Event.command.get_command_name();
         InteractionFlag = SLASH_COMMAND;
@@ -66,7 +80,7 @@ void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
     {
         if(CCommand *Cmd = FindCommand(Result.m_Name))
         {
-            Result.m_Event = Event; // Копируем событие в результат
+            Result.m_Event = &Event;
             Result.m_Flags |= InteractionFlag;
             Cmd->m_CallBack(std::move(Result));
         }
@@ -79,6 +93,8 @@ void CConsole::ExecuteLine(std::string &Line)
     for(const IResult &Result : Results)
         if(CCommand *Cmd = FindCommand(Result.m_Name))
             Cmd->m_CallBack(Result);
+        else
+            CLogger::Error("console", "Command not found: " + Result.m_Name);
 }
 
 void CConsole::ExecuteFile(std::string &Path)
@@ -116,11 +132,15 @@ std::vector<CConsole::IResult> CConsole::ParseLine(const std::string &Line)
 
             std::string Token;
             bool Quoted = false;
-            while(It != Line.end()) {
-                if(*It == '"') Quoted = !Quoted;
-                else if(*It == '\\' && (It + 1) != Line.end() && *(It + 1) == '"') { Token += '"'; ++It; }
-                else if(!Quoted && (std::isspace(*It) || *It == ';' || *It == '#')) break;
-                else Token += *It;
+            while(It != Line.end()) 
+            {
+                if(*It == '\\') 
+                {
+                    if(++It != Line.end()) { Token += *It; }
+                }
+                else if(*It == '"') Quoted = !Quoted; 
+                else if(!Quoted && (std::isspace(*It) || *It == ';' || *It == '#'))  break; 
+                else Token += *It; 
                 ++It;
             }
             if(!Token.empty()) Tokens.push_back(std::move(Token));
