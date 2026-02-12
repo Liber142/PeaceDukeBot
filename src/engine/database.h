@@ -4,6 +4,9 @@
 #include <dpp/nlohmann/json.hpp>
 #include <string>
 
+// TODO: This should be work on other threads
+// I think we need queue for save data 
+// Also now this is not threads safety
 class IDataBase
 {
 public:

@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+//TODO: Change to enum class
 enum : int
 {
 	SLASH_COMMAND = 1 << 1,
@@ -45,6 +46,9 @@ public:
 
 	using FnCallBack = std::function<void(IResult Result)>;
 
+	//TODO: Add type system
+	//We have m_vParams in CCommand and Params in Register()
+	//This paramets say what is type in this command for future
 	class CCommand
 	{
 	public:
@@ -58,11 +62,19 @@ public:
 	CCommand *FindCommand(const std::string &Name, int Flags);
 	CCommand *FindCommand(const std::string &Name);
 
-	/* std::string& Name
-	 * std::vector<std::string>& Params
-	 * int& Flags
-	 * FnCallBack Callback
-	 * std::string& Help
+	/**
+	 * @brief Registers a console command
+	 * 
+	 * Adds a new command to the console system. The command can be executed
+	 * via chat, slash command, button, or modal form.
+	 *
+	 * @parameter std::string Name Command identifier
+	 * @parameter std::vector<std::string>> Params List of parameter types
+	 * @parameter int Flags Command flags
+	 * @parameter FnCallback Callback Function to execute when command is called
+	 * @parameter std::string Help Description shown in help commands
+	 *
+	 * @note If a command with same Name and Flags exists, registration is skipped
 	 */
 	void Register(const std::string &Name, const std::vector<std::string> &Params, int Flags, const FnCallBack &Callback, const std::string &Help);
 

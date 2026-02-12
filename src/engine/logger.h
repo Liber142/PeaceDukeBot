@@ -25,13 +25,13 @@ public:
 
 		switch(Level)
 		{
-		case LogLevel::INFO: Prefix = "[\033[32mINFO\033[0m]"; break; // Зеленый
-		case LogLevel::WARNING: Prefix = "[\033[33mWARN\033[0m]"; break; // Желтый
+		case LogLevel::INFO: Prefix = "[\033[32mINFO\033[0m]"; break;
+		case LogLevel::WARNING: Prefix = "[\033[33mWARN\033[0m]"; break;
 		case LogLevel::ERROR:
 			Prefix = "[\033[31mFAIL\033[0m]";
 			Out = &std::cerr;
-			break; // Красный
-		case LogLevel::DEBUG: Prefix = "[\033[36mDEBG\033[0m]"; break; // Голубой
+			break;
+		case LogLevel::DEBUG: Prefix = "[\033[36mDEBG\033[0m]"; break;
 		}
 
 		*Out << Timestamp << " " << Prefix << " [" << From << "] " << Info << std::endl;
