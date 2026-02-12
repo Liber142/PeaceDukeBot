@@ -24,7 +24,6 @@ int main()
 	if(!Token)
 	{
 		std::cerr << "Missing env DISCORD_TOKEN\n";
-		delete Token;
 		return 1;
 	}
 
