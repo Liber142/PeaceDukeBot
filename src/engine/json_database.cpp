@@ -50,7 +50,7 @@ nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::strin
 
 size_t CJsonDataBase::GenerateNewKey(const std::string &Table)
 {
-    nlohmann::json Meta = ReadRaw(Table, "0");
+    nlohmann::json Meta = ReadRaw(Table, "_meta");
     
     size_t NextId = 1;
     if (!Meta.is_null() && Meta.contains("next_id")) {
@@ -58,7 +58,7 @@ size_t CJsonDataBase::GenerateNewKey(const std::string &Table)
     }
 
     Meta["next_id"] = NextId + 1;
-    WriteRaw(Table, "0", Meta);
+    WriteRaw(Table, "_meta", Meta);
 
     return NextId;
 }
@@ -69,17 +69,18 @@ std::vector<size_t> CJsonDataBase::GetKeys(const std::string &Table)
     if (!m_Root.contains(Table) || !m_Root[Table].is_object())
         return Keys;
 
-    for (const auto& [key, value] : m_Root[Table].items())
+    for (const auto& [Key, Value] : m_Root[Table].items())
     {
         try 
         {
-            size_t Id = std::stoull(key);
-            if (Id == 0) 
-                continue;
+			if(Key == "_meta")
+				continue;
+            size_t Id = std::stoull(Key);
             Keys.emplace_back(Id);
         } 
-        catch(...) 
+        catch(const std::exception &e) 
         {
+			CLogger::Error("database", e.what());
             continue;
         }
     }
