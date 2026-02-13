@@ -5,12 +5,10 @@
 
 #include <dpp/dpp.h>
 
-CApplyVoteManager::~CApplyVoteManager()
+void CApplyVoteManager::OnModuleInit(CBotCore *pBotCore) 
 {
-}
+    IVoteManager::OnModuleInit(pBotCore);
 
-void CApplyVoteManager::OnInit()
-{
     std::vector<size_t> Keys = DataBase()->GetKeys("clan_apply");
     for(const auto& Key : Keys)
     {
@@ -18,9 +16,15 @@ void CApplyVoteManager::OnInit()
         if(!Vote)
             continue;
 
+        Vote->SetId(Key);
         std::unique_ptr<CClanVote> pVote = std::make_unique<CClanVote>(*Vote);
+        pVote->OnModuleInit(BotCore());
         m_vpVotes[Key] = std::move(pVote);
     }
+}
+
+void CApplyVoteManager::OnInit()
+{
 }
 
 void CApplyVoteManager::OnConsoleInit()
@@ -37,11 +41,12 @@ void CApplyVoteManager::OnConsoleInit()
         for(const auto& [Key, Vote] : m_vpVotes)
         {
             SUserData User = Vote->GetUser();
-            CLogger::Info("Vote", "Nickname: " + User.m_GameNick);
-            CLogger::Info("Vote", "Age: " + std::to_string(User.m_Age));
-            CLogger::Info("Vote", "About: " + User.m_About);
+            CLogger::Info(Name(), "Id: " + std::to_string(Vote->Id()));
+            CLogger::Info(Name(), "Nickname: " + User.m_GameNick);
+            CLogger::Info(Name(), "Age: " + std::to_string(User.m_Age));
+            CLogger::Info(Name(), "About: " + User.m_About);
 
-            CLogger::Info("Vote", "Yes: " + std::to_string(Vote->m_Yes) + " No: " + std::to_string(Vote->m_No));
+            CLogger::Info(Name(), "Yes: " + std::to_string(Vote->m_Yes) + " No: " + std::to_string(Vote->m_No));
         }
     }, "Test command for vote manager");
 }
@@ -79,6 +84,7 @@ void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
     Vote->OnModuleInit(BotCore());
     Vote->SetId(DataBase()->GenerateNewKey("clan_apply"));
     Vote->StartVote();
+
     DataBase()->Save("clan_apply", Vote->Id(), *Vote);
     m_vpVotes[Vote->Id()] = std::move(Vote);
     Result.m_Event->reply();
@@ -92,57 +98,32 @@ void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
         return;
     }
 
+    CLogger::Debug(Name(), Result.m_Name + " | " + Result.m_Args[0] + " | " + Result.m_Args[1]);
+
+    if(!m_vpVotes.contains(Result.GetInt(0)))
+    {
+        CLogger::Error(Name(), "Vote not found");
+        return;
+    }
+
+
     if(Result.GetString(1) == "yes")
         m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::YES);
     else if(Result.GetString(1) == "no")
         m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::NO);
     Result.m_Event->reply();
     DataBase()->Save("clan_apply", m_vpVotes[Result.GetInt(0)]->Id(), *m_vpVotes[Result.GetInt(0)]);
-
-    std::string Line = std::string("check_vote");
-    Console()->ExecuteLine(Line);
 }
 
 void CApplyVoteManager::CClanVote::StartVote()
 {
-    dpp::user *User = dpp::find_user(m_TargetUser.m_Id); 
-    if(!User)
-    {
-        CLogger::Error("Vote", "not found user");
-        return;
-    }
-
-    dpp::embed Embed;
-    Embed.set_author(User->format_username(), "", User->get_avatar_url())
-        .set_title("Новая заявка")
-        .set_color(dpp::colors::sti_blue)
-        .set_title("Новая заявка")
-        .add_field("Ник: ", m_TargetUser.m_GameNick)
-        .add_field("Возраст: ", std::to_string(m_TargetUser.m_Age))
-        .add_field("О себе", m_TargetUser.m_About);
-
-    
-    dpp::message Msg(Config()->APPLY_CHANNEL_ID, Embed);
-    dpp::component ActionRow;
-    ActionRow.add_component(
-        dpp::component()
-            .set_label("Принять")
-            .set_type(dpp::cot_button)
-            .set_style(dpp::cos_success)
-            .set_id("clan_apply_vote " + std::to_string(m_Id) + " yes")
-        );
-    ActionRow.add_component(
-        dpp::component()
-            .set_label("Отклонить")
-            .set_type(dpp::cot_button)
-            .set_style(dpp::cos_danger)
-            .set_id("clan_apply_vote " + std::to_string(m_Id) + " no")
-        );
-    Msg.add_component(ActionRow);
-
-    Bot()->message_create(Msg, [this](const dpp::confirmation_callback_t &Callback) {
+    m_State = EVoteState::PENDING;
+    Bot()->message_create(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
         if(Callback.is_error())
+        {
+            CLogger::Debug(Name(), "Create message " + Callback.get_error().human_readable);
             return;
+        }
         m_MessageId = std::get<dpp::message>(Callback.value).id;
     });
 }
@@ -154,28 +135,104 @@ void CApplyVoteManager::CClanVote::FinaleVote()
 
 void CApplyVoteManager::CClanVote::AddVote(size_t VoterId, EVoteOptions Option)
 {
+    bool Found = false;
     for(auto& [Id, Vote] : m_vVotersIds)
     {
         if(Id == VoterId)
         {
-            if(Vote == Option)
-                return;
-
-            if(Vote == EVoteOptions::YES)
+            if(Vote != Option)
             {
-                m_Yes--;
-                m_No++;
-            }
-            else 
-            {
-                m_Yes++;
-                m_No--;
+                if(Vote == EVoteOptions::YES)
+                { m_Yes--; m_No++; }
+                else 
+                { m_Yes++; m_No--; }
             }
             Vote = Option;
-            return;
+            Found = true;
         }
     }
     
-    m_vVotersIds.emplace_back(VoterId, Option);
-    Option == EVoteOptions::YES ? m_Yes++ : m_No++;
+    if(!Found)
+    {
+        m_vVotersIds.emplace_back(VoterId, Option);
+        Option == EVoteOptions::YES ? m_Yes++ : m_No++;
+    }
+
+    Bot()->message_edit(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
+        if(Callback.is_error())
+        {
+            CLogger::Error(Name(), "Can't edit message: " + Callback.get_error().human_readable);
+            Bot()->message_create(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
+                if(Callback.is_error())
+                {
+                    CLogger::Debug(Name(), "Create message " + Callback.get_error().human_readable);
+                    return;
+                }
+                m_MessageId = std::get<dpp::message>(Callback.value).id;
+            });
+            return;
+        }
+        dpp::message Msg = std::get<dpp::message>(Callback.value);
+        CLogger::Debug(Name(), "Success edit" + Msg.content);
+    });
+}
+
+dpp::message CApplyVoteManager::CClanVote::GenerateMessage()
+{
+    dpp::user *User = dpp::find_user(m_TargetUser.m_Id); 
+    if(!User)
+    {
+        CLogger::Error("Vote", "not found user");
+        throw;
+    }
+
+    dpp::embed Embed;
+    Embed.set_author(User->format_username(), "", User->get_avatar_url())
+        .set_title("Новая заявка")
+        .add_field("Ник: ", m_TargetUser.m_GameNick, true)
+        .add_field("Возраст: ", std::to_string(m_TargetUser.m_Age), true)
+        .add_field("О себе", m_TargetUser.m_About);
+
+    switch(m_State)
+    {
+        case CApplyVoteManager::CClanVote::EVoteState::ACCEPTED: Embed.set_color(dpp::colors::green); break;
+        case CApplyVoteManager::CClanVote::EVoteState::DECLINE: Embed.set_color(dpp::colors::red); break;
+        default: Embed.set_color(dpp::colors::sti_blue); break;
+    }
+    
+    if((m_No + m_Yes) != 0)
+    {
+        std::string Str;
+        Str += "- :white_check_mark: За: " + std::to_string(m_Yes) + '\n';
+        Str += "- :x: Против: " + std::to_string(m_No) + '\n';
+        Embed.add_field("Голоса: ", Str);
+    }
+
+    dpp::message Msg(Config()->APPLY_CHANNEL_ID, Embed);
+    
+
+    if(m_State == EVoteState::PENDING)
+    {
+        dpp::component ActionRow;
+        ActionRow.add_component(
+            dpp::component()
+                .set_label("Принять")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_success)
+                .set_id("clan_apply_vote " + std::to_string(m_Id) + " yes")
+            );
+        ActionRow.add_component(
+            dpp::component()
+                .set_label("Отклонить")
+                .set_type(dpp::cot_button)
+                .set_style(dpp::cos_danger)
+                .set_id("clan_apply_vote " + std::to_string(m_Id) + " no")
+            );
+        Msg.add_component(ActionRow);
+    }
+
+    if(m_MessageId > 0)
+        Msg.id = m_MessageId;
+
+    return Msg;
 }

@@ -16,7 +16,7 @@ public:
     class IVote : public IModule 
     {
     protected:
-        size_t m_Id = 0;
+        size_t m_Id;
         int m_Yes = 0;
         int m_No = 0;
         std::vector<std::pair<size_t, EVoteOptions>> m_vVotersIds;
@@ -25,7 +25,11 @@ public:
         virtual size_t Id() { return m_Id; };
 
         virtual void AddVote(size_t VoterId, EVoteOptions Option) = 0;
+
+        const std::string Name() const override { return "vote"; }
     };
+
+    const std::string Name() const override { return "vote_manager"; }
 private:
 };
 
@@ -35,9 +39,18 @@ public:
     class CClanVote : public IVote
     {
     private:
-        friend class CApplyVoteManager;
-        size_t m_MessageId;
+        friend CApplyVoteManager;
+        enum class EVoteState 
+        {
+            PENDING,
+            ACCEPTED,
+            DECLINE,
+            NUM_STATES
+        } m_State;
+        size_t m_MessageId = 0;
         SUserData m_TargetUser;
+
+        dpp::message GenerateMessage();
     public:
         CClanVote() = default; 
         CClanVote(const SUserData &User) : m_TargetUser(User) {}
@@ -54,10 +67,12 @@ public:
         NLOHMANN_DEFINE_TYPE_INTRUSIVE(CClanVote, m_MessageId, m_TargetUser, m_Yes, m_No, m_vVotersIds)
     };
 
-    ~CApplyVoteManager() override;
-
     void OnInit() override;
     void OnConsoleInit() override;
+
+    void OnModuleInit(class CBotCore *pBotCore) override;
+
+    const std::string Name() const override { return "apply_vote_manager"; }
 
 //NOTE: events handler for dpp like form or buttons
     void ButtonClick(CConsole::IResult Result);
