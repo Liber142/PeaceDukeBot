@@ -20,25 +20,28 @@ public:
 	static void Log(LogLevel Level, const std::string &From, const std::string &Info)
 	{
 		std::string Timestamp = GetTimestamp();
+		std::string Color;
 		std::string Prefix;
 		std::ostream *Out = &std::cout;
 
 		switch(Level)
 		{
-		case LogLevel::INFO: Prefix = "[\033[32mINFO\033[0m]"; break;
-		case LogLevel::WARNING: Prefix = "[\033[33mWARN\033[0m]"; break;
+		case LogLevel::INFO: Color = "\033[0m"; Prefix = "[inf]"; break;
+		case LogLevel::WARNING: Color = "\033[33m"; Prefix = "[wrn]"; break;
 		case LogLevel::ERROR:
-			Prefix = "[\033[31mFAIL\033[0m]";
+			Color = "\033[31m";
+			Prefix = "[err]";
 			Out = &std::cerr;
 			break;
-		case LogLevel::DEBUG: Prefix = "[\033[36mDEBG\033[0m]"; break;
+		case LogLevel::DEBUG: Color = "\033[36m"; Prefix = "[dbg]"; break;
 		}
 
-		*Out << Timestamp << " " << Prefix << " [" << From << "] " << Info << std::endl;
+		*Out << Color << Timestamp << " " << Prefix << " " << From << ": " << Info << "\033[0m\n";
 	}
 
 	static void Info(const std::string &From, const std::string &Info) { Log(LogLevel::INFO, From, Info); }
 	static void Error(const std::string &From, const std::string &Info) { Log(LogLevel::ERROR, From, Info); }
+	static void Warning(const std::string &From, const std::string &Info) { Log(LogLevel::WARNING, From, Info); }
 	static void Debug(const std::string &From, const std::string &Info) { Log(LogLevel::DEBUG, From, Info); }
 
 private:
