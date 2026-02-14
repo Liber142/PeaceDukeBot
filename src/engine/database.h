@@ -5,7 +5,7 @@
 #include <string>
 
 // TODO: This should be work on other threads
-// I think we need queue for save data 
+// I think we need queue for save data
 // Also now this is not threads safety
 class IDataBase
 {
@@ -26,18 +26,18 @@ public:
 		{
 			nlohmann::json J = ReadRaw(Table, std::to_string(Key));
 			if(J.is_null() || J.empty())
-                return std::nullopt;
+				return std::nullopt;
 			return J.get<T>();
 		}
 		catch(const nlohmann::json::exception &e)
 		{
 			CLogger::Error("database", e.what());
-            return std::nullopt;
+			return std::nullopt;
 		}
 	}
 
-    virtual std::vector<size_t> GetKeys(const std::string &Table) = 0;
-    virtual size_t GenerateNewKey(const std::string &Table) = 0;
+	virtual std::vector<size_t> GetKeys(const std::string &Table) = 0;
+	virtual size_t GenerateNewKey(const std::string &Table) = 0;
 
 protected:
 	virtual void WriteRaw(const std::string &Table, const std::string &Key, const nlohmann::json &Data) = 0;

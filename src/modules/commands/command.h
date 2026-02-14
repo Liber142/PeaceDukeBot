@@ -1,9 +1,9 @@
 #pragma once
 
-#include <modules/module.h>
 #include <engine/console.h>
 
 #include <dpp/dpp.h>
+#include <modules/module.h>
 
 class ICommand : public IModule
 {

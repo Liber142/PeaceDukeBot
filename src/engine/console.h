@@ -10,8 +10,8 @@
 enum : int
 {
 	SLASH_COMMAND = 1 << 1,
-    BUTTON = 1 << 2,
-    MODAL = 1 << 3,
+	BUTTON = 1 << 2,
+	MODAL = 1 << 3,
 	CFGFLAG_SAVE = 1 << 4,
 };
 
@@ -27,7 +27,7 @@ public:
 		std::vector<std::string> m_Args;
 
 		int m_Flags;
-		const dpp::interaction_create_t* m_Event;
+		const dpp::interaction_create_t *m_Event;
 
 		int NumArguments() const { return m_Args.size(); }
 		std::string GetString(int Index) const { return m_Args[Index]; }
@@ -64,7 +64,7 @@ public:
 
 	/**
 	 * @brief Registers a console command
-	 * 
+	 *
 	 * Adds a new command to the console system. The command can be executed
 	 * via chat, slash command, button, or modal form.
 	 *
@@ -83,7 +83,6 @@ public:
 	void ExecuteFile(std::string &Path);
 
 private:
-
-    std::vector<CConsole::IResult> ParseLine(const std::string &Line);
+	std::vector<CConsole::IResult> ParseLine(const std::string &Line);
 	std::vector<std::unique_ptr<CCommand>> m_vpCommands;
 };

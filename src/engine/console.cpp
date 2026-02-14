@@ -47,54 +47,59 @@ void CConsole::Register(const std::string &Name, const std::vector<std::string> 
 
 void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
 {
-    std::string Line;
-    int InteractionFlag = 0;
+	std::string Line;
+	int InteractionFlag = 0;
 
-    if (const auto* Button = dynamic_cast<const dpp::button_click_t*>(&Event)) {
-        Line = Button->custom_id;
-        InteractionFlag = BUTTON;
-    } else if (const auto* Form = dynamic_cast<const dpp::form_submit_t*>(&Event)) {
-        Line = Form->custom_id;
-        for(const dpp::component &pComponent : Form->components)
-        {
-            std::string Params;
-            for(char c : std::get<std::string>(pComponent.value))
-            {
-                if(c == '\\')
-                    Params += "\\\\";
-                else if(c == '\"')
-                    Params += "\\\"";
-                else
-                    Params += c;
-            }
-            Line += " \"" + Params + "\"";
-        }
-        InteractionFlag = MODAL;
-    } else {
-        Line = Event.command.get_command_name();
-        InteractionFlag = SLASH_COMMAND;
-    }
+	if(const auto *Button = dynamic_cast<const dpp::button_click_t *>(&Event))
+	{
+		Line = Button->custom_id;
+		InteractionFlag = BUTTON;
+	}
+	else if(const auto *Form = dynamic_cast<const dpp::form_submit_t *>(&Event))
+	{
+		Line = Form->custom_id;
+		for(const dpp::component &pComponent : Form->components)
+		{
+			std::string Params;
+			for(char c : std::get<std::string>(pComponent.value))
+			{
+				if(c == '\\')
+					Params += "\\\\";
+				else if(c == '\"')
+					Params += "\\\"";
+				else
+					Params += c;
+			}
+			Line += " \"" + Params + "\"";
+		}
+		InteractionFlag = MODAL;
+	}
+	else
+	{
+		Line = Event.command.get_command_name();
+		InteractionFlag = SLASH_COMMAND;
+	}
 
-    auto Results = ParseLine(Line);
-    for(auto &Result : Results)
-    {
-        if(CCommand *Cmd = FindCommand(Result.m_Name))
-        {
-            Result.m_Event = &Event;
-            Result.m_Flags |= InteractionFlag;
-            Cmd->m_CallBack(std::move(Result));
-        }
-    }
+	auto Results = ParseLine(Line);
+	for(auto &Result : Results)
+	{
+		if(CCommand *Cmd = FindCommand(Result.m_Name))
+		{
+			Result.m_Event = &Event;
+			Result.m_Flags |= InteractionFlag;
+			Cmd->m_CallBack(std::move(Result));
+		}
+	}
 }
 
 void CConsole::ExecuteLine(std::string &Line)
 {
-    std::vector<IResult> Results = ParseLine(Line);
-    for(const IResult &Result : Results)
-        if(CCommand *Cmd = FindCommand(Result.m_Name))
-            Cmd->m_CallBack(Result);
-        else
-            CLogger::Error("console", "Command not found: " + Result.m_Name);
+	std::vector<IResult> Results = ParseLine(Line);
+	for(const IResult &Result : Results)
+		if(CCommand *Cmd = FindCommand(Result.m_Name))
+			Cmd->m_CallBack(Result);
+		else
+			CLogger::Error("console", "Command not found: " + Result.m_Name);
 }
 
 void CConsole::ExecuteFile(std::string &Path)
@@ -108,56 +113,67 @@ void CConsole::ExecuteFile(std::string &Path)
 
 std::vector<CConsole::IResult> CConsole::ParseLine(const std::string &Line)
 {
-    std::vector<IResult> Results;
-    auto It = Line.begin();
+	std::vector<IResult> Results;
+	auto It = Line.begin();
 
-    if(Line.size() >= 3 && Line.substr(0, 3) == "mc;")
-        It += 3;
+	if(Line.size() >= 3 && Line.substr(0, 3) == "mc;")
+		It += 3;
 
-    while(It != Line.end())
-    {
-        while(It != Line.end() && (std::isspace(*It) || *It == ';')) ++It;
-        if(It == Line.end() || *It == '#') break;
+	while(It != Line.end())
+	{
+		while(It != Line.end() && (std::isspace(*It) || *It == ';'))
+			++It;
+		if(It == Line.end() || *It == '#')
+			break;
 
-        std::vector<std::string> Tokens;
-        bool InCommandBlock = true;
+		std::vector<std::string> Tokens;
+		bool InCommandBlock = true;
 
-        while(InCommandBlock && It != Line.end())
-        {
-            while(It != Line.end() && std::isspace(*It)) ++It;
-            if(It == Line.end() || *It == ';' || *It == '#') {
-                if(It != Line.end() && *It == ';') InCommandBlock = false;
-                break;
-            }
+		while(InCommandBlock && It != Line.end())
+		{
+			while(It != Line.end() && std::isspace(*It))
+				++It;
+			if(It == Line.end() || *It == ';' || *It == '#')
+			{
+				if(It != Line.end() && *It == ';')
+					InCommandBlock = false;
+				break;
+			}
 
-            std::string Token;
-            bool Quoted = false;
-            while(It != Line.end()) 
-            {
-                if(*It == '\\') 
-                {
-                    if(++It != Line.end()) { Token += *It; }
-                }
-                else if(*It == '"') Quoted = !Quoted; 
-                else if(!Quoted && (std::isspace(*It) || *It == ';' || *It == '#'))  break; 
-                else Token += *It; 
-                ++It;
-            }
-            if(!Token.empty()) Tokens.push_back(std::move(Token));
-        }
+			std::string Token;
+			bool Quoted = false;
+			while(It != Line.end())
+			{
+				if(*It == '\\')
+				{
+					if(++It != Line.end())
+					{
+						Token += *It;
+					}
+				}
+				else if(*It == '"')
+					Quoted = !Quoted;
+				else if(!Quoted && (std::isspace(*It) || *It == ';' || *It == '#'))
+					break;
+				else
+					Token += *It;
+				++It;
+			}
+			if(!Token.empty())
+				Tokens.push_back(std::move(Token));
+		}
 
-        if(!Tokens.empty())
-        {
-            IResult Res(Tokens[0]);
-            for(size_t i = 1; i < Tokens.size(); ++i)
-                Res.m_Args.push_back(std::move(Tokens[i]));
-            
-            if(CCommand *Cmd = FindCommand(Res.m_Name))
-                Res.m_Flags = Cmd->m_Flags;
-            
-            Results.push_back(std::move(Res));
-        }
-    }
-    return Results;
+		if(!Tokens.empty())
+		{
+			IResult Res(Tokens[0]);
+			for(size_t i = 1; i < Tokens.size(); ++i)
+				Res.m_Args.push_back(std::move(Tokens[i]));
+
+			if(CCommand *Cmd = FindCommand(Res.m_Name))
+				Res.m_Flags = Cmd->m_Flags;
+
+			Results.push_back(std::move(Res));
+		}
+	}
+	return Results;
 }
-

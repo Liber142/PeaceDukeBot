@@ -26,14 +26,23 @@ public:
 
 		switch(Level)
 		{
-		case LogLevel::INFO: Color = "\033[0m"; Prefix = "[inf]"; break;
-		case LogLevel::WARNING: Color = "\033[33m"; Prefix = "[wrn]"; break;
+		case LogLevel::INFO:
+			Color = "\033[0m";
+			Prefix = "[inf]";
+			break;
+		case LogLevel::WARNING:
+			Color = "\033[33m";
+			Prefix = "[wrn]";
+			break;
 		case LogLevel::ERROR:
 			Color = "\033[31m";
 			Prefix = "[err]";
 			Out = &std::cerr;
 			break;
-		case LogLevel::DEBUG: Color = "\033[36m"; Prefix = "[dbg]"; break;
+		case LogLevel::DEBUG:
+			Color = "\033[36m";
+			Prefix = "[dbg]";
+			break;
 		}
 
 		*Out << Color << Timestamp << " " << Prefix << " " << From << ": " << Info << "\033[0m\n";

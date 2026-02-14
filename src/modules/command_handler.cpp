@@ -1,4 +1,5 @@
 #include "command_handler.h"
+
 #include <engine/logger.h>
 
 CCommandHandler::CCommandHandler()
@@ -8,11 +9,11 @@ CCommandHandler::CCommandHandler()
 
 void CCommandHandler::OnModuleInit(CBotCore *pBotCore)
 {
-    IModule::OnModuleInit(pBotCore);
+	IModule::OnModuleInit(pBotCore);
 	for(const auto &pCommand : m_vpCommands)
-        pCommand->OnModuleInit(pBotCore);
+		pCommand->OnModuleInit(pBotCore);
 }
-  
+
 void CCommandHandler::OnInit()
 {
 	for(const auto &pCommand : m_vpCommands)

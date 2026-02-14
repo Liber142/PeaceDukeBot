@@ -1,14 +1,14 @@
 #include "bot_core.h"
 
+#include "modules/module.h"
+
 #include <engine/config.h>
 #include <engine/console.h>
-#include <engine/database.h>
 #include <engine/data_strucs.h>
+#include <engine/database.h>
 #include <engine/json_database.h>
 
 #include <git_revision.h>
-
-#include "modules/module.h"
 
 CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pBot(pBot),
@@ -19,15 +19,15 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pDataBase->Connect("db");
 	m_pConfig->OnInit(m_pConsole.get());
 
-    m_vpModules.insert(m_vpModules.end(), {&m_CommandHandler,
-        &m_ClanMemberManager,
-        &m_ClanVoteManager});
+	m_vpModules.insert(m_vpModules.end(), {&m_CommandHandler,
+						      &m_ClanMemberManager,
+						      &m_ClanVoteManager});
 
-    for(const auto &pModule : m_vpModules)
-    {
-        pModule->OnModuleInit(this);
-        pModule->OnConsoleInit();
-    }
+	for(const auto &pModule : m_vpModules)
+	{
+		pModule->OnModuleInit(this);
+		pModule->OnConsoleInit();
+	}
 
 	m_pBot->on_button_click([this](const dpp::button_click_t &Event) {
 		m_pConsole->ExecuteInteraction(Event);
@@ -37,12 +37,12 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
-    m_pBot->on_form_submit([this](const dpp::form_submit_t &Event) {
-        m_pConsole->ExecuteInteraction(Event);
-    });
+	m_pBot->on_form_submit([this](const dpp::form_submit_t &Event) {
+		m_pConsole->ExecuteInteraction(Event);
+	});
 
 	m_pBot->on_ready([this](const dpp::ready_t &Event) {
-        Init();
+		Init();
 	});
 }
 
@@ -60,23 +60,22 @@ void CBotCore::Init()
 	}
 }
 
-
 CConfig *CBotCore::Config() const
-{ 
-    return m_pConfig.get(); 
+{
+	return m_pConfig.get();
 }
 
 IDataBase *CBotCore::DataBase() const
-{ 
-    return m_pDataBase.get(); 
+{
+	return m_pDataBase.get();
 }
 
 CConsole *CBotCore::Console() const
-{ 
-    return m_pConsole.get(); 
+{
+	return m_pConsole.get();
 }
 
 dpp::cluster *CBotCore::Bot() const
-{ 
-    return m_pBot; 
+{
+	return m_pBot;
 }
