@@ -53,7 +53,7 @@ dpp::interaction_modal_response CApplyCommand::Modal() const
 	Modal.add_component(
 		dpp::component()
 			.set_label("Ваш игровой ник")
-			.set_id("gameNick")
+			.set_id("gamenick")
 			.set_type(dpp::cot_text)
 			.set_placeholder("Введите ваш никнейм")
 			.set_max_length(32)
@@ -63,13 +63,13 @@ dpp::interaction_modal_response CApplyCommand::Modal() const
 	Modal.add_row();
 	Modal.add_component(
 		dpp::component()
-			.set_label("Ваш возраст")
-			.set_id("age")
+			.set_label("Дата Рождения (ДД.ММ или ДД.ММ.ГГГГ)")
+			.set_id("birthday")
 			.set_type(dpp::cot_text)
-			.set_placeholder("Укажите ваш возраст")
+			.set_placeholder("Это чтобы поздравить тебя ")
 			.set_required(true)
-			.set_max_length(2)
-			.set_min_length(1)
+			.set_max_length(10)
+			.set_min_length(5)
 			.set_text_style(dpp::text_short));
 
 	Modal.add_row();
