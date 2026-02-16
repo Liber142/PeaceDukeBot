@@ -11,9 +11,9 @@ public:
 
 	const std::string Name() const override { return "CClanMemberManager"; }
 
-private:
 	void AddClanMember(SUserData Member);
 	void KickClanMember(dpp::snowflake Id);
 
+private:
 	dpp::snowflake m_ClanGuildId;
 };

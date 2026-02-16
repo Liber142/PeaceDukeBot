@@ -19,7 +19,15 @@ void CClanMemberManager::AddClanMember(SUserData Member)
 {
 	const dpp::snowflake GuildId = Config()->DEFAULT_GUILD_ID;
 	const dpp::snowflake RoleId = Config()->CLAN_MEMBER_ROLE_ID;
-	Bot()->guild_member_add_role(GuildId, Member.m_Id, RoleId);
+	Bot()->guild_member_add_role(GuildId, Member.m_Id, RoleId, [this, &Member](const dpp::confirmation_callback_t &Callback) {
+		if(Callback.is_error())
+		{
+			CLogger::Error(Name(), Callback.get_error().human_readable);
+			return;
+		}
+
+		CLogger::Info(Name(), "Succses add " + Member.m_GameNick + " to clan");
+	});
 
 	Member.m_Clan = Config()->ClanTag;
 
