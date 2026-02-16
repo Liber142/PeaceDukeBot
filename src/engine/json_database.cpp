@@ -48,6 +48,15 @@ nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::strin
 	return nullptr;
 }
 
+void CJsonDataBase::Erase(const std::string &Table, size_t Key)
+{
+	if(m_Root.contains(Table))
+	{
+		m_Root[Table].erase(std::to_string(Key));
+		Sync();
+	}
+}
+
 size_t CJsonDataBase::GenerateNewKey(const std::string &Table)
 {
 	nlohmann::json Meta = ReadRaw(Table, "_meta");

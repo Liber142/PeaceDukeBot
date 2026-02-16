@@ -7,6 +7,7 @@ public:
 	~CJsonDataBase() override;
 	void Connect(const std::string &Path) override;
 
+	void Erase(const std::string &Table, size_t Key) override;
 	std::vector<size_t> GetKeys(const std::string &Table) override;
 	size_t GenerateNewKey(const std::string &Table) override;
 

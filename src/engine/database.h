@@ -36,6 +36,7 @@ public:
 		}
 	}
 
+	virtual void Erase(const std::string &Table, size_t Key) = 0;
 	virtual std::vector<size_t> GetKeys(const std::string &Table) = 0;
 	virtual size_t GenerateNewKey(const std::string &Table) = 0;
 
