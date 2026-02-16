@@ -94,3 +94,16 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 	CXX_STANDARD_REQUIRED ON
 )
 
+
+add_executable(parse_old_db 
+    src/tools/parse_old_db.cpp
+    ${ENGINE_SRC})
+
+target_include_directories(parse_old_db PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(parse_old_db ${DPP_LIBRARIES})
+target_include_directories(parse_old_db PRIVATE ${DPP_INCLUDE_DIR})
+
+set_target_properties(parse_old_db PROPERTIES
+	CXX_STANDARD 20
+	CXX_STANDARD_REQUIRED ON
+)
