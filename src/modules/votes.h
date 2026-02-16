@@ -1,3 +1,4 @@
+#pragma once
 #include "module.h"
 
 #include <engine/console.h>
@@ -25,7 +26,7 @@ public:
 		virtual void SetId(size_t Id) { m_Id = Id; }
 		virtual size_t Id() { return m_Id; }
 
-		virtual void AddVote(size_t VoterId, EVoteOptions Option) = 0;
+		virtual void AddVote(const size_t &VoterId, const EVoteOptions &Option) = 0;
 
 		const std::string Name() const override { return "vote"; }
 	};
@@ -52,7 +53,13 @@ public:
 		size_t m_MessageId = 0;
 		SUserData m_TargetUser;
 
+		std::function<void()> m_CallBack;
+
+		void SyncMessage();
 		dpp::message GenerateMessage();
+		dpp::embed GenerateEmbed();
+
+		void FinaleVote();
 
 	public:
 		CClanVote() = default;
@@ -62,10 +69,10 @@ public:
 		void OnInit() override {}
 		void OnConsoleInit() override {}
 
-		void AddVote(size_t VoterId, EVoteOptions Option) override;
+		void AddVote(const size_t &VoterId, const EVoteOptions &Option) override;
 
 		void StartVote();
-		void FinaleVote();
+		void OnFinale(const std::function<void()> &CallBack);
 
 		SUserData GetUser() const { return m_TargetUser; }
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(CClanVote, m_MessageId, m_TargetUser, m_Yes, m_No, m_vVotersIds)
@@ -83,5 +90,7 @@ public:
 	void FormSubmit(CConsole::IResult Result);
 
 private:
+	std::optional<SBirthDate> ParseBirthday(const std::string &Input);
+	std::optional<int> CalculateAge(const SBirthDate& BirthDate);
 	std::map<std::size_t, std::unique_ptr<CClanVote>> m_vpVotes;
 };

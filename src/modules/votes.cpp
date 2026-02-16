@@ -3,7 +3,10 @@
 #include <engine/config.h>
 #include <engine/database.h>
 
+#include <bot_core.h>
+
 #include <dpp/dpp.h>
+#include <chrono>
 
 void CApplyVoteManager::OnModuleInit(CBotCore *pBotCore)
 {
@@ -16,9 +19,11 @@ void CApplyVoteManager::OnModuleInit(CBotCore *pBotCore)
 		if(!Vote)
 			continue;
 
-		Vote->SetId(Key);
 		std::unique_ptr<CClanVote> pVote = std::make_unique<CClanVote>(*Vote);
-		pVote->OnModuleInit(BotCore());
+		pVote->OnModuleInit(pBotCore);
+		pVote->SetId(Key);
+
+		pVote->OnFinale([this, Key]() {m_vpVotes.erase(Key); DataBase()->Erase("clan_apply", Key); });
 		m_vpVotes[Key] = std::move(pVote);
 	}
 }
@@ -43,11 +48,17 @@ void CApplyVoteManager::OnConsoleInit()
             SUserData User = Vote->GetUser();
             CLogger::Info(Name(), "Id: " + std::to_string(Vote->Id()));
             CLogger::Info(Name(), "Nickname: " + User.m_GameNick);
-            CLogger::Info(Name(), "Age: " + std::to_string(User.m_Age));
+			if(User.m_Age.has_value())
+				CLogger::Info(Name(), "Age: " + std::to_string(User.m_Age.value()));
             CLogger::Info(Name(), "About: " + User.m_About);
 
             CLogger::Info(Name(), "Yes: " + std::to_string(Vote->m_Yes) + " No: " + std::to_string(Vote->m_No));
         } }, "Test command for vote manager");
+
+	Console()->Register("update_vote", {}, 0, [this](CConsole::IResult Result) {
+		for(const auto& [Key, Vote] : m_vpVotes)
+			Vote->SyncMessage();
+	}, "Update messsage for vote");
 }
 
 void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
@@ -58,46 +69,47 @@ void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
 		return;
 	}
 	std::string Nickname = Result.GetString(0);
-	std::string AgeStr = Result.GetString(1);
+	std::optional<SBirthDate> Birthday = ParseBirthday(Result.GetString(1));
 	std::string About = Result.GetString(2);
-
-	if(!std::all_of(AgeStr.begin(), AgeStr.end(), ::isdigit))
+	if(!Birthday.has_value())
 	{
-		Result.m_Event->reply(dpp::message("Возраст должен быть числом").set_flags(dpp::m_ephemeral));
-		return;
-	}
-	int Age = std::stoi(AgeStr);
-	if(Age < 1)
-	{
-		Result.m_Event->reply(dpp::message("Некорректный возраст").set_flags(dpp::m_ephemeral));
+		Result.m_Event->reply(dpp::message("Неверная дата").set_flags(dpp::m_ephemeral));
 		return;
 	}
 
 	SUserData User;
 	User.m_GameNick = Nickname;
-	User.m_Age = Age;
+	User.m_BirthDay = Birthday.value();
+	if(Birthday.value().m_Year.has_value())
+		User.m_Age = CalculateAge(Birthday.value());
 	User.m_About = About;
 	User.m_Id = Result.m_Event->command.get_issuing_user().id;
 
 	std::unique_ptr<CClanVote> Vote = std::make_unique<CClanVote>(User);
 	Vote->OnModuleInit(BotCore());
-	Vote->SetId(DataBase()->GenerateNewKey("clan_apply"));
+	size_t Id = DataBase()->GenerateNewKey("clan_apply");
+	Vote->SetId(Id);
 	Vote->StartVote();
 
-	DataBase()->Save("clan_apply", Vote->Id(), *Vote);
-	m_vpVotes[Vote->Id()] = std::move(Vote);
+	DataBase()->Save("clan_apply", Id, *Vote);
+	Vote->OnFinale([this, Id]() {m_vpVotes.erase(Id); DataBase()->Erase("clan_apply", Id); });
+	m_vpVotes[Id] = std::move(Vote);
 	Result.m_Event->reply();
 }
 
 void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
 {
-	if(Result.NumArguments() != 2)
+	if(Result.NumArguments() != 2 || !(Result.m_Flags & BUTTON))
 	{
 		CLogger::Error(Name(), "Wrong result");
 		return;
 	}
 
-	CLogger::Debug(Name(), Result.m_Name + " | " + Result.m_Args[0] + " | " + Result.m_Args[1]);
+	if(!BotCore()->m_ClanMemberManager.IsModerator(Result.m_Event->command.get_issuing_user().id))
+	{
+		Result.m_Event->reply(dpp::message("You have not permissions for this").set_flags(dpp::m_ephemeral));
+		return;
+	}
 
 	if(!m_vpVotes.contains(Result.GetInt(0)))
 	{
@@ -110,28 +122,43 @@ void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
 	else if(Result.GetString(1) == "no")
 		m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::NO);
 	Result.m_Event->reply();
-	DataBase()->Save("clan_apply", m_vpVotes[Result.GetInt(0)]->Id(), *m_vpVotes[Result.GetInt(0)]);
+
+	if(m_vpVotes.contains(Result.GetInt(0)))
+		DataBase()->Save("clan_apply", m_vpVotes[Result.GetInt(0)]->Id(), *m_vpVotes[Result.GetInt(0)]);
 }
 
 void CApplyVoteManager::CClanVote::StartVote()
 {
 	m_State = EVoteState::PENDING;
-	Bot()->message_create(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
-		if(Callback.is_error())
-		{
-			CLogger::Debug(Name(), "Create message " + Callback.get_error().human_readable);
-			return;
-		}
-		m_MessageId = std::get<dpp::message>(Callback.value).id;
-	});
+	SyncMessage();
+}
+
+void CApplyVoteManager::CClanVote::OnFinale(const std::function<void()> &Callback)
+{
+	m_CallBack = Callback;
 }
 
 void CApplyVoteManager::CClanVote::FinaleVote()
 {
+	SyncMessage();
+
+	if(m_State == EVoteState::ACCEPTED)
+	{
+		Bot()->direct_message_create(m_TargetUser.m_Id, dpp::message(Config()->DIRECT_MESSAGE_APPROVE));
+		dpp::message Msg(Config()->ClanChat, ""); 
+		Msg.set_content("# <@" + std::to_string(m_TargetUser.m_Id) + "> " + Config()->CLAN_MESSAGE_APPROVE);
+		Bot()->message_create(Msg);
+		BotCore()->m_ClanMemberManager.AddClanMember(m_TargetUser);
+	}
+	else if(m_State == EVoteState::DECLINE)
+		Bot()->direct_message_create(m_TargetUser.m_Id, dpp::message(Config()->DIRECT_MESSAGE_REJECT));
+
+	m_CallBack();
 }
 
-void CApplyVoteManager::CClanVote::AddVote(size_t VoterId, EVoteOptions Option)
+void CApplyVoteManager::CClanVote::AddVote(const size_t &VoterId, const EVoteOptions &Option)
 {
+
 	bool Found = false;
 	for(auto &[Id, Vote] : m_vVotersIds)
 	{
@@ -161,57 +188,43 @@ void CApplyVoteManager::CClanVote::AddVote(size_t VoterId, EVoteOptions Option)
 		Option == EVoteOptions::YES ? m_Yes++ : m_No++;
 	}
 
+	if(m_Yes + m_No >= BotCore()->m_ClanMemberManager.NumModers())
+	{
+		if(m_No >= m_Yes)
+		{
+			m_State = EVoteState::DECLINE;
+		}
+		else
+		{
+			m_State = EVoteState::ACCEPTED;
+		}
+		FinaleVote();
+		return;
+	}
+
+	SyncMessage();
+}
+
+void CApplyVoteManager::CClanVote::SyncMessage()
+{
 	Bot()->message_edit(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
 		if(Callback.is_error())
 		{
-			CLogger::Error(Name(), "Can't edit message: " + Callback.get_error().human_readable);
 			Bot()->message_create(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
 				if(Callback.is_error())
-				{
-					CLogger::Debug(Name(), "Create message " + Callback.get_error().human_readable);
 					return;
-				}
 				m_MessageId = std::get<dpp::message>(Callback.value).id;
 			});
 			return;
 		}
 		dpp::message Msg = std::get<dpp::message>(Callback.value);
-		CLogger::Debug(Name(), "Success edit" + Msg.content);
 	});
+
 }
 
 dpp::message CApplyVoteManager::CClanVote::GenerateMessage()
 {
-	dpp::user *User = dpp::find_user(m_TargetUser.m_Id);
-	if(!User)
-	{
-		CLogger::Error("Vote", "not found user");
-		throw;
-	}
-
-	dpp::embed Embed;
-	Embed.set_author(User->format_username(), "", User->get_avatar_url())
-		.set_title("Новая заявка")
-		.add_field("Ник: ", m_TargetUser.m_GameNick, true)
-		.add_field("Возраст: ", std::to_string(m_TargetUser.m_Age), true)
-		.add_field("О себе", m_TargetUser.m_About);
-
-	switch(m_State)
-	{
-	case CApplyVoteManager::CClanVote::EVoteState::ACCEPTED: Embed.set_color(dpp::colors::green); break;
-	case CApplyVoteManager::CClanVote::EVoteState::DECLINE: Embed.set_color(dpp::colors::red); break;
-	default: Embed.set_color(dpp::colors::sti_blue); break;
-	}
-
-	if((m_No + m_Yes) != 0)
-	{
-		std::string Str;
-		Str += "- :white_check_mark: За: " + std::to_string(m_Yes) + '\n';
-		Str += "- :x: Против: " + std::to_string(m_No) + '\n';
-		Embed.add_field("Голоса: ", Str);
-	}
-
-	dpp::message Msg(Config()->APPLY_CHANNEL_ID, Embed);
+	dpp::message Msg(Config()->APPLY_CHANNEL_ID, GenerateEmbed());
 
 	if(m_State == EVoteState::PENDING)
 	{
@@ -236,3 +249,97 @@ dpp::message CApplyVoteManager::CClanVote::GenerateMessage()
 
 	return Msg;
 }
+
+dpp::embed CApplyVoteManager::CClanVote::GenerateEmbed()
+{
+    dpp::user *User = dpp::find_user(m_TargetUser.m_Id);
+    if(!User) throw std::runtime_error("User not found");
+
+    dpp::embed Embed;
+    
+    Embed.set_author(User->username, "", User->get_avatar_url());
+
+    std::string Info = "👤 **Ник:** " + m_TargetUser.m_GameNick;
+	if(m_TargetUser.m_Age.has_value())
+		Info += "  |  🎂 **Возраст:** " + std::to_string(m_TargetUser.m_Age.value());
+    
+    Embed.set_description(Info + "\n\n" + m_TargetUser.m_About);
+
+    switch(m_State)
+    {
+        case EVoteState::ACCEPTED: 
+            Embed.set_color(dpp::colors::green)
+                 .set_title("✅ Заявка одобрена"); 
+            break;
+        case EVoteState::DECLINE: 
+            Embed.set_color(dpp::colors::red)
+                 .set_title("❌ Заявка отклонена"); 
+            break;
+        default: 
+            Embed.set_color(0x5865F2);
+            Embed.set_title("📩 Новая анкета");
+            
+			std::string VoteBar = "✅ ` " + std::to_string(m_Yes) + " `  **|**  ❌ ` " + std::to_string(m_No) + " `";
+            Embed.add_field("\u200b", VoteBar);
+            break;
+    }
+
+    return Embed;
+}
+
+std::optional<SBirthDate> CApplyVoteManager::ParseBirthday(const std::string &Input)
+{
+    std::tm TimeStruct = {};
+    std::istringstream Stream(Input);
+
+    Stream >> std::get_time(&TimeStruct, "%d.%m");
+    
+    if (Stream.fail())
+    {
+		CLogger::Error(Name(), "Stream.fail()");
+        return std::nullopt;
+    }
+
+    SBirthDate Date;
+    Date.m_Day = TimeStruct.tm_mday;
+    Date.m_Month = TimeStruct.tm_mon + 1;
+
+    int TempYear = 0;
+    if (Stream.get() == '.' && (Stream >> TempYear))
+    {
+        if (TempYear < 100)
+        {
+            TempYear += (TempYear <= 25) ? 2000 : 1900;
+        }
+        Date.m_Year = TempYear;
+    }
+
+    return Date;
+}
+
+std::optional<int> CApplyVoteManager::CalculateAge(const SBirthDate& BirthDate)
+{
+    if (!BirthDate.m_Year.has_value())
+    {
+        return std::nullopt;
+    }
+
+    auto Now = std::chrono::system_clock::now();
+    std::time_t NowTime = std::chrono::system_clock::to_time_t(Now);
+    
+    std::tm* CurrentTime = std::localtime(&NowTime);
+    
+    int CurrentYear = CurrentTime->tm_year + 1900;
+    int CurrentMonth = CurrentTime->tm_mon + 1;
+    int CurrentDay = CurrentTime->tm_mday;
+
+    int Age = CurrentYear - *BirthDate.m_Year;
+
+    if (CurrentMonth < BirthDate.m_Month || (CurrentMonth == BirthDate.m_Month && CurrentDay < BirthDate.m_Day))
+    {
+        Age--;
+    }
+
+    return Age;
+}
+
