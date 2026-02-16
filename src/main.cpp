@@ -27,7 +27,7 @@ int main()
 		return 1;
 	}
 
-	dpp::cluster Bot(Token);
+	dpp::cluster Bot(Token, dpp::i_default_intents | dpp::i_guild_members);
 
 	CBotCore BotCore(&Bot);
 
