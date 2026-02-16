@@ -4,6 +4,12 @@
 #include <dpp/nlohmann/json.hpp>
 #include <string>
 
+enum EDataBaseFlags : int 
+{
+	None = 0,
+	ReadOnly = 1 << 1,
+};
+
 // TODO: This should be work on other threads
 // I think we need queue for save data
 // Also now this is not threads safety
@@ -11,7 +17,7 @@ class IDataBase
 {
 public:
 	virtual ~IDataBase() = default;
-	virtual void Connect(const std::string &Path) = 0;
+	virtual void Connect(const std::string &Path, EDataBaseFlags Flags = None) = 0;
 
 	template<typename T>
 	void Save(std::string Table, size_t Key, const T &Data)

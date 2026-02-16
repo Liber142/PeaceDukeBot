@@ -9,9 +9,13 @@ CJsonDataBase::~CJsonDataBase()
 	Sync();
 }
 
-void CJsonDataBase::Connect(const std::string &Path)
+void CJsonDataBase::Connect(const std::string &Path, EDataBaseFlags Flags)
 {
-	m_FilePath = Path + ".json";
+	m_Flags = Flags;
+	m_FilePath = Path;
+	if(Path.find(".json") == std::string::npos)
+		m_FilePath += ".json";
+
 	std::ifstream File(m_FilePath);
 
 	if(File.is_open())
@@ -35,6 +39,12 @@ void CJsonDataBase::Connect(const std::string &Path)
 
 void CJsonDataBase::WriteRaw(const std::string &Table, const std::string &Key, const nlohmann::json &Data)
 {
+	if(m_Flags & ReadOnly)
+	{
+		CLogger::Error("database", "Can't write to database: ReadOnly mode");
+		throw std::logic_error("Database is opened in Read-Only mode");
+	}
+
 	m_Root[Table][Key] = Data;
 	Sync();
 }
@@ -50,6 +60,12 @@ nlohmann::json CJsonDataBase::ReadRaw(const std::string &Table, const std::strin
 
 void CJsonDataBase::Erase(const std::string &Table, size_t Key)
 {
+	if(m_Flags & ReadOnly)
+	{
+		CLogger::Error("database", "Can't erase from database: ReadOnly mode");
+		throw std::logic_error("Database is opened in Read-Only mode");
+	}
+
 	if(m_Root.contains(Table))
 	{
 		m_Root[Table].erase(std::to_string(Key));
@@ -99,6 +115,7 @@ std::vector<size_t> CJsonDataBase::GetKeys(const std::string &Table)
 
 void CJsonDataBase::Sync()
 {
+
 	std::ofstream File(m_FilePath);
 	if(File.is_open())
 	{
