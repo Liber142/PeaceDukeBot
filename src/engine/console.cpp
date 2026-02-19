@@ -74,9 +74,9 @@ void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
 		}
 		InteractionFlag = MODAL;
 	}
-	else
+	else if(const auto *Command = dynamic_cast<const dpp::slashcommand_t *>(&Event))
 	{
-		Line = Event.command.get_command_name();
+		Line = Command->command.get_command_name();
 		InteractionFlag = SLASH_COMMAND;
 	}
 
@@ -179,9 +179,6 @@ std::vector<CConsole::IResult> CConsole::ParseLine(const std::string &Line)
 			IResult Res(Tokens[0]);
 			for(size_t i = 1; i < Tokens.size(); ++i)
 				Res.m_Args.push_back(std::move(Tokens[i]));
-
-			if(CCommand *Cmd = FindCommand(Res.m_Name))
-				Res.m_Flags = Cmd->m_Flags;
 
 			Results.push_back(std::move(Res));
 		}

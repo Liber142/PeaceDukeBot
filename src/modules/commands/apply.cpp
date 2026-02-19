@@ -27,8 +27,11 @@ void CApplyCommand::Execute(CConsole::IResult &Result)
 {
 	if(Result.m_Flags & SLASH_COMMAND)
 		Result.m_Event->reply(Message());
-	if(Result.m_Flags & BUTTON)
+	else if(Result.m_Flags & BUTTON)
 		Result.m_Event->dialog(Modal());
+	else
+	 	CLogger::Warning(Name(), "You can't use this from this");
+
 }
 
 dpp::message CApplyCommand::Message() const

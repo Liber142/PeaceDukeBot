@@ -26,7 +26,7 @@ public:
 		const std::string m_Name;
 		std::vector<std::string> m_Args;
 
-		int m_Flags;
+		int m_Flags = 0;
 		const dpp::interaction_create_t *m_Event;
 
 		int NumArguments() const { return m_Args.size(); }
@@ -55,7 +55,7 @@ public:
 		CCommand(std::string Name, FnCallBack Callback);
 		const std::string m_Name;
 		std::vector<std::string> m_vParams;
-		int m_Flags;
+		int m_Flags = 0;
 		FnCallBack m_CallBack;
 		std::string m_Help;
 	};
