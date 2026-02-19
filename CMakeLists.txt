@@ -82,13 +82,11 @@ find_package(DPP REQUIRED)
 find_package(replxx REQUIRED)
 find_package(Threads REQUIRED)
 
-# Link the pre-installed DPP package.
 target_link_libraries(${PROJECT_NAME} 
 	${DPP_LIBRARIES}
     replxx::replxx
 )
 
-# Include the DPP directories.
 target_include_directories(${PROJECT_NAME} PRIVATE
 	${DPP_INCLUDE_DIR}
 )
@@ -112,3 +110,17 @@ set_target_properties(parse_old_db PROPERTIES
 	CXX_STANDARD 20
 	CXX_STANDARD_REQUIRED ON
 )
+
+add_executable(test_db 
+    src/tests/db.cpp
+    ${ENGINE_SRC})
+
+target_include_directories(test_db PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(test_db ${DPP_LIBRARIES})
+target_include_directories(test_db PRIVATE ${DPP_INCLUDE_DIR})
+
+set_target_properties(test_db PROPERTIES
+	CXX_STANDARD 20
+	CXX_STANDARD_REQUIRED ON
+)
+
