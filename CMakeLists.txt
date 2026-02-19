@@ -23,6 +23,8 @@ set(COMMANDS_SRC
     src/modules/commands/command.h
     src/modules/commands/apply.h
     src/modules/commands/apply.cpp
+    src/modules/commands/profile.h
+    src/modules/commands/profile.cpp
 )
 
 set(MODULES_SRC

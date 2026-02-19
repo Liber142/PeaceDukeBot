@@ -4,7 +4,10 @@
 
 CCommandHandler::CCommandHandler()
 {
-	m_vpCommands.insert(m_vpCommands.end(), {&m_Apply});
+	m_vpCommands.insert(m_vpCommands.end(), {
+		&m_Apply,
+		&m_Profile		
+	});
 }
 
 void CCommandHandler::OnModuleInit(CBotCore *pBotCore)
