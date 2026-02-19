@@ -36,12 +36,9 @@ void CApplyVoteManager::OnConsoleInit()
 {
 	Console()->Register(Name() + "_form", {"s", "i", "s"}, MODAL, [this](CConsole::IResult Result) { FormSubmit(std::move(Result)); }, "Serilizate form");
 	Console()->Register(Name() + "_button", {"i", "s"}, MODAL, [this](CConsole::IResult Result) { ButtonClick(std::move(Result)); }, "Button click on vote");
-
-#ifndef NDEBUG
 	Console()->Register("update_vote", {}, 0, [this](CConsole::IResult Result) {
 		for(const auto& [Key, Vote] : m_vpVotes)
 			Vote->SyncMessage(); }, "Update messsage for vote");
-#endif
 }
 
 void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
@@ -101,9 +98,9 @@ void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
 	}
 
 	if(Result.GetString(1) == "yes")
-		m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::YES);
+		m_vpVotes[Result.GetInt(0)]->AddVote(static_cast<size_t>(Result.m_Event->command.get_issuing_user().id), EVoteOptions::YES);
 	else if(Result.GetString(1) == "no")
-		m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::NO);
+		m_vpVotes[Result.GetInt(0)]->AddVote(static_cast<size_t>(Result.m_Event->command.get_issuing_user().id), EVoteOptions::NO);
 	Result.m_Event->reply();
 
 	if(m_vpVotes.contains(Result.GetInt(0)))
@@ -215,13 +212,13 @@ dpp::message CApplyVoteManager::CClanVote::GenerateMessage()
 				.set_label("Принять")
 				.set_type(dpp::cot_button)
 				.set_style(dpp::cos_success)
-				.set_id("clan_apply_vote " + std::to_string(m_Id) + " yes"));
+				.set_id("apply_vote_manager_button " + std::to_string(m_Id) + " yes"));
 		ActionRow.add_component(
 			dpp::component()
 				.set_label("Отклонить")
 				.set_type(dpp::cot_button)
 				.set_style(dpp::cos_danger)
-				.set_id("clan_apply_vote " + std::to_string(m_Id) + " no"));
+				.set_id("apply_vote_manager_button " + std::to_string(m_Id) + " no"));
 		Msg.add_component(ActionRow);
 	}
 
