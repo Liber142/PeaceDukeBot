@@ -91,6 +91,6 @@ public:
 
 private:
 	std::optional<SBirthDate> ParseBirthday(const std::string &Input);
-	std::optional<int> CalculateAge(const SBirthDate& BirthDate);
+	std::optional<int> CalculateAge(const SBirthDate &BirthDate);
 	std::map<std::size_t, std::unique_ptr<CClanVote>> m_vpVotes;
 };

@@ -1,8 +1,8 @@
 #include <engine/json_database.h>
 
+#include <csignal>
 #include <cstdlib>
 #include <thread>
-#include <csignal>
 
 static std::atomic<bool> g_Work(true);
 
@@ -27,7 +27,7 @@ struct CTest
 
 std::string Table = "test";
 
-static void WriteSomeData(IDataBase* DataBase)
+static void WriteSomeData(IDataBase *DataBase)
 {
 	CTest Data;
 	Data.m_Int = std::rand();

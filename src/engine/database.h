@@ -4,7 +4,7 @@
 #include <dpp/nlohmann/json.hpp>
 #include <string>
 
-enum EDataBaseFlags : int 
+enum EDataBaseFlags : int
 {
 	None = 0,
 	ReadOnly = 1 << 1,

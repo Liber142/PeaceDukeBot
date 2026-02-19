@@ -15,7 +15,7 @@ struct SOldUserData
 
 std::string Name() { return "parse_old_db"; }
 
-int main(int args, char* argv[])
+int main(int args, char *argv[])
 {
 	if(args <= 1)
 	{
@@ -54,5 +54,4 @@ int main(int args, char* argv[])
 
 		DataBase.Save("clan_members", Key, User);
 	}
-	
 }

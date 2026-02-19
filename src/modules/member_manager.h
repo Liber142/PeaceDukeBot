@@ -12,6 +12,7 @@ public:
 
 	int NumModers() const { return m_NumModers; }
 	bool IsModerator(const dpp::snowflake &UserId);
+
 private:
 	int m_NumModers = 0;
 	std::vector<dpp::snowflake> m_vModers;

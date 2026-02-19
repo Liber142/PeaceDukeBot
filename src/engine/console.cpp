@@ -115,7 +115,7 @@ std::vector<std::string> CConsole::GetAllCommands()
 {
 	std::vector<std::string> Result;
 	Result.reserve(m_vpCommands.size());
-	for(const auto& Cmd : m_vpCommands)
+	for(const auto &Cmd : m_vpCommands)
 	{
 		Result.emplace_back(Cmd->m_Name);
 	}

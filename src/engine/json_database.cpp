@@ -88,10 +88,11 @@ size_t CJsonDataBase::GenerateNewKey(const std::string &Table)
 	int NextId = 1;
 	{
 		std::lock_guard<std::mutex> Lock(m_Mutex);
-		if (m_Root.contains(Table) && m_Root[Table].contains("_meta")) 
+		if(m_Root.contains(Table) && m_Root[Table].contains("_meta"))
 		{
-			auto& Meta = m_Root[Table]["_meta"];
-			if (Meta.contains("next_id")) {
+			auto &Meta = m_Root[Table]["_meta"];
+			if(Meta.contains("next_id"))
+			{
 				NextId = Meta["next_id"].get<size_t>();
 			}
 		}
@@ -127,14 +128,15 @@ std::vector<size_t> CJsonDataBase::GetKeys(const std::string &Table)
 
 void CJsonDataBase::WorkerLoop()
 {
-	while (m_Running) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
-        if (m_IsDirty) 
+	while(m_Running)
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+		if(m_IsDirty)
 		{
-            Sync();
-            m_IsDirty = false;
-        }
-    }
+			Sync();
+			m_IsDirty = false;
+		}
+	}
 }
 
 void CJsonDataBase::Sync()

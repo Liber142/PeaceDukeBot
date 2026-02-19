@@ -17,7 +17,6 @@ static void SignalHandler(int Sig)
 #endif
 }
 
-
 int main()
 {
 	std::signal(SIGINT, SignalHandler);
@@ -36,18 +35,21 @@ int main()
 	Bot.start(dpp::st_return);
 
 	replxx::Replxx Replxx;
-	Replxx.set_completion_callback([&BotCore](std::string const& Input, int& Pos) {
+	Replxx.set_completion_callback([&BotCore](std::string const &Input, int &Pos) {
 		std::vector<replxx::Replxx::Completion> Suggestions;
-		
-		if (Input.find(' ') != std::string::npos) {
-			return Suggestions; 
+
+		if(Input.find(' ') != std::string::npos)
+		{
+			return Suggestions;
 		}
 
 		auto AllCommands = BotCore.Console()->GetAllCommands();
 		Suggestions.reserve(AllCommands.size());
 
-		for (auto const& Cmd : AllCommands) {
-			if (Cmd.compare(0, Input.length(), Input) == 0) {
+		for(auto const &Cmd : AllCommands)
+		{
+			if(Cmd.compare(0, Input.length(), Input) == 0)
+			{
 				Suggestions.emplace_back(Cmd);
 			}
 		}
@@ -57,7 +59,7 @@ int main()
 
 	while(g_Work)
 	{
-		const auto& Input = Replxx.input("> ");
+		const auto &Input = Replxx.input("> ");
 		if(!Input)
 			break;
 

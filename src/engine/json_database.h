@@ -1,9 +1,9 @@
 #pragma once
 #include "database.h"
 
+#include <condition_variable>
 #include <queue>
 #include <thread>
-#include <condition_variable>
 
 class CJsonDataBase : public IDataBase
 {
@@ -33,4 +33,3 @@ private:
 
 	void Sync();
 };
-

@@ -11,8 +11,8 @@ public:
 
 	const std::string Name() const override { return "profile"; }
 
-private: 
-	dpp::embed GenerateEmbend(const struct SUserData& Data);
-	void PrintProfileConsole(const struct SUserData& Data);
+private:
+	dpp::embed GenerateEmbend(const struct SUserData &Data);
+	void PrintProfileConsole(const struct SUserData &Data);
 	dpp::snowflake GetTargetUser(const dpp::slashcommand_t *Event);
 };

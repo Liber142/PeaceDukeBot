@@ -30,8 +30,7 @@ void CApplyCommand::Execute(CConsole::IResult &Result)
 	else if(Result.m_Flags & BUTTON)
 		Result.m_Event->dialog(Modal());
 	else
-	 	CLogger::Warning(Name(), "You can't use this from this");
-
+		CLogger::Warning(Name(), "You can't use this from this");
 }
 
 dpp::message CApplyCommand::Message() const
