@@ -82,6 +82,7 @@ public:
 	void ExecuteLine(std::string &Line);
 	void ExecuteFile(std::string &Path);
 
+	std::vector<std::string> GetAllCommands();
 private:
 	std::vector<CConsole::IResult> ParseLine(const std::string &Line);
 	std::vector<std::unique_ptr<CCommand>> m_vpCommands;

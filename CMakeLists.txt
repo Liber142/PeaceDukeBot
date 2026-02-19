@@ -79,10 +79,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 
 # Find our pre-installed DPP package (using FindDPP.cmake).
 find_package(DPP REQUIRED)
+find_package(replxx REQUIRED)
+find_package(Threads REQUIRED)
 
 # Link the pre-installed DPP package.
 target_link_libraries(${PROJECT_NAME} 
 	${DPP_LIBRARIES}
+    replxx::replxx
 )
 
 # Include the DPP directories.

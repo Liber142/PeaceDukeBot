@@ -3,6 +3,7 @@
 #include <dpp/cluster.h>
 
 #include <iostream>
+#include <replxx.hxx>
 
 static std::atomic<bool> g_Work(true);
 
@@ -15,6 +16,7 @@ static void SignalHandler(int Sig)
 	close(0);
 #endif
 }
+
 
 int main()
 {
@@ -33,12 +35,37 @@ int main()
 
 	Bot.start(dpp::st_return);
 
-	std::string Line;
-	while(g_Work && std::getline(std::cin, Line))
+	replxx::Replxx Replxx;
+	Replxx.set_completion_callback([&BotCore](std::string const& Input, int& Pos) {
+		std::vector<replxx::Replxx::Completion> Suggestions;
+		
+		if (Input.find(' ') != std::string::npos) {
+			return Suggestions; 
+		}
+
+		auto AllCommands = BotCore.Console()->GetAllCommands();
+		Suggestions.reserve(AllCommands.size());
+
+		for (auto const& Cmd : AllCommands) {
+			if (Cmd.compare(0, Input.length(), Input) == 0) {
+				Suggestions.emplace_back(Cmd);
+			}
+		}
+
+		return Suggestions;
+	});
+
+	while(g_Work)
 	{
+		const auto& Input = Replxx.input("> ");
+		if(!Input)
+			break;
+
+		std::string Line(Input);
 		if(!Line.empty())
 		{
 			BotCore.Console()->ExecuteLine(Line);
+			Replxx.history_add(Line);
 		}
 	}
 
