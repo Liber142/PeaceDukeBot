@@ -1,6 +1,10 @@
 #pragma once
 #include "database.h"
 
+#include <queue>
+#include <thread>
+#include <condition_variable>
+
 class CJsonDataBase : public IDataBase
 {
 public:
@@ -16,9 +20,17 @@ protected:
 	nlohmann::json ReadRaw(const std::string &Table, const std::string &Key) override;
 
 private:
+	std::mutex m_Mutex;
+	std::condition_variable m_CV;
+	std::thread m_WorkerThread;
+	std::atomic<bool> m_Running{true};
+	std::atomic<bool> m_IsDirty{true};
+	void WorkerLoop();
+
 	std::string m_FilePath;
 	EDataBaseFlags m_Flags;
 	nlohmann::json m_Root;
 
 	void Sync();
 };
+
