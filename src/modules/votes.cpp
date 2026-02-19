@@ -12,10 +12,10 @@ void CApplyVoteManager::OnModuleInit(CBotCore *pBotCore)
 {
 	IVoteManager::OnModuleInit(pBotCore);
 
-	std::vector<size_t> Keys = DataBase()->GetKeys("clan_apply");
+	std::vector<size_t> Keys = DataBase()->GetKeys(Name());
 	for(const auto &Key : Keys)
 	{
-		auto Vote = DataBase()->Load<CClanVote>("clan_apply", Key);
+		auto Vote = DataBase()->Load<CClanVote>(Name(), Key);
 		if(!Vote)
 			continue;
 
@@ -23,7 +23,7 @@ void CApplyVoteManager::OnModuleInit(CBotCore *pBotCore)
 		pVote->OnModuleInit(pBotCore);
 		pVote->SetId(Key);
 
-		pVote->OnFinale([this, Key]() {m_vpVotes.erase(Key); DataBase()->Erase("clan_apply", Key); });
+		pVote->OnFinale([this, Key]() {m_vpVotes.erase(Key); DataBase()->Erase(Name(), Key); });
 		m_vpVotes[Key] = std::move(pVote);
 	}
 }
@@ -34,31 +34,15 @@ void CApplyVoteManager::OnInit()
 
 void CApplyVoteManager::OnConsoleInit()
 {
-	Console()->Register("clan_apply", {"s", "i", "s"}, MODAL, [this](CConsole::IResult Result) { FormSubmit(std::move(Result)); }, "Serilizate form");
-	Console()->Register("clan_apply_vote", {"i", "s"}, MODAL, [this](CConsole::IResult Result) { ButtonClick(std::move(Result)); }, "Button click on vote");
+	Console()->Register(Name() + "_form", {"s", "i", "s"}, MODAL, [this](CConsole::IResult Result) { FormSubmit(std::move(Result)); }, "Serilizate form");
+	Console()->Register(Name() + "_button", {"i", "s"}, MODAL, [this](CConsole::IResult Result) { ButtonClick(std::move(Result)); }, "Button click on vote");
 
-	Console()->Register("check_vote", {}, 0, [this](CConsole::IResult Result) {
-        if(m_vpVotes.empty())
-        {
-            CLogger::Info("Vote", "No one vote found");
-            return;
-        }
-        for(const auto& [Key, Vote] : m_vpVotes)
-        {
-            SUserData User = Vote->GetUser();
-            CLogger::Info(Name(), "Id: " + std::to_string(Vote->Id()));
-            CLogger::Info(Name(), "Nickname: " + User.m_GameNick);
-			if(User.m_Age.has_value())
-				CLogger::Info(Name(), "Age: " + std::to_string(User.m_Age.value()));
-            CLogger::Info(Name(), "About: " + User.m_About);
-
-            CLogger::Info(Name(), "Yes: " + std::to_string(Vote->m_Yes) + " No: " + std::to_string(Vote->m_No));
-        } }, "Test command for vote manager");
-
+#ifndef NDEBUG
 	Console()->Register("update_vote", {}, 0, [this](CConsole::IResult Result) {
 		for(const auto& [Key, Vote] : m_vpVotes)
 			Vote->SyncMessage();
 	}, "Update messsage for vote");
+#endif
 }
 
 void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
@@ -87,12 +71,12 @@ void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
 
 	std::unique_ptr<CClanVote> Vote = std::make_unique<CClanVote>(User);
 	Vote->OnModuleInit(BotCore());
-	size_t Id = DataBase()->GenerateNewKey("clan_apply");
+	size_t Id = DataBase()->GenerateNewKey(Name());
 	Vote->SetId(Id);
 	Vote->StartVote();
 
-	DataBase()->Save("clan_apply", Id, *Vote);
-	Vote->OnFinale([this, Id]() {m_vpVotes.erase(Id); DataBase()->Erase("clan_apply", Id); });
+	DataBase()->Save(Name(), Id, *Vote);
+	Vote->OnFinale([this, Id]() {m_vpVotes.erase(Id); DataBase()->Erase(Name(), Id); });
 	m_vpVotes[Id] = std::move(Vote);
 	Result.m_Event->reply();
 }
@@ -124,7 +108,7 @@ void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
 	Result.m_Event->reply();
 
 	if(m_vpVotes.contains(Result.GetInt(0)))
-		DataBase()->Save("clan_apply", m_vpVotes[Result.GetInt(0)]->Id(), *m_vpVotes[Result.GetInt(0)]);
+		DataBase()->Save(Name(), m_vpVotes[Result.GetInt(0)]->Id(), *m_vpVotes[Result.GetInt(0)]);
 }
 
 void CApplyVoteManager::CClanVote::StartVote()
