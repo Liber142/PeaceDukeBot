@@ -24,10 +24,9 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 						      &m_ClanVoteManager});
 
 	for(const auto &pModule : m_vpModules)
-	{
 		pModule->OnModuleInit(this);
-		pModule->OnConsoleInit();
-	}
+	
+	ConsoleInit();
 
 	m_pBot->on_button_click([this](const dpp::button_click_t &Event) {
 		m_pConsole->ExecuteInteraction(Event);
@@ -58,6 +57,17 @@ void CBotCore::Init()
 	{
 		pModule->OnInit();
 	}
+}
+
+void CBotCore::ConsoleInit()
+{
+	Console()->Register("exec", {"s"}, 0, [this](const CConsole::IResult &Result) {
+		for(auto Arg : Result.m_Args)
+			Console()->ExecuteFile(Arg);
+	}, "Exec file");
+
+	for(const auto& Module : m_vpModules)
+		Module->OnConsoleInit();
 }
 
 CConfig *CBotCore::Config() const

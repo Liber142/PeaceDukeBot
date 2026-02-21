@@ -23,6 +23,7 @@ private:
 	std::unique_ptr<class CConsole> m_pConsole;
 
 	void Init();
+	void ConsoleInit();
 
 public:
 	CBotCore(dpp::cluster *pBot);
