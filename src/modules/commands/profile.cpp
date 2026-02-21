@@ -152,7 +152,7 @@ dpp::embed CProfileCommand::GenerateEmbend(const SUserData &Data)
 		Embed.add_field("🛡️ Клан", Data.m_Clan, true);
 	}
 
-	Embed.add_field("📅 Дата Рождения", BirthDateStream.str(), true);
+	Embed.add_field("📅 День Рождения", BirthDateStream.str(), true);
 
 	if(Data.m_Age.has_value())
 	{

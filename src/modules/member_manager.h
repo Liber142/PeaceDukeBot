@@ -8,7 +8,7 @@ public:
 	void OnInit() override;
 	void OnConsoleInit() override;
 
-	const std::string Name() const override { return "CMemberManager"; }
+	const std::string Name() const override { return "member_manager"; }
 
 	int NumModers() const { return m_NumModers; }
 	bool IsModerator(const dpp::snowflake &UserId);

@@ -9,7 +9,7 @@ public:
 	void OnInit() override;
 	void OnConsoleInit() override;
 
-	const std::string Name() const override { return "CClanMemberManager"; }
+	const std::string Name() const override { return "clan_member_manager"; }
 
 	void AddClanMember(SUserData Member);
 	void KickClanMember(dpp::snowflake Id);
