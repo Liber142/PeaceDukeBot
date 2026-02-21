@@ -29,6 +29,14 @@ void CClanMemberManager::AddClanMember(SUserData Member)
 		CLogger::Info(Name(), "Succses add " + Member.m_GameNick + " to clan");
 	});
 
+	Bot()->guild_member_delete_role(GuildId, Member.m_Id, Config()->DEFAULT_ROLE_ID, [this](const dpp::confirmation_callback_t &Callback) {
+		if(Callback.is_error())
+		{
+			CLogger::Error(Name(), Callback.get_error().human_readable);
+			return;
+		}
+	});
+
 	Member.m_Clan = Config()->ClanTag;
 
 	DataBase()->Save("clan_members", Member.m_Id, Member);
