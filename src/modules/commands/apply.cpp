@@ -19,11 +19,11 @@ void CApplyCommand::OnConsoleInit()
 		Bot()->me.id);
 
 	Bot()->global_command_create(Command);
-	Console()->Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, Command.description);
-	Console()->Register(Name() + "_button", {}, BUTTON, [this](CConsole::IResult Result) { Execute(Result); }, "Ответит модалкой на кнопку");
+	Console()->Register(Name(), {}, SLASH_COMMAND, [this](const CConsole::IResult& Result) { Execute(Result); }, Command.description);
+	Console()->Register(Name() + "_button", {}, BUTTON, [this](const CConsole::IResult& Result) { Execute(Result); }, "Ответит модалкой на кнопку");
 }
 
-void CApplyCommand::Execute(CConsole::IResult &Result)
+void CApplyCommand::Execute(const CConsole::IResult &Result)
 {
 	if(Result.m_Flags & SLASH_COMMAND)
 		Result.m_Event->reply(Message());

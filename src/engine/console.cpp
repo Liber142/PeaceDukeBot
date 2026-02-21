@@ -87,7 +87,7 @@ void CConsole::ExecuteInteraction(const dpp::interaction_create_t &Event)
 		{
 			Result.m_Event = &Event;
 			Result.m_Flags |= InteractionFlag;
-			Cmd->m_CallBack(std::move(Result));
+			Cmd->m_CallBack(Result);
 		}
 	}
 }

@@ -29,10 +29,10 @@ void CProfileCommand::OnInit()
 
 void CProfileCommand::OnConsoleInit()
 {
-	Console()->Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, "");
+	Console()->Register(Name(), {}, SLASH_COMMAND, [this](const CConsole::IResult &Result) { Execute(Result); }, "");
 }
 
-void CProfileCommand::Execute(CConsole::IResult &Result)
+void CProfileCommand::Execute(const CConsole::IResult &Result)
 {
 	if(Result.m_Flags & SLASH_COMMAND)
 	{

@@ -34,14 +34,14 @@ void CApplyVoteManager::OnInit()
 
 void CApplyVoteManager::OnConsoleInit()
 {
-	Console()->Register(Name() + "_form", {"s", "i", "s"}, MODAL, [this](CConsole::IResult Result) { FormSubmit(std::move(Result)); }, "Serilizate form");
-	Console()->Register(Name() + "_button", {"i", "s"}, MODAL, [this](CConsole::IResult Result) { ButtonClick(std::move(Result)); }, "Button click on vote");
-	Console()->Register("update_vote", {}, 0, [this](CConsole::IResult Result) {
+	Console()->Register(Name() + "_form", {"s", "i", "s"}, MODAL, [this](const CConsole::IResult &Result) { FormSubmit(Result); }, "Serilizate form");
+	Console()->Register(Name() + "_button", {"i", "s"}, MODAL, [this](const CConsole::IResult &Result) { ButtonClick(Result); }, "Button click on vote");
+	Console()->Register("update_vote", {}, 0, [this](const CConsole::IResult &Result) {
 		for(const auto& [Key, Vote] : m_vpVotes)
 			Vote->SyncMessage(); }, "Update messsage for vote");
 }
 
-void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
+void CApplyVoteManager::FormSubmit(const CConsole::IResult &Result)
 {
 	if(Result.NumArguments() != 3 || !(Result.m_Flags & MODAL))
 	{
@@ -77,7 +77,7 @@ void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
 	Result.m_Event->reply();
 }
 
-void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
+void CApplyVoteManager::ButtonClick(const CConsole::IResult &Result)
 {
 	if(Result.NumArguments() != 2 || !(Result.m_Flags & BUTTON))
 	{
@@ -266,7 +266,7 @@ dpp::embed CApplyVoteManager::CClanVote::GenerateEmbed()
 	return Embed;
 }
 
-std::optional<SBirthDate> CApplyVoteManager::ParseBirthday(const std::string &Input)
+std::optional<SBirthDate> CApplyVoteManager::ParseBirthday(const std::string &Input) const
 {
 	std::tm TimeStruct = {};
 	std::istringstream Stream(Input);

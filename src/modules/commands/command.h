@@ -8,6 +8,6 @@
 class ICommand : public IModule
 {
 public:
-	virtual void Execute(CConsole::IResult &Result) = 0;
+	virtual void Execute(const CConsole::IResult &Result) = 0;
 	const std::string Name() const override { return "icommand"; }
 };

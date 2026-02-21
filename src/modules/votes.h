@@ -86,11 +86,11 @@ public:
 	const std::string Name() const override { return "apply_vote_manager"; }
 
 	//NOTE: events handler for dpp like form or buttons
-	void ButtonClick(CConsole::IResult Result);
-	void FormSubmit(CConsole::IResult Result);
+	void ButtonClick(const CConsole::IResult &Result);
+	void FormSubmit(const CConsole::IResult &Result);
 
 private:
-	std::optional<SBirthDate> ParseBirthday(const std::string &Input);
+	std::optional<SBirthDate> ParseBirthday(const std::string &Input) const;
 	std::optional<int> CalculateAge(const SBirthDate &BirthDate);
 	std::map<std::size_t, std::unique_ptr<CClanVote>> m_vpVotes;
 };

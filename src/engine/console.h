@@ -44,7 +44,7 @@ public:
 		}
 	};
 
-	using FnCallBack = std::function<void(IResult Result)>;
+	using FnCallBack = std::function<void(const IResult& Result)>;
 
 	//TODO: Add type system
 	//We have m_vParams in CCommand and Params in Register()

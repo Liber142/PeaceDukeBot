@@ -8,7 +8,7 @@ public:
 	void OnInit() override {}
 	void OnConsoleInit() override;
 
-	void Execute(CConsole::IResult &Result) override;
+	void Execute(const CConsole::IResult &Result) override;
 
 	const std::string Name() const override { return "apply"; }
 
