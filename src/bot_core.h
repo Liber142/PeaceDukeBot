@@ -5,6 +5,7 @@
 #include "modules/clan_member_manager.h"
 #include "modules/command_handler.h"
 #include "modules/votes.h"
+#include "modules/find_tas.h"
 
 #include <memory>
 
@@ -38,6 +39,7 @@ public:
 	CCommandHandler m_CommandHandler;
 	CClanMemberManager m_ClanMemberManager;
 	CApplyVoteManager m_ClanVoteManager;
+	CFindTas m_FindTas;
 
 private:
 	std::vector<class IModule *> m_vpModules;
