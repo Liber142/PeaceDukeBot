@@ -22,6 +22,7 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_vpModules.insert(m_vpModules.end(), {&m_CommandHandler,
 						      &m_ClanMemberManager,
 						      &m_ClanVoteManager, 
+							  &m_Music,
 							  &m_FindTas});
 
 	for(const auto &pModule : m_vpModules)
