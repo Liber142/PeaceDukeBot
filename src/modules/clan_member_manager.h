@@ -15,5 +15,7 @@ public:
 	void KickClanMember(dpp::snowflake Id);
 
 private:
+	void ChangeNick(const SUserData &Member);
+	void ChangeRole(const SUserData &Member);
 	dpp::snowflake m_ClanGuildId;
 };

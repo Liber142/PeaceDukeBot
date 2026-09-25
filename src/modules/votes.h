@@ -7,8 +7,8 @@
 
 enum class EVoteOptions : int
 {
-	NO = 0,
-	YES = 1,
+	NO,
+	YES,
 };
 
 class IVoteManager : public IModule

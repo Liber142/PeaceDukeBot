@@ -39,6 +39,10 @@ set(MODULES_SRC
     src/modules/clan_member_manager.cpp
     src/modules/votes.h
     src/modules/votes.cpp
+    src/modules/music.h
+    src/modules/music.cpp
+    src/modules/find_tas.h
+    src/modules/find_tas.cpp
 )
 
 set(BOT_SRC
@@ -81,10 +85,19 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/
 find_package(DPP REQUIRED)
 find_package(replxx REQUIRED)
 find_package(Threads REQUIRED)
+find_package(cpr REQUIRED)
+find_package(TBB REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(MPG123 REQUIRED IMPORTED_TARGET libmpg123)
 
 target_link_libraries(${PROJECT_NAME} 
 	${DPP_LIBRARIES}
     replxx::replxx
+    cpr::cpr
+    TBB::tbb
+    PkgConfig::MPG123
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

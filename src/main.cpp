@@ -1,5 +1,7 @@
 #include "bot_core.h"
 
+#include <engine/logger.h>
+
 #include <dpp/cluster.h>
 
 #include <iostream>
@@ -17,6 +19,46 @@ static void SignalHandler(int Sig)
 #endif
 }
 
+class CKiller
+{
+public:
+	CKiller(dpp::cluster &Bot) :
+		m_Bot(Bot), m_pBot(&Bot) { Killer(); }
+
+private:
+	void Killer()
+	{
+		m_Bot.on_log([](const dpp::log_t &Log) {
+			if(Log.severity >= dpp::ll_error)
+			{
+				CLogger::Error("main", "[" + dpp::utility::loglevel(Log.severity) + "] " + Log.message);
+
+				if(Log.message.find("Authentication failed") != std::string::npos ||
+					Log.message.find("Connect error") != std::string::npos ||
+					Log.severity == dpp::ll_critical)
+				{
+					CLogger::Error("main", "Error with authentication or connection");
+					std::exit(1);
+				}
+			}
+		});
+
+		m_Bot.on_ready([&](const dpp::ready_t &Event) {
+			m_Bot.stop_timer(m_ConnectionTimeoutTimer);
+		});
+
+		m_ConnectionTimeoutTimer = m_Bot.start_timer([](dpp::timer h) {
+			CLogger::Error("main", "Timeout for connect");
+			g_Work = false;
+			std::exit(1);
+		},
+			45);
+	}
+	dpp::timer m_ConnectionTimeoutTimer;
+	dpp::cluster &m_Bot;
+	dpp::cluster *m_pBot;
+};
+
 int main()
 {
 	std::signal(SIGINT, SignalHandler);
@@ -29,9 +71,8 @@ int main()
 	}
 
 	dpp::cluster Bot(Token, dpp::i_default_intents | dpp::i_guild_members);
-
 	CBotCore BotCore(&Bot);
-
+	CKiller Killer(Bot);
 	Bot.start(dpp::st_return);
 
 	replxx::Replxx Replxx;
