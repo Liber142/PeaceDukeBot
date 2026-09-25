@@ -26,7 +26,7 @@ void CClanMemberManager::AddClanMember(SUserData Member)
 
 void CClanMemberManager::ChangeNick(const SUserData &Member)
 {
-	const auto& GuildId = Config()->DEFAULT_GUILD_ID;
+	const auto &GuildId = Config()->DEFAULT_GUILD_ID;
 	Bot()->guild_get_member(GuildId, Member.m_Id, [this, &GuildId, &Member](const dpp::confirmation_callback_t &Callback) {
 		if(Callback.is_error())
 		{
@@ -43,7 +43,7 @@ void CClanMemberManager::ChangeNick(const SUserData &Member)
 					CLogger::Error(Name(), Callback.get_error().human_readable);
 					return;
 				}
-			 });
+			});
 		}
 	});
 }

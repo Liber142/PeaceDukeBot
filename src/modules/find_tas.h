@@ -1,9 +1,11 @@
 #pragma once
 #include "module.h"
+
 #include <dpp/json.h>
+
+#include <string>
 #include <unordered_map>
 #include <vector>
-#include <string>
 
 class CFindTas : public IModule
 {
@@ -16,13 +18,15 @@ public:
 		int m_Rank;
 	};
 
-	struct CPlayer 
+	struct CPlayer
 	{
 		std::string m_Nick;
 		std::vector<CFinish> m_Finishes;
 	};
 
-	struct CMap {};
+	struct CMap
+	{
+	};
 
 	void OnInit() override;
 	void OnConsoleInit() override;
@@ -47,4 +51,3 @@ private:
 
 	std::unordered_map<std::string, CPlayer> m_CachePlayer;
 };
-
