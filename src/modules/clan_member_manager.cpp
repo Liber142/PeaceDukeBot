@@ -21,6 +21,7 @@ void CClanMemberManager::AddClanMember(SUserData Member)
 
 	ChangeRole(Member);
 	ChangeNick(Member);
+	Member.m_Clan = Config()->ClanTag;
 	DataBase()->Save("clan_members", Member.m_Id, Member);
 }
 
@@ -69,7 +70,4 @@ void CClanMemberManager::ChangeRole(const SUserData &Member)
 			return;
 		}
 	});
-	Member.m_Clan = Config()->ClanTag;
-
-	DataBase()->Save("clan_members", Member.m_Id, Member);
 }
