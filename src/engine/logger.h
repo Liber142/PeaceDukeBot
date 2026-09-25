@@ -51,10 +51,10 @@ public:
 	static void Info(const std::string &From, const std::string &Info) { Log(LogLevel::INFO, From, Info); }
 	static void Error(const std::string &From, const std::string &Info) { Log(LogLevel::ERROR, From, Info); }
 	static void Warning(const std::string &From, const std::string &Info) { Log(LogLevel::WARNING, From, Info); }
-	static void Debug(const std::string &From, const std::string &Info) 
+	static void Debug(const std::string &From, const std::string &Info)
 	{
 #ifndef NDEBUG
-		Log(LogLevel::DEBUG, From, Info); 
+		Log(LogLevel::DEBUG, From, Info);
 #endif
 	}
 
