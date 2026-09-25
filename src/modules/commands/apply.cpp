@@ -6,7 +6,7 @@
 #include <bot_core.h>
 #include <dpp/cluster.h>
 
-void CApplyCommand::OnConsoleInit()
+void CApplyCommand::OnInit()
 {
 	if(!BotCore())
 	{
@@ -19,7 +19,11 @@ void CApplyCommand::OnConsoleInit()
 		Bot()->me.id);
 
 	Bot()->global_command_create(Command);
-	Console()->Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, Command.description);
+}
+
+void CApplyCommand::OnConsoleInit()
+{
+	Console()->Register(Name(), {}, SLASH_COMMAND, [this](CConsole::IResult Result) { Execute(Result); }, "Создаст сообщение с кнопкой для подачи заявки");
 	Console()->Register(Name() + "_button", {}, BUTTON, [this](CConsole::IResult Result) { Execute(Result); }, "Ответит модалкой на кнопку");
 }
 

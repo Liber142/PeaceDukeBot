@@ -5,7 +5,7 @@
 class CApplyCommand : public ICommand
 {
 public:
-	void OnInit() override {}
+	void OnInit() override; 
 	void OnConsoleInit() override;
 
 	void Execute(CConsole::IResult &Result) override;
