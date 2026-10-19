@@ -1,0 +1,26 @@
+services:
+  proxy:
+    build: ./proxy
+    restart: unless-stopped
+    cap_add: [NET_ADMIN]
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ${HOME}/.local/share/PeaceDukeBot/data:/data:ro
+    healthcheck:
+      test: ["CMD-SHELL", "ip link show tun0 >/dev/null 2>&1"]
+      interval: 3s
+      retries: 20
+
+  peace_duke_bot:
+    image: peace_duke_bot
+    network_mode: "service:proxy"
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    depends_on:
+      proxy:
+        condition: service_healthy
+    env_file: ${HOME}/.local/share/PeaceDukeBot/.env
+    volumes:
+      - ${HOME}/.local/share/PeaceDukeBot/data:/PeaceDukeBot/data

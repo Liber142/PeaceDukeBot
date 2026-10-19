@@ -2,3 +2,5 @@ build/
 .obsidian/
 src/.cache/
 .cache/
+data/
+compile_commands.json
