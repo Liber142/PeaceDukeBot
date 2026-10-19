@@ -100,10 +100,11 @@ void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
 		return;
 	}
 
+	auto VoterId = Result.m_Event->command.get_issuing_user().id;
 	if(Result.GetString(1) == "yes")
-		m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::YES);
+		m_vpVotes[Result.GetInt(0)]->AddVote(VoterId, EVoteOptions::YES);
 	else if(Result.GetString(1) == "no")
-		m_vpVotes[Result.GetInt(0)]->AddVote(Result.m_Event->command.get_issuing_user().id, EVoteOptions::NO);
+		m_vpVotes[Result.GetInt(0)]->AddVote(VoterId, EVoteOptions::NO);
 	Result.m_Event->reply();
 
 	if(m_vpVotes.contains(Result.GetInt(0)))

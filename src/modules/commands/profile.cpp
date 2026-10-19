@@ -37,7 +37,7 @@ void CProfileCommand::Execute(CConsole::IResult &Result)
 	if(Result.m_Flags & SLASH_COMMAND)
 	{
 		const auto *Event = dynamic_cast<const dpp::slashcommand_t *>(Result.m_Event);
-		if(Event)
+		if(!Event)
 		{
 			CLogger::Error(Name(), "Wrong result");
 			Result.m_Event->reply("Ooops... error");
