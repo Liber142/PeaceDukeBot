@@ -1,12 +1,18 @@
 #include "votes.h"
 
+#include "find_tas.h"
+
 #include <engine/config.h>
 #include <engine/database.h>
 
 #include <bot_core.h>
+#include <cpr/cpr.h>
 #include <dpp/dpp.h>
 
 #include <chrono>
+#include <format>
+#include <iterator>
+#include <ranges>
 
 void CApplyVoteManager::OnModuleInit(CBotCore *pBotCore)
 {
@@ -40,7 +46,13 @@ void CApplyVoteManager::OnConsoleInit()
 #ifndef NDEBUG
 	Console()->Register("update_vote", {}, 0, [this](CConsole::IResult Result) {
 		for(const auto& [Key, Vote] : m_vpVotes)
-			Vote->SyncMessage(); }, "Update messsage for vote");
+		{
+			try {
+				Vote->SyncMessage(); 
+			} catch (std::exception *e) {
+				CLogger::Error(Name(), e->what());	
+			}
+		} }, "Update messsage for vote");
 #endif
 }
 
@@ -60,6 +72,8 @@ void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
 		return;
 	}
 
+	Result.m_Event->thinking(true);
+
 	SUserData User;
 	User.m_GameNick = Nickname;
 	User.m_BirthDay = Birthday.value();
@@ -77,7 +91,7 @@ void CApplyVoteManager::FormSubmit(CConsole::IResult Result)
 	DataBase()->Save(Name(), Id, *Vote);
 	Vote->OnFinale([this, Id]() {m_vpVotes.erase(Id); DataBase()->Erase(Name(), Id); });
 	m_vpVotes[Id] = std::move(Vote);
-	Result.m_Event->reply();
+	Result.m_Event->delete_original_response();
 }
 
 void CApplyVoteManager::ButtonClick(const CConsole::IResult Result)
@@ -195,7 +209,10 @@ void CApplyVoteManager::CClanVote::SyncMessage()
 		{
 			Bot()->message_create(GenerateMessage(), [this](const dpp::confirmation_callback_t &Callback) {
 				if(Callback.is_error())
+				{
+					CLogger::Error(Name(), Callback.get_error().human_readable);
 					return;
+				}
 				m_MessageId = std::get<dpp::message>(Callback.value).id;
 			});
 			return;
@@ -204,27 +221,46 @@ void CApplyVoteManager::CClanVote::SyncMessage()
 	});
 }
 
-dpp::message CApplyVoteManager::CClanVote::GenerateMessage()
+namespace
 {
-	dpp::message Msg(Config()->APPLY_CHANNEL_ID, GenerateEmbed());
+	void AddText(dpp::component *pBox, const std::string &Content)
+	{
+		pBox->add_component_v2(dpp::component()
+				.set_type(dpp::cot_text_display)
+				.set_content(Content));
+	}
+
+	void AddDivider(dpp::component *pBox)
+	{
+		pBox->add_component_v2(dpp::component()
+				.set_type(dpp::cot_separator)
+				.set_divider(true));
+	}
+
+	void AddButton(
+		dpp::component *pRow, const std::string &Label,
+		dpp::component_style Style, const std::string &Id)
+	{
+		pRow->add_component_v2(dpp::component()
+				.set_type(dpp::cot_button)
+				.set_label(Label)
+				.set_style(Style)
+				.set_id(Id));
+	}
+}
+
+dpp::message CApplyVoteManager::CClanVote::GenerateMessage() const
+{
+	dpp::message Msg;
+	Msg.channel_id = Config()->APPLY_CHANNEL_ID;
+	Msg.set_flags(dpp::m_using_components_v2);
+
+	dpp::component Box;
+	FillContainer(&Box);
+	Msg.add_component_v2(Box);
 
 	if(m_State == EVoteState::PENDING)
-	{
-		dpp::component ActionRow;
-		ActionRow.add_component(
-			dpp::component()
-				.set_label("Принять")
-				.set_type(dpp::cot_button)
-				.set_style(dpp::cos_success)
-				.set_id("clan_apply_vote " + std::to_string(m_Id) + " yes"));
-		ActionRow.add_component(
-			dpp::component()
-				.set_label("Отклонить")
-				.set_type(dpp::cot_button)
-				.set_style(dpp::cos_danger)
-				.set_id("clan_apply_vote " + std::to_string(m_Id) + " no"));
-		Msg.add_component(ActionRow);
-	}
+		AddButtons(&Msg);
 
 	if(m_MessageId > 0)
 		Msg.id = m_MessageId;
@@ -232,42 +268,121 @@ dpp::message CApplyVoteManager::CClanVote::GenerateMessage()
 	return Msg;
 }
 
-dpp::embed CApplyVoteManager::CClanVote::GenerateEmbed()
+void CApplyVoteManager::CClanVote::FillContainer(dpp::component *pBox) const
 {
-	dpp::user *User = dpp::find_user(m_TargetUser.m_Id);
+	const dpp::user *User = dpp::find_user(m_TargetUser.m_Id);
 	if(!User)
 		throw std::runtime_error("User not found");
 
-	dpp::embed Embed;
+	pBox->set_type(dpp::cot_container);
+	SetState(pBox, User->username);
+	AddDivider(pBox);
+	AddInfo(pBox);
+	AddDivider(pBox);
+	AddUrls(pBox);
+	AddDivider(pBox);
+	AddDeletedRanks(pBox);
 
-	Embed.set_author(User->username, "", User->get_avatar_url());
+	if(m_State == EVoteState::PENDING)
+	{
+		AddDivider(pBox);
+		AddVotes(pBox);
+	}
+}
 
-	std::string Info = "👤 **Ник:** " + m_TargetUser.m_GameNick;
-	if(m_TargetUser.m_Age.has_value())
-		Info += "  |  🎂 **Возраст:** " + std::to_string(m_TargetUser.m_Age.value());
+void CApplyVoteManager::CClanVote::SetState(
+	dpp::component *pBox, const std::string &UserName) const
+{
+	using enum EVoteState;
 
-	Embed.set_description(Info + "\n\n" + m_TargetUser.m_About);
+	uint32_t Accent = 0x5865F2;
+	std::string Title = "📩 Новая анкета";
 
 	switch(m_State)
 	{
-	case EVoteState::ACCEPTED:
-		Embed.set_color(dpp::colors::green)
-			.set_title("✅ Заявка одобрена");
+	case ACCEPTED:
+		Accent = dpp::colors::green;
+		Title = "✅ Заявка одобрена";
 		break;
-	case EVoteState::DECLINE:
-		Embed.set_color(dpp::colors::red)
-			.set_title("❌ Заявка отклонена");
+	case DECLINE:
+		Accent = dpp::colors::red;
+		Title = "❌ Заявка отклонена";
 		break;
 	default:
-		Embed.set_color(0x5865F2);
-		Embed.set_title("📩 Новая анкета");
-
-		std::string VoteBar = "✅ ` " + std::to_string(m_Yes) + " `  **|**  ❌ ` " + std::to_string(m_No) + " `";
-		Embed.add_field("\u200b", VoteBar);
 		break;
 	}
 
-	return Embed;
+	pBox->set_accent(Accent);
+	AddText(pBox, std::format("## {}\n**{}**", Title, UserName));
+}
+
+void CApplyVoteManager::CClanVote::AddInfo(dpp::component *pBox) const
+{
+	const std::string Info = [this] {
+		std::string Info = std::format(
+			"👤 **Ник:** {}", m_TargetUser.m_GameNick);
+		if(m_TargetUser.m_Age.has_value())
+			Info += std::format("  |  🎂 **Возраст:** {}", *m_TargetUser.m_Age);
+		return Info + "\n" + m_TargetUser.m_About;
+	}();
+
+	AddText(pBox, Info);
+}
+
+void CApplyVoteManager::CClanVote::AddUrls(dpp::component *pBox) const
+{
+	const std::string Urls = [this] {
+		cpr::CurlHolder Holder;
+		std::stringstream Nick;
+		Nick << Holder.urlEncode(m_TargetUser.m_GameNick);
+
+		return std::format(
+			"[DDNet](https://ddnet.org/players/{0})\n"
+			"[DDStats](https://ddstats.tw/player/{0})",
+			Nick.str());
+	}();
+
+	AddText(pBox, Urls);
+}
+
+void CApplyVoteManager::CClanVote::AddDeletedRanks(dpp::component *pBox) const
+{
+	constexpr int MaxShow = 5;
+
+	const std::string &Nick = m_TargetUser.m_GameNick;
+	const auto &Finishes = BotCore()->m_FindTas.Player(Nick).m_Finishes;
+
+	const std::string Ranks = [&Finishes] {
+		const auto Total = std::ssize(Finishes);
+
+		std::string Ranks = std::format("**Удалённые карты** {}", Total);
+
+		for(int i = 0; i < MaxShow && i < Total; i++)
+			Ranks += "\n- " + Finishes[i].m_Name;
+
+		if(Total > MaxShow)
+			Ranks += std::format("\n- ... ещё {}", Total - MaxShow);
+
+		return Ranks;
+	}();
+
+	AddText(pBox, Ranks);
+}
+
+void CApplyVoteManager::CClanVote::AddVotes(dpp::component *pBox) const
+{
+	AddText(pBox, std::format("✅ ` {} `  **|**  ❌ ` {} `", m_Yes, m_No));
+}
+
+void CApplyVoteManager::CClanVote::AddButtons(dpp::message *pMsg) const
+{
+	const std::string Id = std::format("apply_vote_manager_button {}", m_Id);
+
+	dpp::component Row;
+	Row.set_type(dpp::cot_action_row);
+	AddButton(&Row, "Принять", dpp::cos_success, Id + " yes");
+	AddButton(&Row, "Отклонить", dpp::cos_danger, Id + " no");
+	pMsg->add_component_v2(Row);
 }
 
 std::optional<SBirthDate> CApplyVoteManager::ParseBirthday(const std::string &Input)

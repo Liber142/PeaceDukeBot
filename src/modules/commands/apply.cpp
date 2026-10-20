@@ -54,7 +54,7 @@ dpp::message CApplyCommand::Message() const
 
 dpp::interaction_modal_response CApplyCommand::Modal() const
 {
-	dpp::interaction_modal_response Modal("clan_apply", "Заявка в клан");
+	dpp::interaction_modal_response Modal("apply_vote_manager_form", "Заявка в клан");
 
 	Modal.add_component(
 		dpp::component()
