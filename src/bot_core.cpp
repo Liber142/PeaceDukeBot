@@ -32,14 +32,17 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	}
 
 	m_pBot->on_button_click([this](const dpp::button_click_t &Event) {
+		CLogger::Debug("botcore", Event.custom_id);
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
 	m_pBot->on_slashcommand([this](const dpp::slashcommand_t &Event) {
+		CLogger::Debug("botcore", Event.command.get_command_name());
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
 	m_pBot->on_form_submit([this](const dpp::form_submit_t &Event) {
+		CLogger::Debug("botcore", Event.custom_id);
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
