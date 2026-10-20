@@ -16,7 +16,7 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	m_pDataBase(std::make_unique<CJsonDataBase>()),
 	m_pConsole(std::make_unique<CConsole>())
 {
-	m_pDataBase->Connect("db");
+	m_pDataBase->Connect("data/db");
 	m_pConfig->OnInit(m_pConsole.get());
 
 	m_vpModules.insert(m_vpModules.end(), {&m_CommandHandler,
@@ -31,14 +31,17 @@ CBotCore::CBotCore(dpp::cluster *pBot) :
 	ConsoleInit();
 
 	m_pBot->on_button_click([this](const dpp::button_click_t &Event) {
+		CLogger::Debug("botcore", Event.custom_id);
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
 	m_pBot->on_slashcommand([this](const dpp::slashcommand_t &Event) {
+		CLogger::Debug("botcore", Event.command.get_command_name());
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
 	m_pBot->on_form_submit([this](const dpp::form_submit_t &Event) {
+		CLogger::Debug("botcore", Event.custom_id);
 		m_pConsole->ExecuteInteraction(Event);
 	});
 
@@ -52,7 +55,8 @@ CBotCore::~CBotCore() = default;
 void CBotCore::Init()
 {
 	CLogger::Info("botcore", m_pBot->me.format_username() + " ready!");
-	CLogger::Info("botcore", "githash: " + std::string(GIT_SHORTREV_HASH));
+	const char *pHash = GIT_SHORTREV_HASH ? GIT_SHORTREV_HASH : "unknown";
+	CLogger::Info("botcore", "githash: " + std::string(pHash));
 	CLogger::Info("botcore", "Initial modules");
 
 	for(const auto &pModule : m_vpModules)

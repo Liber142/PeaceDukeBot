@@ -31,20 +31,12 @@ public:
 	void OnInit() override;
 	void OnConsoleInit() override;
 
-	void PrintPlayer(const CPlayer &Player) const;
-	void PrintMap(const CMap &Map) const;
-	void CheckPlayer(const std::string &Nick);
-	void CheckClan();
-	bool IsTas(const CFinish &Finish);
+	const CPlayer Player(const std::string &Nick);
 
 	const std::string Name() const override { return "find_tas"; }
 
 private:
-	void FindPlayer(const std::string &Nick);
-	void FindMap(const std::string &MapName);
-
 	CPlayer GetPlayer(const std::string &Nick);
-	CMap GetMap(const std::string &MapName);
 
 	CFinish from_json(const nlohmann::json &j, const CFinish &Type) const;
 	CPlayer from_json(const nlohmann::json &j, const CPlayer &Type) const;

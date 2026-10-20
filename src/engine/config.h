@@ -11,7 +11,7 @@
 
 class CConfig
 {
-	std::string CONFIG_FILE = "config.cfg";
+	std::string CONFIG_FILE = "data/config.cfg";
 
 public:
 #define MACRO_CONFIG_SNOWFLAKE(Name, ScriptName, def, save, desc) \
@@ -77,7 +77,7 @@ public:
 		std::string name = ScriptName; \
 		if(this->Name != def && (save & CFGFLAG_SAVE)) \
 		{ \
-			File << name << " " << this->Name << "\n"; \
+			File << name << " \"" << this->Name << "\"\n"; \
 		} \
 	}
 

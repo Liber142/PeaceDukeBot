@@ -56,8 +56,17 @@ public:
 		std::function<void()> m_CallBack;
 
 		void SyncMessage();
-		dpp::message GenerateMessage();
-		dpp::embed GenerateEmbed();
+
+		dpp::message GenerateMessage() const;
+
+		void FillContainer(dpp::component *pBox) const;
+		void SetState(dpp::component *pBox, const std::string &UserName) const;
+		void AddInfo(dpp::component *pBox) const;
+		void AddUrls(dpp::component *pBox) const;
+		void AddDeletedRanks(dpp::component *pBox) const;
+		void AddVotes(dpp::component *pBox) const;
+		void AddButtons(dpp::message *pMsg) const;
+		void SetState(dpp::component *pBox, const std::string &UserName);
 
 		void FinaleVote();
 
