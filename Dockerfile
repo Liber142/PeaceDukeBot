@@ -37,10 +37,6 @@ RUN git clone https://github.com/brainboxdotcc/DPP.git /tmp/dpp \
 WORKDIR /src
 COPY . .
 
-ARG WT=docker
-COPY --from=gitdir . /gitdir
-ENV GIT_DIR=/gitdir/worktrees/${WT}
-
 RUN cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release \
  && cmake --build build --target discord-bot \
  && strip build/discord-bot
@@ -57,14 +53,11 @@ RUN apt-get update \
 COPY --from=build /usr/local/lib/ /usr/local/lib/
 RUN ldconfig
 
-RUN useradd --system --uid 10001 --user-group --no-create-home bot \
- && mkdir -p /PeaceDukeBot/data \
- && chown -R bot:bot /PeaceDukeBot
+RUN  mkdir -p /PeaceDukeBot/data
 
 WORKDIR /PeaceDukeBot
 COPY --from=build --chmod=755 /src/build/discord-bot /PeaceDukeBot/discord-bot
 
 RUN ! ldd /PeaceDukeBot/discord-bot | grep "not found"
 
-USER bot
 CMD ["/PeaceDukeBot/discord-bot"]
