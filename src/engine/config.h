@@ -77,7 +77,7 @@ public:
 		std::string name = ScriptName; \
 		if(this->Name != def && (save & CFGFLAG_SAVE)) \
 		{ \
-			File << name << " " << this->Name << "\n"; \
+			File << name << " \"" << this->Name << "\"\n"; \
 		} \
 	}
 
