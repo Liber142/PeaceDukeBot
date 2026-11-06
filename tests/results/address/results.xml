@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="65"
+	failures="23"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="8"
+	timestamp="2026-11-06T14:28:11"
+	>
+	<testcase name="unit.console.registration" classname="unit.console.registration" time="0.0426631" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: a[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: a[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 7 | 7 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.console.parser" classname="unit.console.parser" time="0.00892929" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases:  1 |  1 passed | 0 failed | 58 skipped
+[doctest] assertions: 16 | 16 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.console.integer_conversion" classname="unit.console.integer_conversion" time="0.00974924" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases:  1 |  1 passed | 0 failed | 58 skipped
+[doctest] assertions: 21 | 21 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.console.files" classname="integration.console.files" time="0.0110663" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 2 | 2 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.console.interactions" classname="unit.console.interactions" time="0.0210799" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 8 | 8 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.config.defaults_and_roundtrip" classname="integration.config.defaults_and_roundtrip" time="0.0146645" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] role_id: 1844674407370955161...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.serialization.user_and_optional" classname="unit.serialization.user_and_optional" time="0.0105324" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 8 | 8 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.logger.levels" classname="unit.logger.levels" time="0.0111682" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 4 | 4 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.database.crud_and_persistence" classname="integration.database.crud_and_persistence" time="1.5173" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 8 | 8 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.database.invalid_json_and_types" classname="integration.database.invalid_json_and_types" time="0.516009" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:13 [err] database: [json.exception.type_error.304] cannot use at() with number[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 5 | 5 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.database.key_generation" classname="integration.database.key_generation" time="1.01636" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 5 | 5 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.database.readonly_save_erase" classname="integration.database.readonly_save_erase" time="0.515244" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:14 [err] database: Can't write to database: ReadOnly mode[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:14 [err] database: Can't erase from database: ReadOnly mode[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 3 | 3 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.database.malformed_keys" classname="integration.database.malformed_keys" time="0.512647" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:15 [err] database: stoull[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:15 [err] database: stoull[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 3 | 3 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.database.unwritable_path" classname="integration.database.unwritable_path" time="0.0141942" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 2 | 2 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="stress.database.parallel_writers" classname="stress.database.parallel_writers" time="0.51753" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 3 | 3 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.core.initialization_and_commands" classname="integration.core.initialization_and_commands" time="0.52055" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.members.events_and_moderators" classname="integration.members.events_and_moderators" time="0.513936" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.members.add_clan_member" classname="integration.members.add_clan_member" time="0.512464" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.members.api_errors" classname="integration.members.api_errors" time="0.512607" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.apply.uninitialized_init" classname="unit.apply.uninitialized_init" time="0.014581" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][36m2026-11-06 14:28:16 [dbg] apply: BotCoree is nullptr[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 1 | 1 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.apply.message_modal_dispatch" classname="integration.apply.message_modal_dispatch" time="0.513783" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.profile.slash_found_missing_self" classname="integration.profile.slash_found_missing_self" time="0.513569" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.profile.render_optional_fields" classname="unit.profile.render_optional_fields" time="0.0113145" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 6 | 6 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.profile.console_and_wrong_event" classname="integration.profile.console_and_wrong_event" time="0.515848" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.profile.target_user" classname="unit.profile.target_user" time="0.00999694" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 2 | 2 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.findtas.parse_cache_and_errors" classname="unit.findtas.parse_cache_and_errors" time="0.0133258" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][33m2026-11-06 14:28:16 [wrn] find_tas: Missing map name[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][33m2026-11-06 14:28:16 [wrn] find_tas: Missing country[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] find_tas: [json.exception.parse_error.101] parse error at line 1, column 2: syntax error while parsing object key - invalid literal; last read: '{b'; expected string literal[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] find_tas: [json.exception.type_error.302] type must be string, but is number[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases:  1 |  1 passed | 0 failed | 58 skipped
+[doctest] assertions: 13 | 13 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.votes.birthday_valid_and_invalid" classname="unit.votes.birthday_valid_and_invalid" time="0.00977685" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] apply_vote_manager: Stream.fail()[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] apply_vote_manager: Stream.fail()[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] apply_vote_manager: Stream.fail()[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] apply_vote_manager: Stream.fail()[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] apply_vote_manager: Stream.fail()[NON-XML-CHAR-0x1B][0m
+===============================================================================
+[doctest] test cases:  1 |  1 passed | 0 failed | 58 skipped
+[doctest] assertions: 19 | 19 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="unit.votes.age_boundaries" classname="unit.votes.age_boundaries" time="0.0128945" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 4 | 4 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="integration.votes.form_validation" classname="integration.votes.form_validation" time="0.512769" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.votes.form_and_restore" classname="integration.votes.form_and_restore" time="0.513459" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.votes.duplicate_change_and_finale" classname="integration.votes.duplicate_change_and_finale" time="0.511343" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.votes.tie_declines" classname="integration.votes.tie_declines" time="0.514763" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.votes.button_permissions_missing_vote" classname="integration.votes.button_permissions_missing_vote" time="0.519179" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.votes.render_and_api_failure" classname="unit.votes.render_and_api_failure" time="0.539189" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.music.register_and_ignore_non_slash" classname="integration.music.register_and_ignore_non_slash" time="0.512145" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:15 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.votes.render_long_deleted_rank_list" classname="unit.votes.render_long_deleted_rank_list" time="0.512825" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.votes.button_record_and_change" classname="integration.votes.button_record_and_change" time="0.512158" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:14 [inf] console: Register command: e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="unit.modules.names_and_empty_hooks" classname="unit.modules.names_and_empty_hooks" time="0.00902422" status="run">
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+[doctest] test cases: 1 | 1 passed | 0 failed | 58 skipped
+[doctest] assertions: 6 | 6 passed | 0 failed |
+[doctest] Status: SUCCESS!
+</system-out>
+	</testcase>
+	<testcase name="regression.console.empty_quoted_argument" classname="regression.console.empty_quoted_argument" time="0.0221719" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:5:
+TEST CASE:  regression.console.empty_quoted_argument
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:5: ERROR: CHECK( args==std::vector&lt;std::string&gt;{"","tail"} ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.console.trailing_escape" classname="regression.console.trailing_escape" time="0.0554755" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>=================================================================
+==14224==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f7b1bf04a10 at pc 0x55fa5efe309e bp 0x7fffe1e8ec50 sp 0x7fffe1e8ec48
+READ of size 1 at 0x7f7b1bf04a10 thread T0
+    #0 0x55fa5efe309d in CConsole::ParseLine(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /workspace/PeaceDukeBot/src/engine/console.cpp:158
+    #1 0x55fa5efe1e73 in CConsole::ExecuteLine(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;&amp;) /workspace/PeaceDukeBot/src/engine/console.cpp:97
+    #2 0x55fa5ee4024f in line(CConsole&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;) /workspace/PeaceDukeBot/tests/support.h:19
+    #3 0x55fa5eefa997 in DOCTEST_ANON_FUNC_4 /workspace/PeaceDukeBot/tests/regression_tests.cpp:6
+    #4 0x55fa5edd2676 in doctest::Context::run() /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7007
+    #5 0x55fa5edd4241 in main /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7085
+    #6 0x7f7b1dceeca7  (/lib/x86_64-linux-gnu/libc.so.6+0x29ca7) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #7 0x7f7b1dceed64 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29d64) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #8 0x55fa5eda5fd0 in _start (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x74fd0) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+
+Address 0x7f7b1bf04a10 is located in stack of thread T0 at offset 528 in frame
+    #0 0x55fa5eefa484 in DOCTEST_ANON_FUNC_4 /workspace/PeaceDukeBot/tests/regression_tests.cpp:6
+
+  This frame has 12 object(s):
+    [48, 49) '&lt;unknown&gt;'
+    [64, 65) '&lt;unknown&gt;'
+    [80, 81) '&lt;unknown&gt;'
+    [96, 97) '&lt;unknown&gt;'
+    [112, 136) 'c' (line 6)
+    [176, 200) '&lt;unknown&gt;'
+    [240, 264) '&lt;unknown&gt;'
+    [304, 336) '&lt;unknown&gt;'
+    [368, 400) '&lt;unknown&gt;'
+    [432, 464) '&lt;unknown&gt;'
+    [496, 528) '&lt;unknown&gt;' &lt;== Memory access at offset 528 overflows this variable
+    [560, 704) 'DOCTEST_RB' (line 6)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow /workspace/PeaceDukeBot/src/engine/console.cpp:158 in CConsole::ParseLine(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;)
+Shadow bytes around the buggy address:
+  0x7f7b1bf04780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f7b1bf04800: f1 f1 f1 f1 f1 f1 f8 f2 f8 f2 f8 f2 01 f2 00 00
+  0x7f7b1bf04880: 00 f2 f2 f2 f2 f2 f8 f8 f8 f2 f2 f2 f2 f2 f8 f8
+  0x7f7b1bf04900: f8 f2 f2 f2 f2 f2 f8 f8 f8 f8 f2 f2 f2 f2 f8 f8
+  0x7f7b1bf04980: f8 f8 f2 f2 f2 f2 f8 f8 f8 f8 f2 f2 f2 f2 00 00
+=&gt;0x7f7b1bf04a00: 00 00[f2]f2 f2 f2 00 00 00 00 00 00 00 00 00 00
+  0x7f7b1bf04a80: 00 00 00 00 00 00 00 00 f3 f3 f3 f3 f3 f3 f3 f3
+  0x7f7b1bf04b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f7b1bf04b80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f7b1bf04c00: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+  0x7f7b1bf04c80: f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5 f5
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==14224==ABORTING
+</system-out>
+	</testcase>
+	<testcase name="regression.console.dispatch_respects_flags" classname="regression.console.dispatch_respects_flags" time="0.020544" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:7:
+TEST CASE:  regression.console.dispatch_respects_flags
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:7: ERROR: CHECK( slash==1 ) is NOT correct!
+  values: CHECK( 0 == 1 )
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:7: ERROR: CHECK( button==0 ) is NOT correct!
+  values: CHECK( 1 == 0 )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 2 | 0 passed | 2 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.console.zero_flag_duplicate" classname="regression.console.zero_flag_duplicate" time="0.0144006" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: x[NON-XML-CHAR-0x1B][0m
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:8:
+TEST CASE:  regression.console.zero_flag_duplicate
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:8: ERROR: CHECK( c.GetAllCommands().size()==1 ) is NOT correct!
+  values: CHECK( 2 == 1 )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.config.escaped_string_roundtrip" classname="regression.config.escaped_string_roundtrip" time="0.0215325" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] about: quote [NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:11 [err] console: Command not found: end[NON-XML-CHAR-0x1B][0m
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:9:
+TEST CASE:  regression.config.escaped_string_roundtrip
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:9: ERROR: CHECK( c.About==expected ) is NOT correct!
+  values: CHECK( quote  == quote " slash \ newline
+end )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.config.negative_id_rejected" classname="regression.config.negative_id_rejected" time="0.0141863" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:11 [inf] role_id: 18446744073709551615[NON-XML-CHAR-0x1B][0m
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:10:
+TEST CASE:  regression.config.negative_id_rejected
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:10: ERROR: CHECK( cfg.ROLE_ID==before ) is NOT correct!
+  values: CHECK( 18446744073709551615 == 1000 )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.database.unconnected_destructor" classname="regression.database.unconnected_destructor" time="0.00893973" status="fail">
+		<failure message="Subprocess aborted"/>
+		<properties/>
+		<system-out>terminate called after throwing an instance of 'std::system_error'
+  what():  Invalid argument
+</system-out>
+	</testcase>
+	<testcase name="regression.database.readonly_does_not_rewrite" classname="regression.database.readonly_does_not_rewrite" time="1.01539" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:12:
+TEST CASE:  regression.database.readonly_does_not_rewrite
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:12: ERROR: CHECK( read_file("db.json")==original ) is NOT correct!
+  values: CHECK( {"a":{"1":42}} == {
+  "a": {"1": 42}
+}
+ )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.database.readonly_missing_does_not_create" classname="regression.database.readonly_missing_does_not_create" time="0.0129505" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:13:
+TEST CASE:  regression.database.readonly_missing_does_not_create
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:13: ERROR: CHECK_FALSE( fs::exists("missing.json") ) is NOT correct!
+  values: CHECK_FALSE( true )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.database.readonly_key_generation" classname="regression.database.readonly_key_generation" time="0.515105" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:14:
+TEST CASE:  regression.database.readonly_key_generation
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:14: ERROR: CHECK_THROWS_AS( db.GenerateNewKey("a"), std::logic_error ) did NOT throw at all!
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.database.shutdown_flush" classname="regression.database.shutdown_flush" time="0.013844" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:15:
+TEST CASE:  regression.database.shutdown_flush
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:15: ERROR: CHECK( db.Load&lt;int&gt;("x",1)==42 ) is NOT correct!
+  values: CHECK( {?} == 42 )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.database.strict_numeric_keys" classname="regression.database.strict_numeric_keys" time="0.520912" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:16:
+TEST CASE:  regression.database.strict_numeric_keys
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:16: ERROR: CHECK( db.GetKeys("a")==std::vector&lt;size_t&gt;{2} ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.database.large_key" classname="regression.database.large_key" time="0.513256" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:17:
+TEST CASE:  regression.database.large_key
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:17: ERROR: CHECK( db.GenerateNewKey("a")==size_t(2147483648ULL) ) is NOT correct!
+  values: CHECK( 18446744071562067968 == 2147483648 )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 2 | 1 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.votes.invalid_calendar_dates" classname="regression.votes.invalid_calendar_dates" time="0.0100655" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18:
+TEST CASE:  regression.votes.invalid_calendar_dates
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18: ERROR: CHECK_FALSE( m.ParseBirthday(s) ) is NOT correct!
+  values: CHECK_FALSE( {?} )
+  logged: 0x561d76dc6420
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18: ERROR: CHECK_FALSE( m.ParseBirthday(s) ) is NOT correct!
+  values: CHECK_FALSE( {?} )
+  logged: 0x561d76dc6460
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18: ERROR: CHECK_FALSE( m.ParseBirthday(s) ) is NOT correct!
+  values: CHECK_FALSE( {?} )
+  logged: 0x561d76dc64a0
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18: ERROR: CHECK_FALSE( m.ParseBirthday(s) ) is NOT correct!
+  values: CHECK_FALSE( {?} )
+  logged: 0x561d76dc64e0
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18: ERROR: CHECK_FALSE( m.ParseBirthday(s) ) is NOT correct!
+  values: CHECK_FALSE( {?} )
+  logged: 0x561d76dc6520
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:18: ERROR: CHECK_FALSE( m.ParseBirthday(s) ) is NOT correct!
+  values: CHECK_FALSE( {?} )
+  logged: 0x561d76dc6560
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 6 | 0 passed | 6 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.profile.absent_optional_target" classname="regression.profile.absent_optional_target" time="0.0123348" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:19:
+TEST CASE:  regression.profile.absent_optional_target
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:19: ERROR: CHECK_NOTHROW( p.GetTargetUser(&amp;e) ) THREW exception: "std::get: wrong index for variant"
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.findtas.http_error_is_exception" classname="regression.findtas.http_error_is_exception" time="0.00841791" status="fail">
+		<failure message="Subprocess aborted"/>
+		<properties/>
+		<system-out>terminate called without an active exception
+</system-out>
+	</testcase>
+	<testcase name="regression.music.respects_decoded_byte_count" classname="regression.music.respects_decoded_byte_count" time="0.0549019" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>=================================================================
+==14258==ERROR: AddressSanitizer: alloc-dealloc-mismatch (operator new [] vs operator delete) on 0x502000000090
+    #0 0x7fc45e955678 in operator delete(void*, unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164
+    #1 0x560c441ff138 in CMusic::DecodeMP3(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;) const /workspace/PeaceDukeBot/src/modules/music.cpp:87
+    #2 0x560c441884e2 in DOCTEST_ANON_FUNC_37 /workspace/PeaceDukeBot/tests/regression_tests.cpp:21
+    #3 0x560c44056676 in doctest::Context::run() /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7007
+    #4 0x560c44058241 in main /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7085
+    #5 0x7fc45e30fca7  (/lib/x86_64-linux-gnu/libc.so.6+0x29ca7) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #6 0x7fc45e30fd64 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29d64) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #7 0x560c44029fd0 in _start (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x74fd0) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+
+0x502000000090 is located 0 bytes inside of 8-byte region [0x502000000090,0x502000000098)
+allocated by thread T0 here:
+    #0 0x7fc45e9548d8 in operator new[](unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:98
+    #1 0x560c441ff007 in CMusic::DecodeMP3(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;) const /workspace/PeaceDukeBot/src/modules/music.cpp:71
+    #2 0x560c441884e2 in DOCTEST_ANON_FUNC_37 /workspace/PeaceDukeBot/tests/regression_tests.cpp:21
+    #3 0x560c44056676 in doctest::Context::run() /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7007
+    #4 0x560c44058241 in main /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7085
+    #5 0x7fc45e30fca7  (/lib/x86_64-linux-gnu/libc.so.6+0x29ca7) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+
+SUMMARY: AddressSanitizer: alloc-dealloc-mismatch ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164 in operator delete(void*, unsigned long)
+==14258==HINT: if you don't care about these errors you may set ASAN_OPTIONS=alloc_dealloc_mismatch=0
+==14258==ABORTING
+</system-out>
+	</testcase>
+	<testcase name="stress.database.concurrent_enumeration_and_erase" classname="stress.database.concurrent_enumeration_and_erase" time="0.133759" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>=================================================================
+==14259==ERROR: AddressSanitizer: heap-use-after-free on address 0x507000003ae8 at pc 0x5571af071f9d bp 0x7fffa667c4f0 sp 0x7fffa667c4e8
+READ of size 8 at 0x507000003ae8 thread T0
+    #0 0x5571af071f9c in std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;::size() const /usr/include/c++/14/bits/basic_string.h:1077
+    #1 0x5571af0e3f81 in bool std::operator==&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, char const*) /usr/include/c++/14/bits/basic_string.h:3775
+    #2 0x5571af281255 in CJsonDataBase::GetKeys(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /workspace/PeaceDukeBot/src/engine/json_database.cpp:115
+    #3 0x5571af19c384 in DOCTEST_ANON_FUNC_39 /workspace/PeaceDukeBot/tests/regression_tests.cpp:22
+    #4 0x5571af069676 in doctest::Context::run() /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7007
+    #5 0x5571af06b241 in main /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7085
+    #6 0x7f970d7ccca7  (/lib/x86_64-linux-gnu/libc.so.6+0x29ca7) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #7 0x7f970d7ccd64 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29d64) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #8 0x5571af03cfd0 in _start (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x74fd0) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+
+0x507000003ae8 is located 40 bytes inside of 80-byte region [0x507000003ac0,0x507000003b10)
+freed by thread T2 here:
+    #0 0x7f970de12678 in operator delete(void*, unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164
+    #1 0x5571af128291 in std::__new_allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::deallocate(std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;*, unsigned long) /usr/include/c++/14/bits/new_allocator.h:172
+    #2 0x5571af120bbf in std::allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::deallocate(std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;*, unsigned long) /usr/include/c++/14/bits/allocator.h:208
+    #3 0x5571af120bbf in std::allocator_traits&lt;std::allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt; &gt;::deallocate(std::allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;&amp;, std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;*, unsigned long) /usr/include/c++/14/bits/alloc_traits.h:550
+    #4 0x5571af120bbf in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_put_node(std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;*) /usr/include/c++/14/bits/stl_tree.h:563
+    #5 0x5571af11c315 in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_drop_node(std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;*) /usr/include/c++/14/bits/stl_tree.h:630
+    #6 0x5571af11b262 in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_erase(std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;*) /usr/include/c++/14/bits/stl_tree.h:1934
+    #7 0x5571af113aed in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::clear() /usr/include/c++/14/bits/stl_tree.h:1251
+    #8 0x5571af29d14b in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_erase_aux(std::_Rb_tree_const_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::_Rb_tree_const_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;) /usr/include/c++/14/bits/stl_tree.h:2505
+    #9 0x5571af299039 in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::erase(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /usr/include/c++/14/bits/stl_tree.h:2519
+    #10 0x5571af2948e4 in std::map&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::erase(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /usr/include/c++/14/bits/stl_map.h:1118
+    #11 0x5571af287ffc in unsigned long nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt;::erase_internal&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, 0&gt;(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /workspace/PeaceDukeBot/tests/vendor/dpp/nlohmann/json.hpp:21880
+    #12 0x5571af285f1a in nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt;::erase(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /workspace/PeaceDukeBot/tests/vendor/dpp/nlohmann/json.hpp:21910
+    #13 0x5571af280695 in CJsonDataBase::Erase(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, unsigned long) /workspace/PeaceDukeBot/src/engine/json_database.cpp:81
+    #14 0x5571af19bcbf in operator() /workspace/PeaceDukeBot/tests/regression_tests.cpp:22
+    #15 0x5571af1a4a59 in __invoke_impl&lt;void, DOCTEST_ANON_FUNC_39()::&lt;lambda()&gt; &gt; /usr/include/c++/14/bits/invoke.h:61
+    #16 0x5571af1a4a1c in __invoke&lt;DOCTEST_ANON_FUNC_39()::&lt;lambda()&gt; &gt; /usr/include/c++/14/bits/invoke.h:96
+    #17 0x5571af1a49c9 in _M_invoke&lt;0&gt; /usr/include/c++/14/bits/std_thread.h:301
+    #18 0x5571af1a499d in operator() /usr/include/c++/14/bits/std_thread.h:308
+    #19 0x5571af1a4957 in _M_run /usr/include/c++/14/bits/std_thread.h:253
+    #20 0x7f970db97223  (/lib/x86_64-linux-gnu/libstdc++.so.6+0xe1223) (BuildId: 133b71e0013695cc7832680a74edb51008c4fc4c)
+
+previously allocated by thread T2 here:
+    #0 0x7f970de11778 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x5571af1281db in std::__new_allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::allocate(unsigned long, void const*) /usr/include/c++/14/bits/new_allocator.h:151
+    #2 0x5571af1209f3 in std::allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::allocate(unsigned long) /usr/include/c++/14/bits/allocator.h:196
+    #3 0x5571af1209f3 in std::allocator_traits&lt;std::allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt; &gt;::allocate(std::allocator&lt;std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;&amp;, unsigned long) /usr/include/c++/14/bits/alloc_traits.h:515
+    #4 0x5571af1209f3 in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_get_node() /usr/include/c++/14/bits/stl_tree.h:559
+    #5 0x5571af11c2a0 in std::_Rb_tree_node&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;* std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_create_node&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, decltype(nullptr)&gt;(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;&amp;&amp;, decltype(nullptr)&amp;&amp;) /usr/include/c++/14/bits/stl_tree.h:609
+    #6 0x5571af1145d4 in std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_Auto_node::_Auto_node&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, decltype(nullptr)&gt;(std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;&amp;&amp;, decltype(nullptr)&amp;&amp;) (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x14c5d4) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+    #7 0x5571af1143b8 in std::_Rb_tree_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; std::_Rb_tree&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt;, std::_Select1st&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::_M_emplace_hint_unique&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, decltype(nullptr)&gt;(std::_Rb_tree_const_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;&amp;&amp;, decltype(nullptr)&amp;&amp;) (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x14c3b8) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+    #8 0x5571af10c3a5 in std::_Rb_tree_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; std::map&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::emplace_hint&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, decltype(nullptr)&gt;(std::_Rb_tree_const_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;&amp;&amp;, decltype(nullptr)&amp;&amp;) /usr/include/c++/14/bits/stl_map.h:640
+    #9 0x5571af101395 in std::pair&lt;std::_Rb_tree_iterator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt;, bool&gt; std::map&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt;, std::less&lt;void&gt;, std::allocator&lt;std::pair&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; &gt; &gt; &gt;::emplace&lt;std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, decltype(nullptr)&gt;(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;&amp;&amp;, decltype(nullptr)&amp;&amp;) /usr/include/c++/14/bits/stl_map.h:601
+    #10 0x5571af0f273f in nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt;::operator[](std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;) /workspace/PeaceDukeBot/tests/vendor/dpp/nlohmann/json.hpp:21434
+    #11 0x5571af27fd91 in CJsonDataBase::WriteRaw(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;, nlohmann::json_abi_v3_11_3::basic_json&lt;std::map, std::vector, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, bool, long, unsigned long, double, std::allocator, nlohmann::json_abi_v3_11_3::adl_serializer, std::vector&lt;unsigned char, std::allocator&lt;unsigned char&gt; &gt;, void&gt; const&amp;) /workspace/PeaceDukeBot/src/engine/json_database.cpp:54
+    #12 0x5571af0ee62c in void IDataBase::Save&lt;unsigned long&gt;(std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;, unsigned long, unsigned long const&amp;) /workspace/PeaceDukeBot/src/engine/database.h:25
+    #13 0x5571af19bb65 in operator() /workspace/PeaceDukeBot/tests/regression_tests.cpp:22
+    #14 0x5571af1a4a59 in __invoke_impl&lt;void, DOCTEST_ANON_FUNC_39()::&lt;lambda()&gt; &gt; /usr/include/c++/14/bits/invoke.h:61
+    #15 0x5571af1a4a1c in __invoke&lt;DOCTEST_ANON_FUNC_39()::&lt;lambda()&gt; &gt; /usr/include/c++/14/bits/invoke.h:96
+    #16 0x5571af1a49c9 in _M_invoke&lt;0&gt; /usr/include/c++/14/bits/std_thread.h:301
+    #17 0x5571af1a499d in operator() /usr/include/c++/14/bits/std_thread.h:308
+    #18 0x5571af1a4957 in _M_run /usr/include/c++/14/bits/std_thread.h:253
+    #19 0x7f970db97223  (/lib/x86_64-linux-gnu/libstdc++.so.6+0xe1223) (BuildId: 133b71e0013695cc7832680a74edb51008c4fc4c)
+
+Thread T2 created by T0 here:
+    #0 0x7f970de08ae1 in pthread_create ../../../../src/libsanitizer/asan/asan_interceptors.cpp:245
+    #1 0x7f970db972f8 in std::thread::_M_start_thread(std::unique_ptr&lt;std::thread::_State, std::default_delete&lt;std::thread::_State&gt; &gt;, void (*)()) (/lib/x86_64-linux-gnu/libstdc++.so.6+0xe12f8) (BuildId: 133b71e0013695cc7832680a74edb51008c4fc4c)
+    #2 0x5571af19c2b6 in DOCTEST_ANON_FUNC_39 /workspace/PeaceDukeBot/tests/regression_tests.cpp:22
+    #3 0x5571af069676 in doctest::Context::run() /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7007
+    #4 0x5571af06b241 in main /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7085
+    #5 0x7f970d7ccca7  (/lib/x86_64-linux-gnu/libc.so.6+0x29ca7) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+
+SUMMARY: AddressSanitizer: heap-use-after-free /usr/include/c++/14/bits/basic_string.h:1077 in std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;::size() const
+Shadow bytes around the buggy address:
+  0x507000003800: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fa fa
+  0x507000003880: fa fa fd fd fd fd fd fd fd fd fd fd fa fa fa fa
+  0x507000003900: fd fd fd fd fd fd fd fd fd fd fa fa fa fa fd fd
+  0x507000003980: fd fd fd fd fd fd fd fd fa fa fa fa fd fd fd fd
+  0x507000003a00: fd fd fd fd fd fd fa fa fa fa fd fd fd fd fd fd
+=&gt;0x507000003a80: fd fd fd fd fa fa fa fa fd fd fd fd fd[fd]fd fd
+  0x507000003b00: fd fd fa fa fa fa fd fd fd fd fd fd fd fd fd fd
+  0x507000003b80: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fa fa
+  0x507000003c00: fa fa fd fd fd fd fd fd fd fd fd fd fa fa fa fa
+  0x507000003c80: fd fd fd fd fd fd fd fd fd fd fa fa fa fa fd fd
+  0x507000003d00: fd fd fd fd fd fd fd fd fa fa fa fa fd fd fd fd
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==14259==ABORTING
+</system-out>
+	</testcase>
+	<testcase name="regression.members.deferred_callback_lifetime" classname="regression.members.deferred_callback_lifetime" time="0.0920198" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>=================================================================
+==14262==ERROR: AddressSanitizer: stack-use-after-scope on address 0x7fbd2ef012f0 at pc 0x5607df53cf9d bp 0x7ffd5ec9dc70 sp 0x7ffd5ec9dc68
+READ of size 8 at 0x7fbd2ef012f0 thread T0
+    #0 0x5607df53cf9c in std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;::size() const /usr/include/c++/14/bits/basic_string.h:1077
+    #1 0x5607df636c87 in std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; std::operator+&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;(char const*, std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt; const&amp;) /usr/include/c++/14/bits/basic_string.h:3623
+    #2 0x5607df673f24 in operator() /workspace/PeaceDukeBot/src/modules/clan_member_manager.cpp:63
+    #3 0x5607df67652a in __invoke_impl&lt;void, CClanMemberManager::ChangeRole(const SUserData&amp;)::&lt;lambda(const dpp::confirmation_callback_t&amp;)&gt;&amp;, const dpp::confirmation_callback_t&amp;&gt; /usr/include/c++/14/bits/invoke.h:61
+    #4 0x5607df675fdb in __invoke_r&lt;void, CClanMemberManager::ChangeRole(const SUserData&amp;)::&lt;lambda(const dpp::confirmation_callback_t&amp;)&gt;&amp;, const dpp::confirmation_callback_t&amp;&gt; /usr/include/c++/14/bits/invoke.h:111
+    #5 0x5607df6753a2 in _M_invoke /usr/include/c++/14/bits/std_function.h:290
+    #6 0x5607df67a6e0 in std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;::operator()(dpp::confirmation_callback_t const&amp;) const /usr/include/c++/14/bits/std_function.h:591
+    #7 0x5607df677080 in dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}::operator()() const /workspace/PeaceDukeBot/tests/mocks/dpp/dpp.h:87
+    #8 0x5607df681e01 in void std::__invoke_impl&lt;void, dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}&amp;&gt;(std::__invoke_other, dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}&amp;) /usr/include/c++/14/bits/invoke.h:61
+    #9 0x5607df67f422 in std::enable_if&lt;is_invocable_r_v&lt;void, dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}&amp;&gt;, void&gt;::type std::__invoke_r&lt;void, dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}&amp;&gt;(dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}&amp;) /usr/include/c++/14/bits/invoke.h:111
+    #10 0x5607df67c03b in std::_Function_handler&lt;void (), dpp::cluster::dispatch(std::function&lt;void (dpp::confirmation_callback_t const&amp;)&gt;, dpp::confirmation_callback_t)::{lambda()#1}&gt;::_M_invoke(std::_Any_data const&amp;) /usr/include/c++/14/bits/std_function.h:290
+    #11 0x5607df670d29 in std::function&lt;void ()&gt;::operator()() const /usr/include/c++/14/bits/std_function.h:591
+    #12 0x5607df6702c9 in dpp::cluster::drain() (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x1dd2c9) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+    #13 0x5607df667fe1 in DOCTEST_ANON_FUNC_41 /workspace/PeaceDukeBot/tests/regression_tests.cpp:26
+    #14 0x5607df534676 in doctest::Context::run() /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7007
+    #15 0x5607df536241 in main /workspace/PeaceDukeBot/tests/vendor/doctest/doctest.h:7085
+    #16 0x7fbd309f5ca7  (/lib/x86_64-linux-gnu/libc.so.6+0x29ca7) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #17 0x7fbd309f5d64 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x29d64) (BuildId: 5e5b51f4c39af9ac589408c1dc432ba390a273cc)
+    #18 0x5607df507fd0 in _start (/workspace/PeaceDukeBot/build/tests-address/tests/peace_tests+0x74fd0) (BuildId: e9480f1cd320ff5661c1e5cdafd87bc24297fd74)
+
+Address 0x7fbd2ef012f0 is located in stack of thread T0 at offset 752 in frame
+    #0 0x5607df667bb4 in DOCTEST_ANON_FUNC_41 /workspace/PeaceDukeBot/tests/regression_tests.cpp:23
+
+  This frame has 21 object(s):
+    [32, 33) '&lt;unknown&gt;'
+    [48, 49) '&lt;unknown&gt;'
+    [64, 68) '&lt;unknown&gt;'
+    [80, 84) '&lt;unknown&gt;'
+    [96, 100) '&lt;unknown&gt;'
+    [112, 120) '&lt;unknown&gt;'
+    [144, 160) '&lt;unknown&gt;'
+    [176, 192) '&lt;unknown&gt;'
+    [208, 232) 'churn' (line 26)
+    [272, 296) '&lt;unknown&gt;'
+    [336, 360) '&lt;unknown&gt;'
+    [400, 432) '&lt;unknown&gt;'
+    [464, 496) '&lt;unknown&gt;'
+    [528, 560) '&lt;unknown&gt;'
+    [592, 672) 's' (line 24)
+    [704, 840) '&lt;unknown&gt;' &lt;== Memory access at offset 752 is inside this variable
+    [912, 1048) '&lt;unknown&gt;'
+    [1120, 1264) 'DOCTEST_RB' (line 27)
+    [1328, 1472) 'DOCTEST_RB' (line 27)
+    [1536, 1936) 'core' (line 24)
+    [2000, 2520) 'bot' (line 24)
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-use-after-scope /usr/include/c++/14/bits/basic_string.h:1077 in std::__cxx11::basic_string&lt;char, std::char_traits&lt;char&gt;, std::allocator&lt;char&gt; &gt;::size() const
+Shadow bytes around the buggy address:
+  0x7fbd2ef01000: f1 f1 f1 f1 f8 f2 f8 f2 04 f2 04 f2 04 f2 00 f2
+  0x7fbd2ef01080: f2 f2 00 00 f2 f2 00 00 f2 f2 00 00 00 f2 f2 f2
+  0x7fbd2ef01100: f2 f2 00 00 00 f2 f2 f2 f2 f2 00 00 00 f2 f2 f2
+  0x7fbd2ef01180: f2 f2 f8 f8 f8 f8 f2 f2 f2 f2 00 00 00 00 f2 f2
+  0x7fbd2ef01200: f2 f2 00 00 00 00 f2 f2 f2 f2 00 00 00 00 00 00
+=&gt;0x7fbd2ef01280: 00 00 00 00 f2 f2 f2 f2 f8 f8 f8 f8 f8 f8[f8]f8
+  0x7fbd2ef01300: f8 f8 f8 f8 f8 f8 f8 f8 f8 f2 f2 f2 f2 f2 f2 f2
+  0x7fbd2ef01380: f2 f2 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fbd2ef01400: 00 00 00 f2 f2 f2 f2 f2 f2 f2 f2 f2 00 00 00 00
+  0x7fbd2ef01480: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f2 f2
+  0x7fbd2ef01500: f2 f2 f2 f2 f2 f2 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==14262==ABORTING
+</system-out>
+	</testcase>
+	<testcase name="regression.database.filename_suffix" classname="regression.database.filename_suffix" time="0.515766" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:29:
+TEST CASE:  regression.database.filename_suffix
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:29: ERROR: CHECK( fs::exists("name.json.backup.json") ) is NOT correct!
+  values: CHECK( false )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="regression.votes.future_birthdate" classname="regression.votes.future_birthdate" time="0.0120099" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[doctest] doctest version is "2.4.11"
+[doctest] run with "--help" for options
+===============================================================================
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:30:
+TEST CASE:  regression.votes.future_birthdate
+
+/workspace/PeaceDukeBot/tests/regression_tests.cpp:30: ERROR: CHECK_FALSE( age.has_value() ) is NOT correct!
+  values: CHECK_FALSE( true )
+
+===============================================================================
+[doctest] test cases: 1 | 0 passed | 1 failed | 58 skipped
+[doctest] assertions: 1 | 0 passed | 1 failed |
+[doctest] Status: FAILURE!
+</system-out>
+	</testcase>
+	<testcase name="integration.cli.legacy_db_stress" classname="integration.cli.legacy_db_stress" time="3.73162" status="run">
+		<properties/>
+		<system-out>[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:16 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:17 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:17 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:17 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:17 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:17 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:17 [inf] main: Write elements: 160[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.cli.main_missing_token" classname="integration.cli.main_missing_token" time="0.051077" status="run">
+		<properties/>
+		<system-out>Missing env DISCORD_TOKEN
+</system-out>
+	</testcase>
+	<testcase name="integration.cli.main_offline_start" classname="integration.cli.main_offline_start" time="0.558714" status="run">
+		<properties/>
+		<system-out>[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: role_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: default_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: moder_role[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: default_guild[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: apply_channel_id[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_chat[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_tag[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: about[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: dr_message_reject[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: dr_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: clan_message_approve[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: exec[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:13 [inf] console: Register command: apply[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="integration.cli.converter_missing_args" classname="integration.cli.converter_missing_args" time="0.0527383" status="run">
+		<properties/>
+		<system-out>[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:16 [err] parse_old_db: Missing any files[NON-XML-CHAR-0x1B][0m
+</system-out>
+	</testcase>
+	<testcase name="integration.cli.converter_roundtrip" classname="integration.cli.converter_roundtrip" time="0.0522407" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>[NON-XML-CHAR-0x1B][31m2026-11-06 14:28:12 [err] database: Can't write to database: ReadOnly mode[NON-XML-CHAR-0x1B][0m
+terminate called after throwing an instance of 'std::logic_error'
+  what():  Database is opened in Read-Only mode
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:12 [inf] parse_old_db: Found keys: 1[NON-XML-CHAR-0x1B][0m
+[NON-XML-CHAR-0x1B][0m2026-11-06 14:28:12 [inf] parse_old_db: Found user: nick[NON-XML-CHAR-0x1B][0m
+Traceback (most recent call last):
+  File "/workspace/PeaceDukeBot/tests/cli_tests.py", line 47, in &lt;module&gt;
+    assert p.returncode == 0, f"migration exit={p.returncode}"
+           ^^^^^^^^^^^^^^^^^
+AssertionError: migration exit=-6
+</system-out>
+	</testcase>
+	<testcase name="integration.cli.converter_invalid_age" classname="integration.cli.converter_invalid_age" time="0.0504175" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>terminate called after throwing an instance of 'std::invalid_argument'
+  what():  stoi
+Traceback (most recent call last):
+  File "/workspace/PeaceDukeBot/tests/cli_tests.py", line 37, in &lt;module&gt;
+    assert p.returncode in (1, 2), f"expected graceful error, exit={p.returncode}"
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: expected graceful error, exit=-6
+</system-out>
+	</testcase>
+</testsuite>
