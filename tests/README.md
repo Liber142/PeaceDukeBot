@@ -2,8 +2,9 @@
 
 Требования: Linux, GCC 14 (C++20 с `<format>`), CMake ≥3.22, Python ≥3.9,
 потоки POSIX. Для покрытия — gcov той же версии, что GCC, и gcovr 8.8.
-Никакие библиотеки приложения, Discord, VPN, токены, рабочие данные или сеть
-для сборки и выполнения тестов не нужны. Вендорные зависимости уже в Git.
+Discord, VPN, токены и рабочие данные не нужны. При первой конфигурации CMake
+загружает doctest и nlohmann/json через FetchContent с фиксированными commit SHA.
+После загрузки сборка и выполнение тестов не требуют сети.
 
 ```sh
 python3 tests/run.py
@@ -23,7 +24,10 @@ ctest --test-dir build/tests-manual -R 'regression.database.large_key' --output-
 
 Можно также собирать отдельный проект `cmake -S tests -B build/tests-manual`.
 Сборка production по умолчанию не меняется. Тестовый режим не запускает поиск
-DPP, cpr, replxx, TBB, mpg123 и ничего не скачивает.
+DPP, cpr, replxx, TBB, mpg123. Зависимости тестов хранятся в build, вне исходников.
+Для полностью автономной первой сборки можно задать локальные checkout:
+`-DFETCHCONTENT_SOURCE_DIR_DOCTEST=/path/to/doctest` и
+`-DFETCHCONTENT_SOURCE_DIR_NLOHMANN_JSON=/path/to/json`.
 
 ## Что именно проверяется
 
@@ -55,12 +59,18 @@ SUBCASE и таблицы входов расширяют один case и не 
 ## Зависимости тестов
 
 - doctest v2.4.11, commit `ae7a13539fb71f270b87eb2e874fbac80bc8dda2`,
-  https://github.com/doctest/doctest, MIT (`vendor/doctest/LICENSE.txt`).
+  https://github.com/doctest/doctest, MIT (лицензия в загруженном проекте).
 - nlohmann/json v3.11.3, commit `9cca280a4d0ccf0c08f47a99aa71d1b0e52f8d03`,
-  https://github.com/nlohmann/json, MIT (`vendor/dpp/nlohmann/LICENSE.MIT`).
+  https://github.com/nlohmann/json, MIT (лицензия в загруженном проекте).
 
-Заголовки получены из указанных Git tags через HTTPS с проверкой TLS. Не
-используются FetchContent, отключение проверок или нефиксированные загрузки.
-CI устанавливает только инструменты сборки и gcovr, затем выполняет offline suite.
+CMake получает зависимости через HTTPS с проверкой TLS и фиксированными SHA.
+Полные библиотеки в репозитории тестов не хранятся. CI загружает зависимости
+при конфигурации, затем выполняет автономный набор тестов.
 
 Подробный перечень проверок, ошибок и ограничений — [REPORT.md](REPORT.md).
+
+Для каждого падения runner печатает файл/функцию, условия возникновения, ожидаемый
+результат, известное проявление, рекомендацию и точную команду воспроизведения.
+Эти пояснения также сохраняются в `build/tests-<mode>/diagnostics.md` и artifacts CI.
+Каталог объяснений — `tests/failures.json`; исходные логи санитайзеров сохраняются
+без изменений. Для новой неизвестной ошибки причина явно отмечается как неустановленная.

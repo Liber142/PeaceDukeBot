@@ -26,6 +26,7 @@ jobs:
           name: tests-${{ matrix.mode }}
           path: |
             build/tests-${{ matrix.mode }}/**/*.log
+            build/tests-${{ matrix.mode }}/diagnostics.md
             build/tests-${{ matrix.mode }}/results.xml
             build/tests-${{ matrix.mode }}/coverage*
             build/summary-*.json

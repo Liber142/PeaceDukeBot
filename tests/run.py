@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+from diagnostics import explain_failures
 
 root = Path(__file__).resolve().parents[1]
 p = argparse.ArgumentParser(description=__doc__)
@@ -48,6 +49,7 @@ for mode in (["normal", "address", "undefined", "thread"] if a.mode == "all" els
     cases = tree.findall(".//testcase")
     failed = [c.attrib["name"] for c in cases if c.find("failure") is not None]
     results[mode] = {"exit": rc, "total": len(cases), "passed": len(cases) - len(failed), "failed": failed}
+    print(explain_failures(root, build, mode, failed), flush=True)
     if mode == "normal" and shutil.which("gcovr"):
         coverage_rc = run(["gcovr", "--root", root, "--filter", str(root / "src") + "/",
                           "--exclude", r".*/src/tests/.*", "--exclude-unreachable-branches", "--exclude-throw-branches",

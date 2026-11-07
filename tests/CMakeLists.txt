@@ -2,6 +2,21 @@ cmake_minimum_required(VERSION 3.22)
 project(PeaceDukeBotTests LANGUAGES CXX)
 enable_testing()
 find_package(Threads REQUIRED)
+include(FetchContent)
+# doctest 2.4.11 predates CMake 4 policy compatibility requirements.
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+set(DOCTEST_WITH_TESTS OFF CACHE BOOL "" FORCE)
+set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(doctest
+ GIT_REPOSITORY https://github.com/doctest/doctest.git
+ GIT_TAG ae7a13539fb71f270b87eb2e874fbac80bc8dda2
+ GIT_SUBMODULES "")
+FetchContent_Declare(nlohmann_json
+ GIT_REPOSITORY https://github.com/nlohmann/json.git
+ GIT_TAG 9cca280a4d0ccf0c08f47a99aa71d1b0e52f8d03
+ GIT_SUBMODULES "")
+FetchContent_MakeAvailable(doctest nlohmann_json)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(PEACE_COVERAGE "Instrument original application code" OFF)
@@ -9,10 +24,10 @@ set(PEACE_SANITIZER "" CACHE STRING "address, undefined or thread")
 get_filename_component(ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
 file(GLOB MODULES CONFIGURE_DEPENDS "${ROOT}/src/modules/*.cpp" "${ROOT}/src/modules/commands/*.cpp")
 add_library(app_under_test STATIC ${MODULES} "${ROOT}/src/bot_core.cpp" "${ROOT}/src/engine/console.cpp" "${ROOT}/src/engine/json_database.cpp")
-target_include_directories(app_under_test PUBLIC mocks vendor "${ROOT}/src")
+target_include_directories(app_under_test PUBLIC mocks "${ROOT}/src")
 # Test-only compiler switch exposes private helpers without altering any header or class layout.
 target_compile_options(app_under_test PUBLIC -fno-access-control)
-target_link_libraries(app_under_test PUBLIC Threads::Threads)
+target_link_libraries(app_under_test PUBLIC Threads::Threads nlohmann_json::nlohmann_json)
 if(PEACE_COVERAGE)
  target_compile_options(app_under_test PRIVATE --coverage -O0 -g)
  target_link_options(app_under_test PUBLIC --coverage)
@@ -24,7 +39,7 @@ if(PEACE_SANITIZER)
  target_link_options(app_under_test PUBLIC -fsanitize=${PEACE_SANITIZER})
 endif()
 add_executable(peace_tests test_main.cpp engine_tests.cpp module_tests.cpp regression_tests.cpp)
-target_link_libraries(peace_tests PRIVATE app_under_test)
+target_link_libraries(peace_tests PRIVATE app_under_test doctest::doctest)
 # Let CTest and sanitizers report fatal signals directly.
 target_compile_definitions(peace_tests PRIVATE DOCTEST_CONFIG_NO_POSIX_SIGNALS)
 add_executable(legacy_converter "${ROOT}/src/tools/parse_old_db.cpp")
