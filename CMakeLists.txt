@@ -3,6 +3,13 @@ cmake_minimum_required(VERSION 3.22)
 # Project name, version and description
 project(discord-bot VERSION 1.0 DESCRIPTION "A discord bot")
 
+option(PEACE_TESTS_ONLY "Build autonomous tests without production dependencies" OFF)
+if(PEACE_TESTS_ONLY)
+    enable_testing()
+    add_subdirectory(tests)
+    return()
+endif()
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 

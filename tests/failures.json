@@ -1,0 +1,209 @@
+[
+  {
+    "test": "regression.console.empty_quoted_argument",
+    "source": "src/engine/console.cpp",
+    "function": "ParseLine",
+    "conditions": "`x \"\" tail`",
+    "expected": "два аргумента: пустой и tail",
+    "actual": "пустой аргумент потерян",
+    "recommendation": "Сохранять пустой токен, если он был задан кавычками."
+  },
+  {
+    "test": "regression.console.trailing_escape",
+    "source": "src/engine/console.cpp",
+    "function": "ParseLine",
+    "conditions": "`x trailing\\`",
+    "expected": "безопасный разбор/отказ",
+    "actual": "итератор увеличивается за end, UB; возможен SIGSEGV, ASan диагностирует выход за границы",
+    "recommendation": "После обработки escape проверять конец строки перед увеличением итератора; отклонять незавершённое экранирование."
+  },
+  {
+    "test": "regression.console.dispatch_respects_flags",
+    "source": "src/engine/console.cpp",
+    "function": "ExecuteInteraction",
+    "conditions": "одно имя зарегистрировано для BUTTON и SLASH_COMMAND, приходит slash",
+    "expected": "slash callback",
+    "actual": "вызывается первый button callback",
+    "recommendation": "Выбирать команду по имени и типу взаимодействия, используя перегрузку FindCommand с флагами."
+  },
+  {
+    "test": "regression.console.zero_flag_duplicate",
+    "source": "src/engine/console.cpp",
+    "function": "Register",
+    "conditions": "два одинаковых имени с flags=0",
+    "expected": "одна регистрация",
+    "actual": "две команды: FindCommand проверяет побитовое пересечение с 0",
+    "recommendation": "Отдельно обрабатывать совпадение флагов 0 при поиске дубликатов."
+  },
+  {
+    "test": "regression.config.escaped_string_roundtrip",
+    "source": "src/engine/config.h",
+    "function": "~CConfig, OnInit",
+    "conditions": "about с кавычкой, backslash, newline",
+    "expected": "исходная строка после reopen",
+    "actual": "строка повреждена: запись не экранирует значения",
+    "recommendation": "Использовать согласованное экранирование при записи и чтении строк конфигурации."
+  },
+  {
+    "test": "regression.config.negative_id_rejected",
+    "source": "src/engine/config.h",
+    "function": "numeric config callback",
+    "conditions": "`role_id -1`",
+    "expected": "отказ, прежний ID",
+    "actual": "`UINT64_MAX`",
+    "recommendation": "Проверять знак и полный разбор входа до преобразования в беззнаковый ID."
+  },
+  {
+    "test": "regression.database.unconnected_destructor",
+    "source": "src/engine/json_database.cpp",
+    "function": "~CJsonDataBase",
+    "conditions": "создать/удалить без Connect",
+    "expected": "безопасный выход",
+    "actual": "join() незапущенного потока вызывает terminate",
+    "recommendation": "Вызывать join только для joinable-потока."
+  },
+  {
+    "test": "regression.database.readonly_does_not_rewrite",
+    "source": "src/engine/json_database.cpp",
+    "function": "WorkerLoop, Sync",
+    "conditions": "существующий форматированный JSON, ReadOnly, 650 мс",
+    "expected": "байты неизменны",
+    "actual": "файл переписан компактным JSON",
+    "recommendation": "Запретить Sync и запуск записывающего worker в режиме ReadOnly."
+  },
+  {
+    "test": "regression.database.readonly_missing_does_not_create",
+    "source": "src/engine/json_database.cpp",
+    "function": "Connect",
+    "conditions": "отсутствующий путь, ReadOnly",
+    "expected": "файл не создан",
+    "actual": "создаётся `{}`",
+    "recommendation": "В режиме ReadOnly не создавать отсутствующие файлы; возвращать контролируемую ошибку."
+  },
+  {
+    "test": "regression.database.readonly_key_generation",
+    "source": "src/engine/json_database.cpp",
+    "function": "GenerateNewKey",
+    "conditions": "ReadOnly, новая таблица",
+    "expected": "logic_error, без изменения",
+    "actual": "metadata изменяется",
+    "recommendation": "Применять проверку ReadOnly также к GenerateNewKey."
+  },
+  {
+    "test": "regression.database.shutdown_flush",
+    "source": "src/engine/json_database.cpp",
+    "function": "деструктор",
+    "conditions": "Connect, немедленно Save, destroy, reopen",
+    "expected": "запись восстановлена",
+    "actual": "запись может теряться, зависит от планирования worker",
+    "recommendation": "После остановки worker гарантированно сохранять оставшиеся изменения; согласовать dirty flag с блокировкой."
+  },
+  {
+    "test": "regression.database.strict_numeric_keys",
+    "source": "src/engine/json_database.cpp",
+    "function": "GetKeys",
+    "conditions": "ключи `1x`, `-1`, `2`",
+    "expected": "только 2",
+    "actual": "принимаются префикс 1 и отрицательный ключ как size_t",
+    "recommendation": "Проверять полный разбор ключа и запрещать отрицательные значения."
+  },
+  {
+    "test": "regression.database.large_key",
+    "source": "src/engine/json_database.cpp",
+    "function": "GenerateNewKey",
+    "conditions": "next_id=2147483647, два вызова",
+    "expected": "2147483647, 2147483648",
+    "actual": "signed overflow, затем 18446744071562067968 на x86_64",
+    "recommendation": "Использовать size_t для счётчика и проверять переполнение перед увеличением."
+  },
+  {
+    "test": "regression.database.filename_suffix",
+    "source": "src/engine/json_database.cpp",
+    "function": "Connect",
+    "conditions": "`name.json.backup`",
+    "expected": "путь `name.json.backup.json`",
+    "actual": "проверяется подстрока `.json`, расширение не добавлено",
+    "recommendation": "Проверять расширение пути, а не наличие подстроки .json."
+  },
+  {
+    "test": "regression.votes.invalid_calendar_dates",
+    "source": "src/modules/votes.cpp",
+    "function": "ParseBirthday",
+    "conditions": "31.02.2000, 29.02.2001, 31.04.2000, мусор после года, bad/negative year",
+    "expected": "nullopt",
+    "actual": "принимаются невозможные даты/неполный разбор",
+    "recommendation": "Проверять календарную корректность даты и полное потребление входной строки."
+  },
+  {
+    "test": "regression.votes.future_birthdate",
+    "source": "src/modules/votes.cpp",
+    "function": "CalculateAge",
+    "conditions": "01.01.3000",
+    "expected": "отказ для будущей даты",
+    "actual": "отрицательный возраст",
+    "recommendation": "Отклонять даты рождения в будущем до расчёта возраста."
+  },
+  {
+    "test": "regression.profile.absent_optional_target",
+    "source": "src/modules/commands/profile.cpp",
+    "function": "GetTargetUser",
+    "conditions": "slash без необязательного user",
+    "expected": "issuing user",
+    "actual": "bad_variant_access",
+    "recommendation": "Использовать get_if и fallback на issuing user при отсутствии необязательного параметра."
+  },
+  {
+    "test": "regression.findtas.http_error_is_exception",
+    "source": "src/modules/find_tas.cpp",
+    "function": "GetPlayer",
+    "conditions": "HTTP 500",
+    "expected": "обрабатываемое исключение",
+    "actual": "голый `throw;` вне catch вызывает terminate/SIGABRT",
+    "recommendation": "Бросать конкретное исключение с HTTP-статусом и обрабатывать его на границе запроса."
+  },
+  {
+    "test": "regression.music.respects_decoded_byte_count",
+    "source": "src/modules/music.cpp",
+    "function": "DecodeMP3",
+    "conditions": "mock: block=8, Done=3",
+    "expected": "3 PCM байта",
+    "actual": "8 байтов; `delete` вместо `delete[]` обнаруживается ASan",
+    "recommendation": "Использовать Done как длину декодированных данных, учесть последний блок, заменить владение буфером на RAII либо delete[]."
+  },
+  {
+    "test": "regression.members.deferred_callback_lifetime",
+    "source": "src/modules/clan_member_manager.cpp",
+    "function": "ChangeNick, ChangeRole",
+    "conditions": "AddClanMember возвращает до callback",
+    "expected": "корректный nickname/успех",
+    "actual": "callback хранит ссылки на уничтоженный стековый Member; ASan/ошибка nickname",
+    "recommendation": "Захватывать необходимые значения по значению; обеспечить время жизни владельца callback."
+  },
+  {
+    "test": "stress.database.concurrent_enumeration_and_erase",
+    "source": "src/engine/json_database.cpp",
+    "function": "GetKeys, Erase",
+    "conditions": "Save+Erase в writer и GetKeys в другом потоке",
+    "expected": "безопасные операции, пустая таблица в конце",
+    "actual": "конкурентный доступ без общей блокировки; наблюдался SIGSEGV (недетерминированно)",
+    "recommendation": "Защищать все обращения к JSON одной согласованной блокировкой, включая contains и итерацию GetKeys."
+  },
+  {
+    "test": "integration.cli.converter_roundtrip",
+    "source": "src/tools/parse_old_db.cpp",
+    "function": "main мигратора",
+    "conditions": "одна валидная старая запись",
+    "expected": "код 0, новая clan_members запись",
+    "actual": "выходная БД открыта ReadOnly; logic_error, SIGABRT",
+    "recommendation": "Открывать выходную БД для записи и контролируемо обрабатывать ошибки миграции."
+  },
+  {
+    "test": "integration.cli.converter_invalid_age",
+    "source": "src/tools/parse_old_db.cpp",
+    "function": "main мигратора",
+    "conditions": "age=\"invalid\"",
+    "expected": "контролируемый ненулевой выход",
+    "actual": "необработанный invalid_argument из stoi, SIGABRT",
+    "recommendation": "Проверять возраст перед преобразованием и перехватывать ошибку с указанием записи."
+  }
+]
